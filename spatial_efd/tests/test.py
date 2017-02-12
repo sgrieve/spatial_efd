@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import spatial_efd
 import matplotlib
 import os

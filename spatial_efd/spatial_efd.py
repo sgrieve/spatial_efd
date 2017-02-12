@@ -25,7 +25,7 @@ def NormContour(X, Y, rawCentroid):
     '''
 
     # find longest axis of rotated shape
-    xwidth, ywidth, xmin, ymin = getBBox(X, Y)
+    xwidth, ywidth, xmin, ymin = getBBoxDimensions(X, Y)
     if (xwidth > ywidth):
         normshape = xwidth
     elif (ywidth >= xwidth):
@@ -345,11 +345,11 @@ def ProcessGeometry(shape):
 
 
 def rotatePoint(centerPoint, point, angle):
-    """
+    '''
     Rotates a point around another centerPoint. Angle is in degrees.
     Rotation is counter-clockwise
     https://gist.github.com/somada141/d81a05f172bb2df26a2c
-    """
+    '''
     angle = math.radians(angle)
     temp_point = point[0] - centerPoint[0], point[1] - centerPoint[1]
     temp_point = (temp_point[0] * math.cos(angle) - temp_point[1] *
@@ -360,7 +360,11 @@ def rotatePoint(centerPoint, point, angle):
     return temp_point[0], temp_point[1]
 
 
-def getBBox(x, y):
+def getBBoxDimensions(x, y):
+    '''
+    Returns the width in the x and y dimensions and the maximum x and y
+    coordinates for the bounding box of a given list of x and y coordinates.
+    '''
     xmin = min(x)
     ymin = min(y)
 

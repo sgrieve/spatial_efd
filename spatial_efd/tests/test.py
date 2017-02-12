@@ -140,8 +140,10 @@ class TestEFD(TestCase):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
         filepath = path.join(filepath, 'example_data.shp')
         s = spatial_efd.LoadGeometries(filepath)
-        x, y, _, _ = spatial_efd.ProcessGeometry(s[2])
-        coeffs = spatial_efd.CalculateEFD(x, y, 10)
+        x, y, contour, _ = spatial_efd.ProcessGeometry(s[2])
+        coeffs = spatial_efd.CalculateEFD(x, y, 500)
+        n = spatial_efd.FourierPower(coeffs, contour)
+        self.assertEqual(n, 19)
 
     def test_normalize_efd(self):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))

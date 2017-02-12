@@ -38,3 +38,11 @@ class TestEFD(TestCase):
         self.assertTupleEqual(c, (0.5, 0.5))
         self.assertListEqual(x, [0.0, 1.0, 1.0, 0.0])
         self.assertListEqual(y, [0.0, 0.0, 1.0, 1.0])
+
+    def test_get_bbox_dimensions(self):
+        xw, yw, xmin, ymin = spatial_efd.getBBoxDimensions([0, 10, 10, 0],
+                                                           [0, 0, 10, 10])
+        self.assertEqual(xw, 10)
+        self.assertEqual(yw, 10)
+        self.assertEqual(xmin, 0)
+        self.assertEqual(ymin, 0)

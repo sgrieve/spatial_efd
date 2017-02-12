@@ -3,6 +3,7 @@ import matplotlib
 import os
 import os.path as path
 import numpy as np
+import numpy.testing as ntest
 import shapefile as shp
 from unittest import TestCase
 
@@ -70,3 +71,12 @@ class TestEFD(TestCase):
                                       3882423.0, 3882422.0, 3882422.0,
                                       3882421.0, 3882421.0, 3882420.0,
                                       3882420.0])
+
+    def test_calculate_efd(self):
+        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(filepath, 'example_data.shp')
+        s = spatial_efd.LoadGeometries(filepath)
+        x, y, _, _ = spatial_efd.ProcessGeometry(s[2])
+        coeffs = spatial_efd.CalculateEFD(x, y, 10)
+        ntest.assert_almost_equal(coeffs[6].tolist(),
+        [-0.18756333, -0.08402254, 0.04527809, 0.27131757])

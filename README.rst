@@ -1,7 +1,6 @@
-Eliptical Fourier Descriptors
+Spatial Elliptical Fourier Descriptors
 ===
 
-A collection of python scripts implementing a variety of EFD analysis technqiues
-on shapefile data.
+A python package to facilitate EFD analysis on shapfile data, built upon the pyefd module.
 
-The implementation is inspired by the pyefd module.
+This package handles basic shapefile input using pyshp and deals with all of the issues of normalizing spatial data to work with the EFD technique.

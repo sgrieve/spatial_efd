@@ -22,6 +22,7 @@ def RotateContour(X, Y, rotation, centroid):
 def NormContour(X, Y, rawCentroid):
     '''
     X and Y are the rotated contour coordinates, ready to be normed.
+    The rawCentroid is the centroid before normalizing.
     '''
 
     # find longest axis of rotated shape
@@ -365,10 +366,10 @@ def getBBoxDimensions(x, y):
     Returns the width in the x and y dimensions and the maximum x and y
     coordinates for the bounding box of a given list of x and y coordinates.
     '''
-    xmin = min(x)
-    ymin = min(y)
+    xmin = float(min(x))
+    ymin = float(min(y))
 
-    xmax = max(x)
-    ymax = max(y)
+    xmax = float(max(x))
+    ymax = float(max(y))
 
     return xmax - xmin, ymax - ymin, xmin, ymin

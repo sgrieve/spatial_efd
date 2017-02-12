@@ -79,4 +79,24 @@ class TestEFD(TestCase):
         x, y, _, _ = spatial_efd.ProcessGeometry(s[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         ntest.assert_almost_equal(coeffs[6].tolist(),
-        [-0.18756333, -0.08402254, 0.04527809, 0.27131757])
+                                  [-0.18756333, -0.08402254, 0.04527809,
+                                   0.27131757])
+
+    def test_inverse_transform(self):
+        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(filepath, 'example_data.shp')
+        s = spatial_efd.LoadGeometries(filepath)
+        x, y, _, _ = spatial_efd.ProcessGeometry(s[2])
+        coeffs = spatial_efd.CalculateEFD(x, y, 10)
+        a, b = spatial_efd.inverse_transform(coeffs)
+
+        self.assertListEqual(a[:5].tolist(), [-44.62007085419053,
+                                              -44.50580647372712,
+                                              -44.298299327087825,
+                                              -44.000212529943006,
+                                              -43.61533943655958])
+        self.assertListEqual(b[:5].tolist(), [58.029733557517176,
+                                              58.103977415636,
+                                              58.07079350363471,
+                                              57.92885887469977,
+                                              57.67852100429082])

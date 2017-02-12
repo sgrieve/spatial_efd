@@ -350,11 +350,11 @@ def rotatePoint(centerPoint, point, angle):
     Rotation is counter-clockwise
     https://gist.github.com/somada141/d81a05f172bb2df26a2c
     '''
-    angle = math.radians(angle)
+    angle = np.radians(angle)
     temp_point = point[0] - centerPoint[0], point[1] - centerPoint[1]
-    temp_point = (temp_point[0] * math.cos(angle) - temp_point[1] *
-                  math.sin(angle), temp_point[0] * math.sin(angle) +
-                  temp_point[1] * math.cos(angle))
+    temp_point = (temp_point[0] * np.cos(angle) - temp_point[1] *
+                  np.sin(angle), temp_point[0] * np.sin(angle) +
+                  temp_point[1] * np.cos(angle))
 
     temp_point = temp_point[0] + centerPoint[0], temp_point[1] + centerPoint[1]
     return temp_point[0], temp_point[1]

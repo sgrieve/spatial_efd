@@ -1,3 +1,7 @@
+'''
+ToDo: sort the y,x x,y contour format issue.
+'''
+
 import numpy as np
 import matplotlib.pyplot as plt
 import shapefile as sf
@@ -286,11 +290,19 @@ def normalize_efd(coeffs, size_invariant=True):
     return coeffs
 
 
-def calculate_dc_coefficients(contour):
+def calculate_dc_coefficients(X, Y):
     '''
-    Contour is a list of Y, X coordinate tuples.
+    X,Y are a lists coordinates, which are transformed into a Y,X contour to
+    maintain the original syntax from the pyefd module.
     code adapted from pyefd module.
+
+    ToDo: test this against other efd modules to check that the x,y to y,x
+    conversion is correct
     '''
+
+    # pyefd takes data as y,x so build the contour like that.
+    contour = np.array([(x, y) for x, y in zip(Y, X)])
+
     dxy = np.diff(contour, axis=0)
     dt = np.sqrt((dxy ** 2.).sum(axis=1))
     t = np.concatenate([([0., ]), np.cumsum(dt)])

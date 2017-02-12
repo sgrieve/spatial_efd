@@ -53,5 +53,20 @@ class TestEFD(TestCase):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
         filepath = path.join(filepath, 'example_data.shp')
         s = spatial_efd.LoadGeometries(filepath)
-
         self.assertTrue(isinstance(s[0], shp._ShapeRecord))
+
+    def test_process_geometry(self):
+        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(filepath, 'example_data.shp')
+        s = spatial_efd.LoadGeometries(filepath)
+        x, y, cont, c = spatial_efd.ProcessGeometry(s[1])
+        self.assertTupleEqual(c, (0.4729141652616648, 0.22570629971140485))
+        self.assertAlmostEqual(cont[25][0], 0.43523316)
+        self.assertAlmostEqual(cont[25][1], 0.41450777)
+        self.assertListEqual(x[:10], [280587.0, 280598.0, 280598.0, 280599.0,
+                                      280599.0, 280600.0, 280600.0, 280601.0,
+                                      280601.0, 280602.0])
+        self.assertListEqual(y[:10], [3882424.0, 3882424.0, 3882423.0,
+                                      3882423.0, 3882422.0, 3882422.0,
+                                      3882421.0, 3882421.0, 3882420.0,
+                                      3882420.0])

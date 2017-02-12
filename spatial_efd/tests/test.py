@@ -102,16 +102,57 @@ class TestEFD(TestCase):
                                               57.67852100429082])
 
     def test_average_coefficients(self):
-        pass
+        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(filepath, 'example_data.shp')
+        s = spatial_efd.LoadGeometries(filepath)
+
+        coeffsList = []
+
+        for i in xrange(3):
+            x, y, _, _ = spatial_efd.ProcessGeometry(s[i])
+            coeffsList.append(spatial_efd.CalculateEFD(x, y, 10))
+
+        avg = spatial_efd.AverageCoefficients(coeffsList, 10)
+
+        ntest.assert_almost_equal(avg[6].tolist(),
+                                  [0.14906656481505043, 1.1743839538604195,
+                                  -0.2589142773979526, -0.2106045300687506])
 
     def test_average_sd(self):
-        pass
+        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(filepath, 'example_data.shp')
+        s = spatial_efd.LoadGeometries(filepath)
+
+        coeffsList = []
+
+        for i in xrange(3):
+            x, y, _, _ = spatial_efd.ProcessGeometry(s[i])
+            coeffsList.append(spatial_efd.CalculateEFD(x, y, 10))
+
+        avg = spatial_efd.AverageCoefficients(coeffsList, 10)
+        sd = spatial_efd.AverageSD(coeffsList, avg, 10)
+
+        ntest.assert_almost_equal(sd[3].tolist(),
+                                  [14.525962062245984, 13.07688969920094,
+                                  2.8185995453824284, 4.387278049883412])
 
     def test_fourier_power(self):
-        pass
+        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(filepath, 'example_data.shp')
+        s = spatial_efd.LoadGeometries(filepath)
+        x, y, _, _ = spatial_efd.ProcessGeometry(s[2])
+        coeffs = spatial_efd.CalculateEFD(x, y, 10)
 
     def test_normalize_efd(self):
-        pass
+        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(filepath, 'example_data.shp')
+        s = spatial_efd.LoadGeometries(filepath)
+        x, y, _, _ = spatial_efd.ProcessGeometry(s[2])
+        coeffs = spatial_efd.CalculateEFD(x, y, 10)
 
     def test_calculate_dc_coefficients(self):
-        pass
+        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(filepath, 'example_data.shp')
+        s = spatial_efd.LoadGeometries(filepath)
+        x, y, _, _ = spatial_efd.ProcessGeometry(s[2])
+        coeffs = spatial_efd.CalculateEFD(x, y, 10)

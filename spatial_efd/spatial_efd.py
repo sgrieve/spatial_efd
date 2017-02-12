@@ -224,6 +224,7 @@ def Nyquist(contour):
 def FourierPower(coeffs, contour):
     '''
     C. Costa et al. / Postharvest Biology and Technology 54 (2009) 38-47
+    The number of coeffs must be >= the nyquist freqency.
     '''
     nyquist = Nyquist(contour)
 

@@ -6,3 +6,4 @@ script: spatial_efd/tests/test.py
 branches:
   only:
     - master
+sudo: required

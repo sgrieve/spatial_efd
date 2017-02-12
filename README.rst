@@ -1,5 +1,5 @@
 Spatial Elliptical Fourier Descriptors
----
+===============
 
 A python package to facilitate EFD analysis on shapfile data, built upon the pyefd module.
 

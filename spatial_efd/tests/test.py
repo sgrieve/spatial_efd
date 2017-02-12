@@ -21,3 +21,13 @@ class TestEFD(TestCase):
     def test_plot_init(self):
         a = spatial_efd.InitPlot()
         self.assertTrue(isinstance(a, matplotlib.axes.Axes))
+
+    def test_rotate_contour(self):
+        x, y = spatial_efd.RotateContour([0, 10, 10, 0], [0, 0, 10, 10], 30.,
+                                         (5, 5))
+        self.assertAlmostEqual(x, [6.8301270189221928, -1.8301270189221928,
+                                   3.1698729810778077, 11.830127018922193],
+                               places=7)
+        self.assertAlmostEqual(y, [11.830127018922193, 6.8301270189221928,
+                                   -1.8301270189221928, 3.1698729810778077],
+                               places=7)

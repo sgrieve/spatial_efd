@@ -100,3 +100,18 @@ class TestEFD(TestCase):
                                               58.07079350363471,
                                               57.92885887469977,
                                               57.67852100429082])
+
+    def test_average_coefficients(self):
+        pass
+
+    def test_average_sd(self):
+        pass
+
+    def test_fourier_power(self):
+        pass
+
+    def test_normalize_efd(self):
+        pass
+
+    def test_calculate_dc_coefficients(self):
+        pass

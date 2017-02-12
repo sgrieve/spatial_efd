@@ -2,7 +2,7 @@ language: python
 python:
   - "2.7"
 # command to install dependencies
-script: spatial_efd/tests/test.py
+script: python spatial_efd/tests/test.py
 branches:
   only:
     - master

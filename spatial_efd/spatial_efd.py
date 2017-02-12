@@ -311,7 +311,7 @@ def LoadGeometries(filename):
     Takes a filename and uses shapefile to load it, returning a list of
     shapefile.ShapeRecord instances.
 
-    this list can be iterated over, passing the shape individual shape instances
+    This list can be iterated over, passing the individual shape instances
     to ProcessGeometry() one by one.
     '''
 

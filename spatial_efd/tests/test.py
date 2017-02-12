@@ -1,8 +1,10 @@
-from unittest import TestCase
-
 import spatial_efd
-import numpy as np
 import matplotlib
+import os
+import os.path as path
+import numpy as np
+import shapefile as shp
+from unittest import TestCase
 
 
 class TestEFD(TestCase):
@@ -46,3 +48,10 @@ class TestEFD(TestCase):
         self.assertEqual(yw, 10)
         self.assertEqual(xmin, 0)
         self.assertEqual(ymin, 0)
+
+    def test_load_geometry(self):
+        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(filepath, 'example_data.shp')
+        s = spatial_efd.LoadGeometries(filepath)
+
+        self.assertTrue(isinstance(s[0], shp._ShapeRecord))

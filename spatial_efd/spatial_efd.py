@@ -314,8 +314,8 @@ def LoadGeometries(filename):
     This list can be iterated over, passing the individual shape instances
     to ProcessGeometry() one by one.
     '''
-
-    return sf.shapeRecords()
+    shp = sf.Reader(filename)
+    return shp.shapeRecords()
 
 
 def ProcessGeometry(shape):

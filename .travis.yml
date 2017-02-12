@@ -9,3 +9,6 @@ branches:
 sudo: required
 before_install:
  - chmod +x spatial_efd/tests/test.py
+ install:
+ - pip install .
+ - pip install -r travis.requirements.txt

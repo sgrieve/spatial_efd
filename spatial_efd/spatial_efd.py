@@ -53,8 +53,10 @@ def ContourArea(X, Y):
     Computes the area of a closed contour
     http://paulbourke.net/geometry/polygonmesh/
     '''
-    X = X + [X[0]]
-    Y = Y + [Y[0]]
+    # Check the contour provided is closed
+    if (X[0] != X[-1]):
+        X = X + [X[0]]
+        Y = Y + [Y[0]]
 
     Sum = 0.
 
@@ -69,10 +71,12 @@ def ContourCentroid(X, Y):
     Computes the centroid of a closed contour
     http://paulbourke.net/geometry/polygonmesh/
     '''
-    Area = ContourArea(X, Y)
+    # Check the contour provided is closed
+    if (X[0] != X[-1]):
+        X = X + [X[0]]
+        Y = Y + [Y[0]]
 
-    X = X + [X[0]]
-    Y = Y + [Y[0]]
+    Area = ContourArea(X, Y)
 
     Cx = 0.
     Cy = 0.

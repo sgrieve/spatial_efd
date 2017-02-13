@@ -64,8 +64,8 @@ class TestEFD(TestCase):
         s = spatial_efd.LoadGeometries(filepath)
         x, y, cont, c = spatial_efd.ProcessGeometry(s[1])
         self.assertTupleEqual(c, (0.4729141652616648, 0.22570629971140485))
-        self.assertAlmostEqual(cont[25][0], 0.43523316)
-        self.assertAlmostEqual(cont[25][1], 0.41450777)
+        self.assertAlmostEqual(cont[25][0], 0.41450777)
+        self.assertAlmostEqual(cont[25][1], 0.43523316)
         self.assertListEqual(x[:10], [280587.0, 280598.0, 280598.0, 280599.0,
                                       280599.0, 280600.0, 280600.0, 280601.0,
                                       280601.0, 280602.0])

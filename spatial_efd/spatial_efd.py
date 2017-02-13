@@ -294,7 +294,7 @@ def normalize_efd(coeffs, size_invariant=True):
 
 def calculate_dc_coefficients(X, Y):
     '''
-    X,Y are a lists coordinates, which are transformed into a Y,X contour to
+    X,Y are a lists coordinates, transformed into contour to
     maintain the original syntax from the pyefd module.
     code adapted from pyefd module.
 

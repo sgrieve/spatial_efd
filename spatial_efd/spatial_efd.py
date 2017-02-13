@@ -100,7 +100,7 @@ def CalculateEFD(X, Y, harmonics=10):
     '''
 
     # pyefd takes data as y,x so build the contour like that.
-    contour = np.array([(x, y) for x, y in zip(Y, X)])
+    contour = np.array([(x, y) for x, y in zip(X, Y)])
 
     dxy = np.diff(contour, axis=0)
     dt = np.sqrt((dxy ** 2.).sum(axis=1))
@@ -115,10 +115,10 @@ def CalculateEFD(X, Y, harmonics=10):
         phi_n = phi * n
         d_cos_phi_n = np.cos(phi_n[1:]) - np.cos(phi_n[:-1])
         d_sin_phi_n = np.sin(phi_n[1:]) - np.sin(phi_n[:-1])
-        a_n = const * np.sum((dxy[:, 0] / dt) * d_cos_phi_n)
-        b_n = const * np.sum((dxy[:, 0] / dt) * d_sin_phi_n)
-        c_n = const * np.sum((dxy[:, 1] / dt) * d_cos_phi_n)
-        d_n = const * np.sum((dxy[:, 1] / dt) * d_sin_phi_n)
+        a_n = const * np.sum((dxy[:, 1] / dt) * d_cos_phi_n)
+        b_n = const * np.sum((dxy[:, 1] / dt) * d_sin_phi_n)
+        c_n = const * np.sum((dxy[:, 0] / dt) * d_cos_phi_n)
+        d_n = const * np.sum((dxy[:, 0] / dt) * d_sin_phi_n)
         coeffs[n - 1, :] = a_n, b_n, c_n, d_n
 
     return coeffs

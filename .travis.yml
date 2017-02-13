@@ -1,7 +1,7 @@
 language: python
 python:
   - "2.7"
-script: python spatial_efd/tests/test.py
+script: coverage run spatial_efd/tests/test.py
 branches:
   only:
     - master

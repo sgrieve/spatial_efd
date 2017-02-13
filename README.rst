@@ -13,6 +13,9 @@ Spatial Elliptical Fourier Descriptors
 .. image:: https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat
     :target: https://codecov.io/github/sgrieve/spatial_efd/issues
 
+.. image:: https://img.shields.io/badge/License-MIT-green.svg
+    :target: https://opensource.org/licenses/MIT
+
 A python package to facilitate EFD analysis on shapfile data, built upon the pyefd module.
 
 This package handles basic shapefile input using pyshp and deals with all of the issues of normalizing spatial data to work with the EFD technique.

@@ -185,7 +185,7 @@ def PlotContour(ax, contour):
     '''
     Plot a contour generated from a loaded shapefile.
     '''
-    ax.plot(contour[:, 1], contour[:, 0], 'b-', linewidth=2)
+    ax.plot(contour[:, 0], contour[:, 1], 'b-', linewidth=2)
 
 
 def AverageCoefficients(coeffList, nHarmonics):

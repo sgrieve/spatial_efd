@@ -168,13 +168,13 @@ def PlotEllipse(ax, x, y, color='k', width=1.):
     ax.plot(x, y, color, linewidth=width)
 
 
-def SavePlot(ax, harmonic):
+def SavePlot(ax, harmonic, filename, figformat):
     '''
     Wrapper around the savefig method, to add a title to an axis, ax, and save
     the plot to a file.
     '''
     ax.set_title('Harmonic: {0}'.format(harmonic))
-    plt.savefig('Code/test/EFD_{0}.png'.format(harmonic))
+    plt.savefig('{0}_{1}.{2}'.format(filename, harmonic, figformat))
     plt.clf()
 
 

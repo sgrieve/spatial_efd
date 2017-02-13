@@ -1,8 +1,4 @@
 #!/usr/bin/env python
-'''
-ToDo: sort the y,x x,y contour format issue.
-'''
-
 import numpy as np
 import shapefile as sf
 import matplotlib
@@ -306,8 +302,7 @@ def calculate_dc_coefficients(X, Y):
     conversion is correct
     '''
 
-    # pyefd takes data as y,x so build the contour like that.
-    contour = np.array([(x, y) for x, y in zip(Y, X)])
+    contour = np.array([(x, y) for x, y in zip(X, Y)])
 
     dxy = np.diff(contour, axis=0)
     dt = np.sqrt((dxy ** 2.).sum(axis=1))
@@ -322,7 +317,7 @@ def calculate_dc_coefficients(X, Y):
 
     # A0 and CO relate to the first point of the contour array as origin.
     # Adding those values to the coefficients to make them relate to true origin
-    return (contour[0, 1] + C0, contour[0, 0] + A0)
+    return (contour[0, 0] + A0, contour[0, 1] + C0)
 
 
 def LoadGeometries(filename):

@@ -7,6 +7,9 @@ Spatial Elliptical Fourier Descriptors
 .. image:: https://img.shields.io/codecov/c/github/sgrieve/spatial_efd.svg
     :target: https://codecov.io/github/sgrieve/spatial_efd
 
+.. image:: https://requires.io/github/sgrieve/spatial_efd/requirements.svg?branch=master
+     :target: https://requires.io/github/sgrieve/spatial_efd/requirements/?branch=master
+
 .. image:: https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat
     :target: https://codecov.io/github/sgrieve/spatial_efd/issues
 

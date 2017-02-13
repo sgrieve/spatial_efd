@@ -4,6 +4,8 @@ ToDo: sort the y,x x,y contour format issue.
 '''
 
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import shapefile as sf
 

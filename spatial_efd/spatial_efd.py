@@ -4,10 +4,10 @@ ToDo: sort the y,x x,y contour format issue.
 '''
 
 import numpy as np
+import shapefile as sf
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import shapefile as sf
 
 
 def RotateContour(X, Y, rotation, centroid):

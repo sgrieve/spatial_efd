@@ -169,3 +169,19 @@ class TestEFD(TestCase):
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         dc = spatial_efd.calculate_dc_coefficients(x, y)
         self.assertTupleEqual(dc, (280011.35930735932, 3882261.8852813854))
+
+    def test_plotting(self):
+        path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(path_, 'example_data.shp')
+        figpath = path.join(path_, 'Test')
+        s = spatial_efd.LoadGeometries(filepath)
+        x, y, contour, _ = spatial_efd.ProcessGeometry(s[2])
+        coeffs = spatial_efd.CalculateEFD(x, y, 10)
+        a, b = spatial_efd.inverse_transform(coeffs)
+
+        ax = spatial_efd.InitPlot()
+        spatial_efd.PlotEllipse(ax, a, b, color='k', width=1.)
+        spatial_efd.PlotContour(ax, contour)
+        spatial_efd.SavePlot(ax, 5, figpath, 'png')
+        os.remove('{0}_5.png'.format(figpath))
+        self.assertTrue(isinstance(ax, matplotlib.axes.Axes))

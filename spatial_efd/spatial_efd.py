@@ -103,7 +103,6 @@ def CalculateEFD(X, Y, harmonics=10):
     code adapted from pyefd module.
     '''
 
-    # pyefd takes data as y,x so build the contour like that.
     contour = np.array([(x, y) for x, y in zip(X, Y)])
 
     dxy = np.diff(contour, axis=0)
@@ -360,7 +359,7 @@ def ProcessGeometry(shape):
     centroid = ContourCentroid(x, y)
     X, Y, NormCentroid = NormContour(x, y, centroid)
 
-    contour = np.array([(a, b) for a, b in zip(Y, X)])
+    contour = np.array([(a, b) for a, b in zip(X, Y)])
 
     return x, y, contour, NormCentroid
 

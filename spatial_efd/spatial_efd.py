@@ -98,7 +98,7 @@ def ContourArea(X, Y):
     for i in xrange(len(X) - 1):
         Sum += (X[i] * Y[i + 1]) - (X[i + 1] * Y[i])
 
-    return 0.5 * Sum
+    return abs(0.5 * Sum)
 
 
 def ContourCentroid(X, Y):

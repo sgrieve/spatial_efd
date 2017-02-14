@@ -86,6 +86,8 @@ def ContourArea(X, Y):
 
     Returns:
         float: The area of the input polygon.
+
+    ToDo: Create close contour function.
     '''
 
     # Check the contour provided is closed

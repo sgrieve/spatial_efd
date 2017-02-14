@@ -181,7 +181,7 @@ class TestEFD(TestCase):
 
         ax = spatial_efd.InitPlot()
         spatial_efd.PlotEllipse(ax, a, b, color='k', width=1.)
-        spatial_efd.PlotContour(ax, contour)
+        spatial_efd.PlotContour(ax, contour, color='b', width=1.)
         spatial_efd.SavePlot(ax, 5, figpath, 'png')
         os.remove('{0}_5.png'.format(figpath))
         self.assertTrue(isinstance(ax, matplotlib.axes.Axes))

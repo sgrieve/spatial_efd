@@ -8,7 +8,21 @@ import matplotlib.pyplot as plt
 
 def RotateContour(X, Y, rotation, centroid):
     '''
-    X and Y are lists of coordinates for a closed contour taken from a shapefile
+    Rotates a contour about a point by a given amount expressed in degrees.
+
+    Operates by calling rotatePoint() on each x,y pair in turn. X and Y must
+    have the same dimensions.
+
+    Args:
+        X (list): A list (or numpy array) of x coordinate values.
+        Y (list): A list (or numpy array) of y coordinate values.
+        rotation (float): The angle in degrees for the contour to be rotated by.
+        centroid (tuple): A tuple containing the x,y coordinates of the centroid
+        to rotate the contour about.
+
+    Returns:
+        tuple: A tuple containing a list of x coordinates and a list of y
+        coordinates.
     '''
 
     rxs = []
@@ -24,8 +38,22 @@ def RotateContour(X, Y, rotation, centroid):
 
 def NormContour(X, Y, rawCentroid):
     '''
-    X and Y are the rotated contour coordinates, ready to be normed.
-    The rawCentroid is the centroid before normalizing.
+    Normalize the coordinates which make up a contour.
+
+    Rescale the coordinates to values between 0 and 1 in both the x and y
+    directions. The normalizing is performed using x or y width of the minimum
+    bounding rectangle of the contour, whichever is largest. X and Y must have
+    the same dimensions.
+
+    Args:
+        X (list): A list (or numpy array) of x coordinate values.
+        Y (list): A list (or numpy array) of y coordinate values.
+        rawCentroid (tuple): A tuple containing the x,y coordinates of the
+        centroid of the contour
+
+    Returns:
+        tuple: A tuple containing a list of normalized x coordinates, a list of
+        normalized y coordinate and the normalized centroid.
     '''
 
     # find longest axis of rotated shape
@@ -46,9 +74,20 @@ def NormContour(X, Y, rawCentroid):
 
 def ContourArea(X, Y):
     '''
-    Computes the area of a closed contour
-    http://paulbourke.net/geometry/polygonmesh/
+    Compute the area of an irregular polygon.
+
+    Ensures the contour is closed before processing, but does not modify
+    X or Y outside the scope of this method. Algorithm taken from
+    http://paulbourke.net/geometry/polygonmesh/.
+
+    Args:
+        X (list): A list (or numpy array) of x coordinate values.
+        Y (list): A list (or numpy array) of y coordinate values.
+
+    Returns:
+        float: The area of the input polygon.
     '''
+
     # Check the contour provided is closed
     if (X[0] != X[-1]):
         X = X + [X[0]]

@@ -103,9 +103,21 @@ def ContourArea(X, Y):
 
 def ContourCentroid(X, Y):
     '''
-    Computes the centroid of a closed contour
-    http://paulbourke.net/geometry/polygonmesh/
+    Compute the centroid of an irregular polygon.
+
+    Ensures the contour is closed before processing, but does not modify
+    X or Y outside the scope of this method. Algorithm taken from
+    http://paulbourke.net/geometry/polygonmesh/.
+
+    Args:
+        X (list): A list (or numpy array) of x coordinate values.
+        Y (list): A list (or numpy array) of y coordinate values.
+
+    Returns:
+        tuple: A tuple containing the (x,y) coordinate of the center of the
+        input polygon.
     '''
+
     # Check the contour provided is closed
     if (X[0] != X[-1]):
         X = X + [X[0]]
@@ -127,7 +139,7 @@ def ContourCentroid(X, Y):
     Cx *= AreaFactor
     Cy *= AreaFactor
 
-    return (Cx, Cy)
+    return (abs(Cx), abs(Cy))
 
 
 def CalculateEFD(X, Y, harmonics=10):
@@ -190,7 +202,10 @@ def inverse_transform(coeffs, locus=(0., 0.), n=300, harmonic=10):
 
 def InitPlot():
     '''
-    Set up axes for a plot.
+    Set up the axes for plotting, ensuring that x and y dimensions are equal.
+
+    Returns:
+        ax (matplotlib.axes.Axes): Matplotlib axis instance.
     '''
     ax = plt.gca()
     ax.axis('equal')
@@ -201,7 +216,15 @@ def InitPlot():
 def PlotEllipse(ax, x, y, color='k', width=1.):
     '''
     Plots an ellipse represented as a series of x and y coordinates on a given
-    axis, ax.
+    axis.
+
+    Args:
+        ax (matplotlib.axes.Axes): Matplotlib axis instance.
+        x (list): A list (or numpy array) of x coordinate values.
+        y (list): A list (or numpy array) of y coordinate values.
+        color (string): A matplotlib color string to color the line used to
+        plot the ellipse. Defaults to k (black).
+        width (float): The width of the plotted line. Defaults to 1.
     '''
     ax.plot(x, y, color, linewidth=width)
 
@@ -216,11 +239,19 @@ def SavePlot(ax, harmonic, filename, figformat):
     plt.clf()
 
 
-def PlotContour(ax, contour):
+def PlotContour(ax, contour, color='b', width=1.):
     '''
-    Plot a contour generated from a loaded shapefile.
+    Plots a contour on a given axis.
+
+    Args:
+        ax (matplotlib.axes.Axes): Matplotlib axis instance.
+        contour (numpy.ndarray): A numpy array of shape (n, 2) representing the
+        input contour.
+        color (string): A matplotlib color string to color the line used to
+        plot the contour. Defaults to b (blue).
+        width (float): The width of the plotted line. Defaults to 1.
     '''
-    ax.plot(contour[:, 0], contour[:, 1], 'b-', linewidth=2)
+    ax.plot(contour[:, 0], contour[:, 1], color, linewidth=width)
 
 
 def AverageCoefficients(coeffList, nHarmonics):

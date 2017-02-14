@@ -19,6 +19,20 @@ class TestEFD(TestCase):
         c = spatial_efd.ContourCentroid([0, 10, 10, 0], [0, 0, 10, 10])
         self.assertTupleEqual(c, (5, 5))
 
+    def test_centroid_clockwise(self):
+        x, y = [0, 10, 10, 0], [0, 0, 10, 10]
+        x = x[::-1]
+        y = y[::-1]
+        c = spatial_efd.ContourCentroid(x, y)
+        self.assertTupleEqual(c, (5, 5))
+
+    def test_area_clockwise(self):
+        x, y = [0, 10, 10, 0], [0, 0, 10, 10]
+        x = x[::-1]
+        y = y[::-1]
+        a = spatial_efd.ContourArea(x, y)
+        self.assertEqual(a, 100)
+
     def test_nyquist(self):
         n = spatial_efd.Nyquist(np.array([[0, 0], [10, 0], [10, 10], [10, 0]]))
         self.assertEqual(n, 2)

@@ -29,7 +29,7 @@ def RotateContour(X, Y, rotation, centroid):
     rys = []
 
     for nx, ny in zip(X, Y):
-        rx, ry = rotatePoint(centroid, (nx, ny), rotation + 180.)
+        rx, ry = rotatePoint((nx, ny), centroid, rotation + 180.)
         rxs.append(rx)
         rys.append(ry)
 
@@ -512,11 +512,22 @@ def ProcessGeometry(shape):
     return X, Y, contour, NormCentroid
 
 
-def rotatePoint(centerPoint, point, angle):
+def rotatePoint(point, centerPoint, angle):
     '''
-    Rotates a point around another centerPoint. Angle is in degrees.
-    Rotation is counter-clockwise
+    Rotates a point counter-clockwise around centerPoint.
+
+    The angle to rotate by is supplied in degrees. Code based on:
     https://gist.github.com/somada141/d81a05f172bb2df26a2c
+
+    Args:
+        point (tuple): The point to be rotated, represented as an (x,y) tuple.
+        centerPoint (tuple): The point to be rotated about, represented as an
+        (x,y) tuple.
+        angle (float): The angle to rotate point by, in the counter-clockwise
+        direction.
+
+    Returns:
+        tuple: A tuple representing the rotated point, (x,y).
     '''
     angle = np.radians(angle)
     temp_point = point[0] - centerPoint[0], point[1] - centerPoint[1]

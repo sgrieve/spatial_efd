@@ -132,7 +132,7 @@ class TestEFD(TestCase):
             x, y, _, _ = spatial_efd.ProcessGeometry(s[i])
             coeffsList.append(spatial_efd.CalculateEFD(x, y, 10))
 
-        avg = spatial_efd.AverageCoefficients(coeffsList, 10)
+        avg = spatial_efd.AverageCoefficients(coeffsList)
 
         ntest.assert_almost_equal(avg[6].tolist(),
                                   [0.14906656481505043, 1.1743839538604195,
@@ -149,8 +149,8 @@ class TestEFD(TestCase):
             x, y, _, _ = spatial_efd.ProcessGeometry(s[i])
             coeffsList.append(spatial_efd.CalculateEFD(x, y, 10))
 
-        avg = spatial_efd.AverageCoefficients(coeffsList, 10)
-        sd = spatial_efd.AverageSD(coeffsList, avg, 10)
+        avg = spatial_efd.AverageCoefficients(coeffsList)
+        sd = spatial_efd.AverageSD(coeffsList, avg)
 
         ntest.assert_almost_equal(sd[3].tolist(),
                                   [14.525962062245984, 13.07688969920094,

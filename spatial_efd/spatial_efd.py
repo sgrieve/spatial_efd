@@ -220,14 +220,14 @@ def inverse_transform(coeffs, locus=(0., 0.), n=300, harmonic=10):
 
     for n in xrange(harmonic):
 
-        xt += ((coeffs[n, 0] * np.cos(2. * (n + 1.) * np.pi * t)) +
-               (coeffs[n, 1] * np.sin(2. * (n + 1.) * np.pi * t)))
-
-        yt += ((coeffs[n, 2] * np.cos(2. * (n + 1.) * np.pi * t)) +
+        xt += ((coeffs[n, 2] * np.cos(2. * (n + 1.) * np.pi * t)) +
                (coeffs[n, 3] * np.sin(2. * (n + 1.) * np.pi * t)))
 
+        yt += ((coeffs[n, 0] * np.cos(2. * (n + 1.) * np.pi * t)) +
+               (coeffs[n, 1] * np.sin(2. * (n + 1.) * np.pi * t)))
+
         if n == harmonic - 1:
-            return yt, xt
+            return xt, yt
 
 
 def InitPlot():

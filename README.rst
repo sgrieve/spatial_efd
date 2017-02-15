@@ -13,50 +13,45 @@ Spatial Elliptical Fourier Descriptors
 .. image:: https://readthedocs.org/projects/spatial-efd/badge/?version=latest
      :target: http://spatial-efd.readthedocs.io/en/latest/?badge=latest
 
-.. image:: https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat
-    :target: https://codecov.io/github/sgrieve/spatial_efd/issues
-
 .. image:: https://img.shields.io/badge/License-MIT-green.svg
     :target: https://opensource.org/licenses/MIT
 
 
-A python package to facilitate EFD analysis on shapefile data, built upon the pyefd module.
+A pure python implementation of the elliptical Fourier analysis method described by Kuhl and Giardina (1982). This package is designed to allow the rapid analysis of spatial data stored as ESRI shapefiles, handling all of the geometric conversions. The code is built upon the pyefd module and it is hoped that this package will allow more geoscientists to apply this technique to analyze spatial data using the elliptical Fourier descriptor technique.
 
-This package handles basic shapefile input using pyshp and deals with all of the issues of normalizing spatial data to work with the EFD technique.
-
-
-$project will solve your problem of where to start with documentation,
-by providing a basic explanation of how to do it easily.
-
-Look how easy it is to use:
-
-    import project
-    # Get your stuff done
-    project.do_stuff()
+[Image of a drainage basin fitted fitted by the first 2,4,10,20 harmonics of its Fourier series]
 
 Features
 --------
 
-- Be awesome
-- Make things faster
+- Built-in geometry processing, just pass in a shapefile and get results quickly!
+- Fourier coefficient average and standard devation calculation
+- Handles spatial input data through the pyshp library
+- Compute an appropriate number of harmonics for a given polygon
+- Basic plotting for analysis and debugging through matplotlib
 
 Installation
 ------------
 
-Install $project by running:
+Install spatial_efd by running:
 
-    install project
+  $ pip install spatial_efd
 
 Dependencies
 ----------
 
-Here are the dependencies.
+This package is developed on linux for python 2.7 and requires matplotlib, numpy and pyshp. These packages will all install automatically if spatial_efd is installed using pip.
 
 
 Tests
 ----------
 
-To test the code...
+A range of unit tests are included in the /spatial/tests/ directory. These can
+be run using nose or directly from setup.py:
+
+  $ python setup.py test
+  $ nosetests
+
 
 Usage
 ----------
@@ -66,16 +61,28 @@ Here are examples of how to use the code.
 Contribute
 ----------
 
-- Issue Tracker: github.com/$project/$project/issues
-- Source Code: github.com/$project/$project
+.. image:: https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat
+    :target: https://codecov.io/github/sgrieve/spatial_efd/issues
+
+I welcome contributions to the code, head to the issue tracker on github to get involved!
+
+- Issue Tracker: github.com/sgrieve/spatial_efd/issues
+- Source Code: github.com/sgrieve/spatial_efd
 
 Support
 -------
 
-If you are having issues, please let us know.
-We have a mailing list located at: project@google-groups.com
+If you find any bugs, have any questions or would like to see a feature in a new version, drop me a line:
+
+Twitter: @GIStuart
+Email: s.grieve@ed.ac.uk
 
 License
 -------
 
 The project is licensed under the MIT license.
+
+References
+-----------
+
+Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed contour. Computer graphics and image processing, 18(3), 236-258.

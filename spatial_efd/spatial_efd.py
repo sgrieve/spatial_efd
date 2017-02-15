@@ -168,7 +168,6 @@ def CalculateEFD(X, Y, harmonics=10):
     Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed
     contour. Computer graphics and image processing, 18(3), 236-258.
 
-
     Args:
         X (list): A list (or numpy array) of x coordinate values.
         Y (list): A list (or numpy array) of y coordinate values.
@@ -206,13 +205,33 @@ def CalculateEFD(X, Y, harmonics=10):
 
 def inverse_transform(coeffs, locus=(0., 0.), n=300, harmonic=10):
     '''
-    Code modified from pyefd plotting routines to generate x,y coordinates from
-    forier coefficients.
-    '''
+    Perform an inverse fourier transform to convert the coefficients back into
+    spatial coordinates.
 
-    N = coeffs.shape[0]
-    N_half = int(np.ceil(N / 2.))
-    n_rows = 2
+    Implements Kuhl and Giardina method of computing the performing the
+    transform for a specified number of harmonics. This code is adapted
+    from the pyefd module. See the original paper for more detail:
+
+    Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed
+    contour. Computer graphics and image processing, 18(3), 236-258.
+
+    Args:
+        coeffs (numpy.ndarray): A numpy array of shape (n, 4) representing the
+        four coefficients for each harmonic computed.
+        locus (tuple): The x,y coordinates of the centroid of the contour being
+        generated. Use calculate_dc_coefficients() to generate the correct locus
+        for a shape.
+        n (int): The number of coordinate pairs to compute. A larger value will
+        result in a more complex shape at the expense of increased computational
+        time. Defaults to 300.
+        harmonics (int): The number of harmonics to be used to generate
+        coordinates, defaults to 10. Must be <= coeffs.shape[0]. Supply a
+        smaller value to produce coordinates for a more generalized shape.
+
+    Returns:
+        numpy.ndarray: A numpy array of shape (harmonics, 4) representing the
+        four coefficients for each harmonic computed.
+    '''
 
     t = np.linspace(0, 1., n)
     xt = np.ones((n,)) * locus[1]
@@ -376,10 +395,31 @@ def Nyquist(contour):
     return contour.shape[0] / 2
 
 
-def FourierPower(coeffs, contour):
+def FourierPower(coeffs, contour, threshold=0.9999):
     '''
+    Compute the total Fourier power and find the minium number of harmonics
+    required to exceed the threshold fraction of the total power.
+
+    This is a good method for identifying the number of harmonics to use to
+    describe a polygon. For more details see:
+
     C. Costa et al. / Postharvest Biology and Technology 54 (2009) 38-47
-    The number of coeffs must be >= the nyquist freqency.
+
+    Warning:
+        The number of coeffs must be >= the nyquist freqency.
+
+    Args:
+        coeffs (numpy.ndarray): A numpy array of shape (n, 4) representing the
+        four coefficients for each harmonic computed.
+        contour (numpy.ndarray): A numpy array of shape (n, 2) representing the
+        input contour.
+        threshold (float): The threshold fraction of the total Fourier power.
+        Default is 0.9999.
+
+    Returns:
+        int: The number of harmonics required to represent the contour above the
+        threshold Fourier power.
+
     '''
     nyquist = Nyquist(contour)
 
@@ -394,7 +434,7 @@ def FourierPower(coeffs, contour):
         currentPower += ((coeffs[i, 0] ** 2.) + (coeffs[i, 1] ** 2.) +
                          (coeffs[i, 2] ** 2.) + (coeffs[i, 3] ** 2.)) / 2.
 
-        if (currentPower / totalPower) > 0.9999:
+        if (currentPower / totalPower) > threshold:
             return i + 1
 
 

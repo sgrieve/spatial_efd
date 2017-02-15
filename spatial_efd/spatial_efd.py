@@ -72,6 +72,25 @@ def NormContour(X, Y, rawCentroid):
     return norm_x, norm_y, centroid
 
 
+def CloseContour(X, Y):
+    '''
+    Close an opened polygon.
+
+    Args:
+        X (list): A list (or numpy array) of x coordinate values.
+        Y (list): A list (or numpy array) of y coordinate values.
+
+    Returns:
+        tuple: A tuple containing the X and Y lists of coordinates where the
+        first and last elements are equal.
+    '''
+    if ((X[0] != X[-1]) or (Y[0] != Y[-1])):
+        X = X + [X[0]]
+        Y = Y + [Y[0]]
+
+    return X, Y
+
+
 def ContourArea(X, Y):
     '''
     Compute the area of an irregular polygon.

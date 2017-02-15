@@ -55,6 +55,11 @@ class TestEFD(TestCase):
                                    -1.8301270189221928, 3.1698729810778077],
                                places=7)
 
+    def test_rotate_point(self):
+        rx, ry = spatial_efd.rotatePoint((3., 2.), (1., 1.), 73.)
+        self.assertAlmostEqual(rx, 0.628438653482)
+        self.assertAlmostEqual(ry, 3.20498121665)
+
     def test_norm_contour(self):
         x, y, c = spatial_efd.NormContour([0., 10., 10., 0.],
                                           [0., 0., 10., 10.], (5., 5.))

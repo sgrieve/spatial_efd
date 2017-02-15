@@ -159,10 +159,25 @@ def ContourCentroid(X, Y):
 
 def CalculateEFD(X, Y, harmonics=10):
     '''
-    X and Y are lists of the coordinates of the normed and rotated contour.
-    harmonics is the number of harmonics to be computed.
+    Compute the Elliptical Fourier Descriptors for a polygon.
 
-    code adapted from pyefd module.
+    Implements Kuhl and Giardina method of computing the coefficients
+    An, Bn, Cn, Dn for a specified number of harmonics. This code is adapted
+    from the pyefd module. See the original paper for more detail:
+
+    Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed
+    contour. Computer graphics and image processing, 18(3), 236-258.
+
+
+    Args:
+        X (list): A list (or numpy array) of x coordinate values.
+        Y (list): A list (or numpy array) of y coordinate values.
+        harmonics (int): The number of harmonics to compute for the given shape,
+        defaults to 10.
+
+    Returns:
+        numpy.ndarray: A numpy array of shape (harmonics, 4) representing the
+        four coefficients for each harmonic computed.
     '''
 
     contour = np.array([(x, y) for x, y in zip(X, Y)])

@@ -17,8 +17,7 @@ def RotateContour(X, Y, rotation, centroid):
         X (list): A list (or numpy array) of x coordinate values.
         Y (list): A list (or numpy array) of y coordinate values.
         rotation (float): The angle in degrees for the contour to be rotated by.
-        centroid (tuple): A tuple containing the x,y coordinates of the centroid
-        to rotate the contour about.
+        centroid (tuple): A tuple containing the x,y coordinates of the centroid to rotate the contour about.
 
     Returns:
         tuple: A tuple containing a list of x coordinates and a list of y
@@ -48,8 +47,7 @@ def NormContour(X, Y, rawCentroid):
     Args:
         X (list): A list (or numpy array) of x coordinate values.
         Y (list): A list (or numpy array) of y coordinate values.
-        rawCentroid (tuple): A tuple containing the x,y coordinates of the
-        centroid of the contour
+        rawCentroid (tuple): A tuple containing the x,y coordinates of the centroid of the contour.
 
     Returns:
         tuple: A tuple containing a list of normalized x coordinates, a list of
@@ -171,8 +169,7 @@ def CalculateEFD(X, Y, harmonics=10):
     Args:
         X (list): A list (or numpy array) of x coordinate values.
         Y (list): A list (or numpy array) of y coordinate values.
-        harmonics (int): The number of harmonics to compute for the given shape,
-        defaults to 10.
+        harmonics (int): The number of harmonics to compute for the given shape, defaults to 10.
 
     Returns:
         numpy.ndarray: A numpy array of shape (harmonics, 4) representing the
@@ -216,17 +213,10 @@ def inverse_transform(coeffs, locus=(0., 0.), n=300, harmonic=10):
     contour. Computer graphics and image processing, 18(3), 236-258.
 
     Args:
-        coeffs (numpy.ndarray): A numpy array of shape (n, 4) representing the
-        four coefficients for each harmonic computed.
-        locus (tuple): The x,y coordinates of the centroid of the contour being
-        generated. Use calculate_dc_coefficients() to generate the correct locus
-        for a shape.
-        n (int): The number of coordinate pairs to compute. A larger value will
-        result in a more complex shape at the expense of increased computational
-        time. Defaults to 300.
-        harmonics (int): The number of harmonics to be used to generate
-        coordinates, defaults to 10. Must be <= coeffs.shape[0]. Supply a
-        smaller value to produce coordinates for a more generalized shape.
+        coeffs (numpy.ndarray): A numpy array of shape (n, 4) representing the four coefficients for each harmonic computed.
+        locus (tuple): The x,y coordinates of the centroid of the contour being generated. Use calculate_dc_coefficients() to generate the correct locus for a shape.
+        n (int): The number of coordinate pairs to compute. A larger value will result in a more complex shape at the expense of increased computational time. Defaults to 300.
+        harmonics (int): The number of harmonics to be used to generate coordinates, defaults to 10. Must be <= coeffs.shape[0]. Supply a smaller value to produce coordinates for a more generalized shape.
 
     Returns:
         numpy.ndarray: A numpy array of shape (harmonics, 4) representing the
@@ -254,7 +244,7 @@ def InitPlot():
     Set up the axes for plotting, ensuring that x and y dimensions are equal.
 
     Returns:
-        ax (matplotlib.axes.Axes): Matplotlib axis instance.
+        matplotlib.axes.Axes: Matplotlib axis instance.
     '''
     ax = plt.gca()
     ax.axis('equal')
@@ -271,8 +261,7 @@ def PlotEllipse(ax, x, y, color='k', width=1.):
         ax (matplotlib.axes.Axes): Matplotlib axis instance.
         x (list): A list (or numpy array) of x coordinate values.
         y (list): A list (or numpy array) of y coordinate values.
-        color (string): A matplotlib color string to color the line used to
-        plot the ellipse. Defaults to k (black).
+        color (string): A matplotlib color string to color the line used to plot the ellipse. Defaults to k (black).
         width (float): The width of the plotted line. Defaults to 1.
     '''
     ax.plot(x, y, color, linewidth=width)
@@ -293,10 +282,8 @@ def SavePlot(ax, harmonic, filename, figformat='png'):
     Args:
         ax (matplotlib.axes.Axes): Matplotlib axis instance.
         harmonic (int): The harmonic which is being plotted.
-        filename (string): A complete path and filename, without an extension,
-        for the saved plot.
-        figformat (string): A string denoting the format to save the figure as.
-        Defaults to png.
+        filename (string): A complete path and filename, without an extension, for the saved plot.
+        figformat (string): A string denoting the format to save the figure as. Defaults to png.
 
     '''
     ax.set_title('Harmonic: {0}'.format(harmonic))
@@ -310,10 +297,8 @@ def PlotContour(ax, contour, color='b', width=1.):
 
     Args:
         ax (matplotlib.axes.Axes): Matplotlib axis instance.
-        contour (numpy.ndarray): A numpy array of shape (n, 2) representing the
-        input contour.
-        color (string): A matplotlib color string to color the line used to
-        plot the contour. Defaults to b (blue).
+        contour (numpy.ndarray): A numpy array of shape (n, 2) representing the input contour.
+        color (string): A matplotlib color string to color the line used to plot the contour. Defaults to b (blue).
         width (float): The width of the plotted line. Defaults to 1.
     '''
     ax.plot(contour[:, 0], contour[:, 1], color, linewidth=width)
@@ -361,8 +346,7 @@ def AverageSD(coeffList, avgcoeffs):
 
     Args:
         coeffList (list): A list of coefficient arrays to be averaged.
-        avgcoeffs (numpy.ndarray): A numpy array containing the average
-        coefficient values, generated by calling AverageCoefficients().
+        avgcoeffs (numpy.ndarray): A numpy array containing the average coefficient values, generated by calling AverageCoefficients().
 
     Returns:
         numpy.ndarray: A numpy array containing the standard deviation
@@ -386,8 +370,7 @@ def Nyquist(contour):
     C. Costa et al. / Postharvest Biology and Technology 54 (2009) 38-47
 
     Args:
-        contour (numpy.ndarray): A numpy array of shape (n, 2) representing the
-        input contour.
+        contour (numpy.ndarray): A numpy array of shape (n, 2) representing the input contour.
 
     Returns:
         int: The nyquist frequency, expressed as a number of harmonics.
@@ -409,12 +392,9 @@ def FourierPower(coeffs, contour, threshold=0.9999):
         The number of coeffs must be >= the nyquist freqency.
 
     Args:
-        coeffs (numpy.ndarray): A numpy array of shape (n, 4) representing the
-        four coefficients for each harmonic computed.
-        contour (numpy.ndarray): A numpy array of shape (n, 2) representing the
-        input contour.
-        threshold (float): The threshold fraction of the total Fourier power.
-        Default is 0.9999.
+        coeffs (numpy.ndarray): A numpy array of shape (n, 4) representing the four coefficients for each harmonic computed.
+        contour (numpy.ndarray): A numpy array of shape (n, 2) representing the input contour.
+        threshold (float): The threshold fraction of the total Fourier power, the default is 0.9999.
 
     Returns:
         int: The number of harmonics required to represent the contour above the
@@ -453,10 +433,8 @@ def normalize_efd(coeffs, size_invariant=True):
     contour. Computer graphics and image processing, 18(3), 236-258.
 
     Args:
-        coeffs (numpy.ndarray): A numpy array of shape (n, 4) representing the
-        four coefficients for each harmonic computed.
-        size_invariant (bool): Set to True (the default) to perform the third
-        normalization and false to return the data withot this processing step.
+        coeffs (numpy.ndarray): A numpy array of shape (n, 4) representing the four coefficients for each harmonic computed.
+        size_invariant (bool): Set to True (the default) to perform the third normalization and false to return the data withot this processing step.
 
     Returns:
         numpy.ndarray: A numpy array of shape (harmonics, 4) representing the
@@ -551,9 +529,7 @@ def LoadGeometries(filename):
     shapefile is passed in, that will result in undefined behavior.
 
     Args:
-        filename (string): A filename with optional full path pointing to an
-        ESRI shapefile to be loaded by the pyshp module. The file extension is
-        optional.
+        filename (string): A filename with optional full path pointing to an  ESRI shapefile to be loaded by the pyshp module. The file extension is optional.
 
     Returns:
         list: A list of shapefile._ShapeRecord objects representing each polygon
@@ -575,8 +551,7 @@ def ProcessGeometry(shape):
     polygon being normalized and returned to the user.
 
     Args:
-        shapefile._ShapeRecord: A shapefile object representing the geometry and
-        attributes of a single polygon from a multipart shapefile.
+        shapefile._ShapeRecord: A shapefile object representing the geometry and attributes of a single polygon from a multipart shapefile.
 
     Returns:
         tuple: A tuple containing a list of normalized x coordinates, a list of
@@ -608,10 +583,8 @@ def rotatePoint(point, centerPoint, angle):
 
     Args:
         point (tuple): The point to be rotated, represented as an (x,y) tuple.
-        centerPoint (tuple): The point to be rotated about, represented as an
-        (x,y) tuple.
-        angle (float): The angle to rotate point by, in the counter-clockwise
-        direction.
+        centerPoint (tuple): The point to be rotated about, represented as an(x,y) tuple.
+        angle (float): The angle to rotate point by, in the counter-clockwise direction.
 
     Returns:
         tuple: A tuple representing the rotated point, (x,y).

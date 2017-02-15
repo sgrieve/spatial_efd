@@ -10,6 +10,9 @@ Spatial Elliptical Fourier Descriptors
 .. image:: https://requires.io/github/sgrieve/spatial_efd/requirements.svg?branch=master
      :target: https://requires.io/github/sgrieve/spatial_efd/requirements/?branch=master
 
+.. image:: https://readthedocs.org/projects/spatial-efd/badge/?version=latest
+     :target: http://spatial-efd.readthedocs.io/en/latest/?badge=latest
+
 .. image:: https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat
     :target: https://codecov.io/github/sgrieve/spatial_efd/issues
 

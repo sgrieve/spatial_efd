@@ -105,14 +105,10 @@ def ContourArea(X, Y):
 
     Returns:
         float: The area of the input polygon.
-
-    ToDo: Create close contour function.
     '''
 
     # Check the contour provided is closed
-    if (X[0] != X[-1]):
-        X = X + [X[0]]
-        Y = Y + [Y[0]]
+    X, Y = CloseContour(X, Y)
 
     Sum = 0.
 
@@ -140,9 +136,7 @@ def ContourCentroid(X, Y):
     '''
 
     # Check the contour provided is closed
-    if (X[0] != X[-1]):
-        X = X + [X[0]]
-        Y = Y + [Y[0]]
+    X, Y = CloseContour(X, Y)
 
     Area = ContourArea(X, Y)
 

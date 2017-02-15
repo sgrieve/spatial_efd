@@ -84,13 +84,16 @@ class TestEFD(TestCase):
         self.assertTupleEqual(c, (0.4729141652616648, 0.22570629971140485))
         self.assertAlmostEqual(cont[25][0], 0.41450777)
         self.assertAlmostEqual(cont[25][1], 0.43523316)
-        self.assertListEqual(x[:10], [280587.0, 280598.0, 280598.0, 280599.0,
-                                      280599.0, 280600.0, 280600.0, 280601.0,
-                                      280601.0, 280602.0])
-        self.assertListEqual(y[:10], [3882424.0, 3882424.0, 3882423.0,
-                                      3882423.0, 3882422.0, 3882422.0,
-                                      3882421.0, 3882421.0, 3882420.0,
-                                      3882420.0])
+        self.assertListEqual(x[:10], [0.29533678756476683, 0.35233160621761656,
+                                      0.35233160621761656, 0.35751295336787564,
+                                      0.35751295336787564, 0.3626943005181347,
+                                      0.3626943005181347, 0.36787564766839376,
+                                      0.36787564766839376, 0.37305699481865284])
+        self.assertListEqual(y[:10], [0.49740932642487046, 0.49740932642487046,
+                                      0.49222797927461137, 0.49222797927461137,
+                                      0.48704663212435234, 0.48704663212435234,
+                                      0.48186528497409326, 0.48186528497409326,
+                                      0.47668393782383417, 0.47668393782383417])
 
     def test_calculate_efd(self):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
@@ -99,8 +102,8 @@ class TestEFD(TestCase):
         x, y, _, _ = spatial_efd.ProcessGeometry(s[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         ntest.assert_almost_equal(coeffs[6].tolist(),
-                                  [-0.18756333, -0.08402254, 0.04527809,
-                                   0.27131757])
+                                  [-0.00134937648, -0.000604478718,
+                                   0.0003257416778, 0.001951924972])
 
     def test_inverse_transform(self):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
@@ -110,16 +113,16 @@ class TestEFD(TestCase):
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         a, b = spatial_efd.inverse_transform(coeffs)
 
-        self.assertListEqual(a[:5].tolist(), [-44.62007085419053,
-                                              -44.50580647372712,
-                                              -44.298299327087825,
-                                              -44.000212529943006,
-                                              -43.61533943655958])
-        self.assertListEqual(b[:5].tolist(), [58.029733557517176,
-                                              58.103977415636,
-                                              58.07079350363471,
-                                              57.92885887469977,
-                                              57.67852100429082])
+        self.assertListEqual(a[:5].tolist(), [-0.32100770398698036,
+                                              -0.3201856580843658,
+                                              -0.318692800914299,
+                                              -0.3165482915823218,
+                                              -0.31377942040690143])
+        self.assertListEqual(b[:5].tolist(), [0.4174800975360954,
+                                              0.4180142260117704,
+                                              0.417775492831905,
+                                              0.416754380393524,
+                                              0.41495338852007846])
 
     def test_average_coefficients(self):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
@@ -135,8 +138,8 @@ class TestEFD(TestCase):
         avg = spatial_efd.AverageCoefficients(coeffsList)
 
         ntest.assert_almost_equal(avg[6].tolist(),
-                                  [0.14906656481505043, 1.1743839538604195,
-                                  -0.2589142773979526, -0.2106045300687506])
+                                  [0.00049541617818, 0.00515338138093,
+                                  -0.0005087032263, 9.7046992097e-05])
 
     def test_average_sd(self):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
@@ -153,8 +156,8 @@ class TestEFD(TestCase):
         sd = spatial_efd.AverageSD(coeffsList, avg)
 
         ntest.assert_almost_equal(sd[3].tolist(),
-                                  [14.525962062245984, 13.07688969920094,
-                                  2.8185995453824284, 4.387278049883412])
+                                  [0.000381631249123, 0.00018247277186,
+                                   4.6821200993e-05, 9.3013816155e-05])
 
     def test_fourier_power(self):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
@@ -186,7 +189,7 @@ class TestEFD(TestCase):
         x, y, _, _ = spatial_efd.ProcessGeometry(s[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         dc = spatial_efd.calculate_dc_coefficients(x, y)
-        self.assertTupleEqual(dc, (280011.35930735932, 3882261.8852813854))
+        self.assertTupleEqual(dc, (0.34071444143386936, 0.56752000996605101))
 
     def test_plotting(self):
         path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))

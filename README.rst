@@ -33,12 +33,12 @@ Features
 Installation
 ------------
 
-Install spatial_efd by running:
+Install spatial_efd by running::
 
   $ pip install spatial_efd
 
 Dependencies
-----------
+------------
 
 This package is developed on linux for python 2.7 and requires matplotlib, numpy and pyshp. These packages will all install automatically if spatial_efd is installed using pip.
 
@@ -47,7 +47,7 @@ Tests
 ----------
 
 A range of unit tests are included in the /spatial/tests/ directory. These can
-be run using nose or directly from setup.py:
+be run using nose or directly from setup.py::
 
   $ python setup.py test
   $ nosetests
@@ -74,8 +74,8 @@ Support
 
 If you find any bugs, have any questions or would like to see a feature in a new version, drop me a line:
 
-Twitter: @GIStuart
-Email: s.grieve@ed.ac.uk
+- Twitter: @GIStuart
+- Email: s.grieve@ed.ac.uk
 
 License
 -------
@@ -86,3 +86,9 @@ References
 -----------
 
 Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed contour. Computer graphics and image processing, 18(3), 236-258.
+
+
+API
+----
+
+:ref:`Click here <API-ref>` for the module level documentation.

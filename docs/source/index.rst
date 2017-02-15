@@ -2,6 +2,10 @@
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   :hidden:
+
+   raster_link
+
 
 .. include:: ../../README.rst
 

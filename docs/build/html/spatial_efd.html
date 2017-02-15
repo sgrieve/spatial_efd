@@ -1,0 +1,801 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>spatial_efd &mdash; Spatial EFD 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Spatial EFD 0.1 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Spatial EFD
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <!-- Local TOC -->
+                <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">spatial_efd</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Spatial EFD</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>spatial_efd</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/spatial_efd.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-spatial_efd.spatial_efd">
+<span id="spatial-efd"></span><h1>spatial_efd<a class="headerlink" href="#module-spatial_efd.spatial_efd" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.AverageCoefficients">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">AverageCoefficients</code><span class="sig-paren">(</span><em>coeffList</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#AverageCoefficients"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.AverageCoefficients" title="Permalink to this definition">¶</a></dt>
+<dd><p>Average the coefficients contained in the list of coefficient arrays,
+coeffList.</p>
+<p>This method is outlined in:</p>
+<p>2-D particle shape averaging and comparison using Fourier descriptors:
+Powder Technology Volume 104, Issue 2, 1 September 1999, Pages 180-189</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>coeffList</strong> (<em>list</em>) &#8211; A list of coefficient arrays to be averaged.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A numpy array containing the average An, Bn, Cn, Dn
+coefficient values.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.AverageSD">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">AverageSD</code><span class="sig-paren">(</span><em>coeffList</em>, <em>avgcoeffs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#AverageSD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.AverageSD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the coefficients contained in the list of coefficient arrays,
+coeffList, and the average coefficient values to compute the standard
+deviation of series of ellipses.</p>
+<p>This method is outlined in:</p>
+<p>2-D particle shape averaging and comparison using Fourier descriptors:
+Powder Technology Volume 104, Issue 2, 1 September 1999, Pages 180-189</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>coeffList</strong> (<em>list</em>) &#8211; A list of coefficient arrays to be averaged.</li>
+<li><strong>avgcoeffs</strong> (<em>numpy.ndarray</em>) &#8211; A numpy array containing the average</li>
+<li><strong>values</strong><strong>, </strong><strong>generated by calling AverageCoefficients</strong><strong>(</strong><strong></strong><strong>)</strong><strong></strong> (<em>coefficient</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A numpy array containing the standard deviation
+An, Bn, Cn, Dn coefficient values.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.CalculateEFD">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">CalculateEFD</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>harmonics=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#CalculateEFD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.CalculateEFD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the Elliptical Fourier Descriptors for a polygon.</p>
+<p>Implements Kuhl and Giardina method of computing the coefficients
+An, Bn, Cn, Dn for a specified number of harmonics. This code is adapted
+from the pyefd module. See the original paper for more detail:</p>
+<p>Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed
+contour. Computer graphics and image processing, 18(3), 236-258.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>list</em>) &#8211; A list (or numpy array) of x coordinate values.</li>
+<li><strong>Y</strong> (<em>list</em>) &#8211; A list (or numpy array) of y coordinate values.</li>
+<li><strong>harmonics</strong> (<em>int</em>) &#8211; The number of harmonics to compute for the given shape,</li>
+<li><strong>to 10.</strong> (<em>defaults</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A numpy array of shape (harmonics, 4) representing the
+four coefficients for each harmonic computed.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.CloseContour">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">CloseContour</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#CloseContour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.CloseContour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close an opened polygon.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>list</em>) &#8211; A list (or numpy array) of x coordinate values.</li>
+<li><strong>Y</strong> (<em>list</em>) &#8211; A list (or numpy array) of y coordinate values.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A tuple containing the X and Y lists of coordinates where the
+first and last elements are equal.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.ContourArea">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">ContourArea</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#ContourArea"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.ContourArea" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the area of an irregular polygon.</p>
+<p>Ensures the contour is closed before processing, but does not modify
+X or Y outside the scope of this method. Algorithm taken from
+<a class="reference external" href="http://paulbourke.net/geometry/polygonmesh/">http://paulbourke.net/geometry/polygonmesh/</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>list</em>) &#8211; A list (or numpy array) of x coordinate values.</li>
+<li><strong>Y</strong> (<em>list</em>) &#8211; A list (or numpy array) of y coordinate values.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The area of the input polygon.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.ContourCentroid">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">ContourCentroid</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#ContourCentroid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.ContourCentroid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the centroid of an irregular polygon.</p>
+<p>Ensures the contour is closed before processing, but does not modify
+X or Y outside the scope of this method. Algorithm taken from
+<a class="reference external" href="http://paulbourke.net/geometry/polygonmesh/">http://paulbourke.net/geometry/polygonmesh/</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>list</em>) &#8211; A list (or numpy array) of x coordinate values.</li>
+<li><strong>Y</strong> (<em>list</em>) &#8211; A list (or numpy array) of y coordinate values.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A tuple containing the (x,y) coordinate of the center of the
+input polygon.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.FourierPower">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">FourierPower</code><span class="sig-paren">(</span><em>coeffs</em>, <em>contour</em>, <em>threshold=0.9999</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#FourierPower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.FourierPower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the total Fourier power and find the minium number of harmonics
+required to exceed the threshold fraction of the total power.</p>
+<p>This is a good method for identifying the number of harmonics to use to
+describe a polygon. For more details see:</p>
+<ol class="upperalpha simple" start="3">
+<li>Costa et al. / Postharvest Biology and Technology 54 (2009) 38-47</li>
+</ol>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The number of coeffs must be &gt;= the nyquist freqency.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>coeffs</strong> (<em>numpy.ndarray</em>) &#8211; A numpy array of shape (n, 4) representing the</li>
+<li><strong>coefficients for each harmonic computed.</strong> (<em>four</em>) &#8211; </li>
+<li><strong>contour</strong> (<em>numpy.ndarray</em>) &#8211; A numpy array of shape (n, 2) representing the</li>
+<li><strong>contour.</strong> (<em>input</em>) &#8211; </li>
+<li><strong>threshold</strong> (<em>float</em>) &#8211; The threshold fraction of the total Fourier power.</li>
+<li><strong>is 0.9999.</strong> (<em>Default</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The number of harmonics required to represent the contour above the
+threshold Fourier power.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.InitPlot">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">InitPlot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#InitPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.InitPlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up the axes for plotting, ensuring that x and y dimensions are equal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Matplotlib axis instance.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">ax (matplotlib.axes.Axes)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.LoadGeometries">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">LoadGeometries</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#LoadGeometries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.LoadGeometries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a filename and uses pyshp to load it, returning a list of
+shapefile.ShapeRecord instances.</p>
+<p>This list can be iterated over, passing the individual shape instances
+to ProcessGeometry() one by one. There is no input handling if a non-polygon
+shapefile is passed in, that will result in undefined behavior.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> (<em>string</em>) &#8211; A filename with optional full path pointing to an</li>
+<li><strong>shapefile to be loaded by the pyshp module. The file extension is</strong> (<em>ESRI</em>) &#8211; </li>
+<li><strong>optional.</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list of shapefile._ShapeRecord objects representing each polygon
+geometry in the shapefile.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.NormContour">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">NormContour</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>rawCentroid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#NormContour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.NormContour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize the coordinates which make up a contour.</p>
+<p>Rescale the coordinates to values between 0 and 1 in both the x and y
+directions. The normalizing is performed using x or y width of the minimum
+bounding rectangle of the contour, whichever is largest. X and Y must have
+the same dimensions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>list</em>) &#8211; A list (or numpy array) of x coordinate values.</li>
+<li><strong>Y</strong> (<em>list</em>) &#8211; A list (or numpy array) of y coordinate values.</li>
+<li><strong>rawCentroid</strong> (<em>tuple</em>) &#8211; A tuple containing the x,y coordinates of the</li>
+<li><strong>of the contour</strong> (<em>centroid</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A tuple containing a list of normalized x coordinates, a list of
+normalized y coordinate and the normalized centroid.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.Nyquist">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">Nyquist</code><span class="sig-paren">(</span><em>contour</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#Nyquist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.Nyquist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the maximum number of harmonics that can be computed for a given
+contour, the nyquist freqency.</p>
+<p>See this paper for details:
+C. Costa et al. / Postharvest Biology and Technology 54 (2009) 38-47</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>contour</strong> (<em>numpy.ndarray</em>) &#8211; A numpy array of shape (n, 2) representing the</li>
+<li><strong>contour.</strong> (<em>input</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The nyquist frequency, expressed as a number of harmonics.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.PlotContour">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">PlotContour</code><span class="sig-paren">(</span><em>ax</em>, <em>contour</em>, <em>color='b'</em>, <em>width=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#PlotContour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.PlotContour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots a contour on a given axis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) &#8211; Matplotlib axis instance.</li>
+<li><strong>contour</strong> (<em>numpy.ndarray</em>) &#8211; A numpy array of shape (n, 2) representing the</li>
+<li><strong>contour.</strong> (<em>input</em>) &#8211; </li>
+<li><strong>color</strong> (<em>string</em>) &#8211; A matplotlib color string to color the line used to</li>
+<li><strong>the contour. Defaults to b</strong> (<em>plot</em>) &#8211; </li>
+<li><strong>width</strong> (<em>float</em>) &#8211; The width of the plotted line. Defaults to 1.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.PlotEllipse">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">PlotEllipse</code><span class="sig-paren">(</span><em>ax</em>, <em>x</em>, <em>y</em>, <em>color='k'</em>, <em>width=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#PlotEllipse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.PlotEllipse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots an ellipse represented as a series of x and y coordinates on a given
+axis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) &#8211; Matplotlib axis instance.</li>
+<li><strong>x</strong> (<em>list</em>) &#8211; A list (or numpy array) of x coordinate values.</li>
+<li><strong>y</strong> (<em>list</em>) &#8211; A list (or numpy array) of y coordinate values.</li>
+<li><strong>color</strong> (<em>string</em>) &#8211; A matplotlib color string to color the line used to</li>
+<li><strong>the ellipse. Defaults to k</strong> (<em>plot</em>) &#8211; </li>
+<li><strong>width</strong> (<em>float</em>) &#8211; The width of the plotted line. Defaults to 1.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.ProcessGeometry">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">ProcessGeometry</code><span class="sig-paren">(</span><em>shape</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#ProcessGeometry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.ProcessGeometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to handle all the geometry conversion that may be needed by the rest
+of the EFD code.</p>
+<p>Method which takes a single shape instance from a shapefile
+eg shp.Reader(&#8216;shapefile.shp&#8217;).shapeRecords()[n]
+where n is the index of the shape within a multipart geometry. This results
+in the contour, coordinate list and centroid data computed for the input
+polygon being normalized and returned to the user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>shapefile._ShapeRecord</strong> &#8211; A shapefile object representing the geometry and</li>
+<li><strong>of a single polygon from a multipart shapefile.</strong> (<em>attributes</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A tuple containing a list of normalized x coordinates, a list of
+normalized y coordinates, contour (a list of [x,y] coordinate pairs,
+normalized about the shape&#8217;s centroid) and the normalized coordinate
+centroid.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.RotateContour">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">RotateContour</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>rotation</em>, <em>centroid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#RotateContour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.RotateContour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotates a contour about a point by a given amount expressed in degrees.</p>
+<p>Operates by calling rotatePoint() on each x,y pair in turn. X and Y must
+have the same dimensions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>list</em>) &#8211; A list (or numpy array) of x coordinate values.</li>
+<li><strong>Y</strong> (<em>list</em>) &#8211; A list (or numpy array) of y coordinate values.</li>
+<li><strong>rotation</strong> (<em>float</em>) &#8211; The angle in degrees for the contour to be rotated by.</li>
+<li><strong>centroid</strong> (<em>tuple</em>) &#8211; A tuple containing the x,y coordinates of the centroid</li>
+<li><strong>rotate the contour about.</strong> (<em>to</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A tuple containing a list of x coordinates and a list of y
+coordinates.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.SavePlot">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">SavePlot</code><span class="sig-paren">(</span><em>ax</em>, <em>harmonic</em>, <em>filename</em>, <em>figformat='png'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#SavePlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.SavePlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper around the savefig method.</p>
+<p>Call this method to add a title identifying the harmonic being plotted, and
+save the plot to a file. Note that harmonic is simply an int value to be
+appended to the plot title, it does not select a harmonic to plot.</p>
+<p>The figformat argumet can take any value which matplotlib understands, which
+varies by system. To see a full list suitable for your matplotlib instance,
+call plt.gcf().canvas.get_supported_filetypes().</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) &#8211; Matplotlib axis instance.</li>
+<li><strong>harmonic</strong> (<em>int</em>) &#8211; The harmonic which is being plotted.</li>
+<li><strong>filename</strong> (<em>string</em>) &#8211; A complete path and filename, without an extension,</li>
+<li><strong>the saved plot.</strong> (<em>for</em>) &#8211; </li>
+<li><strong>figformat</strong> (<em>string</em>) &#8211; A string denoting the format to save the figure as.</li>
+<li><strong>to png.</strong> (<em>Defaults</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.calculate_dc_coefficients">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">calculate_dc_coefficients</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#calculate_dc_coefficients"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.calculate_dc_coefficients" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the dc coefficients, used as the locus when calling
+inverse_transform().</p>
+<p>This code is adapted from the pyefd module. See the original paper for
+more detail:</p>
+<p>Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed
+contour. Computer graphics and image processing, 18(3), 236-258.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>list</em>) &#8211; A list (or numpy array) of x coordinate values.</li>
+<li><strong>Y</strong> (<em>list</em>) &#8211; A list (or numpy array) of y coordinate values.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A tuple containing the c and d coefficients.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Todo: Test this against other efd modules to check that the x,y to y,x
+conversion is correct.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.getBBoxDimensions">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">getBBoxDimensions</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#getBBoxDimensions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.getBBoxDimensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the width in the x and y dimensions and the maximum x and y
+coordinates for the bounding box of a given list of x and y coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>list</em>) &#8211; A list (or numpy array) of x coordinate values.</li>
+<li><strong>y</strong> (<em>list</em>) &#8211; A list (or numpy array) of y coordinate values.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A four-tuple representing (width in the x direction, width in the
+y direction, the minimum x coordinate and the minimum y coordinate).</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.inverse_transform">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">inverse_transform</code><span class="sig-paren">(</span><em>coeffs</em>, <em>locus=(0.0</em>, <em>0.0)</em>, <em>n=300</em>, <em>harmonic=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#inverse_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.inverse_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform an inverse fourier transform to convert the coefficients back into
+spatial coordinates.</p>
+<p>Implements Kuhl and Giardina method of computing the performing the
+transform for a specified number of harmonics. This code is adapted
+from the pyefd module. See the original paper for more detail:</p>
+<p>Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed
+contour. Computer graphics and image processing, 18(3), 236-258.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>coeffs</strong> (<em>numpy.ndarray</em>) &#8211; A numpy array of shape (n, 4) representing the</li>
+<li><strong>coefficients for each harmonic computed.</strong> (<em>four</em>) &#8211; </li>
+<li><strong>locus</strong> (<em>tuple</em>) &#8211; The x,y coordinates of the centroid of the contour being</li>
+<li><strong>Use calculate_dc_coefficients</strong><strong>(</strong><strong></strong><strong>) </strong><strong>to generate the correct locus</strong> (<em>generated.</em>) &#8211; </li>
+<li><strong>a shape.</strong> (<em>for</em>) &#8211; </li>
+<li><strong>n</strong> (<em>int</em>) &#8211; The number of coordinate pairs to compute. A larger value will</li>
+<li><strong>in a more complex shape at the expense of increased computational</strong> (<em>result</em>) &#8211; </li>
+<li><strong>Defaults to 300.</strong> (<em>time.</em>) &#8211; </li>
+<li><strong>harmonics</strong> (<em>int</em>) &#8211; The number of harmonics to be used to generate</li>
+<li><strong>defaults to 10. Must be &lt;= coeffs.shape</strong><strong>[</strong><strong>0</strong><strong>]</strong><strong> Supply a</strong> (<em>coordinates</em><em>,</em><em></em>) &#8211; </li>
+<li><strong>value to produce coordinates for a more generalized shape.</strong> (<em>smaller</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A numpy array of shape (harmonics, 4) representing the
+four coefficients for each harmonic computed.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.normalize_efd">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">normalize_efd</code><span class="sig-paren">(</span><em>coeffs</em>, <em>size_invariant=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#normalize_efd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.normalize_efd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize the Elliptical Fourier Descriptor coefficients for a polygon.</p>
+<p>Implements Kuhl and Giardina method of normalizing the coefficients
+An, Bn, Cn, Dn. Performs 3 separate normalizations. First, it makes the data
+location invariant by re-scaling the data to a common origin. Secondly, the
+data is rotated with respect to the major axis. Thirdly, the coefficients
+are normalized with regard to the absolute value of A_1. This code is
+adapted from the pyefd module. See the original paper for more detail:</p>
+<p>Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed
+contour. Computer graphics and image processing, 18(3), 236-258.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>coeffs</strong> (<em>numpy.ndarray</em>) &#8211; A numpy array of shape (n, 4) representing the</li>
+<li><strong>coefficients for each harmonic computed.</strong> (<em>four</em>) &#8211; </li>
+<li><strong>size_invariant</strong> (<em>bool</em>) &#8211; Set to True (the default) to perform the third</li>
+<li><strong>and false to return the data withot this processing step.</strong> (<em>normalization</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A numpy array of shape (harmonics, 4) representing the
+four coefficients for each harmonic computed.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="spatial_efd.spatial_efd.rotatePoint">
+<code class="descclassname">spatial_efd.spatial_efd.</code><code class="descname">rotatePoint</code><span class="sig-paren">(</span><em>point</em>, <em>centerPoint</em>, <em>angle</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spatial_efd/spatial_efd.html#rotatePoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spatial_efd.spatial_efd.rotatePoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotates a point counter-clockwise around centerPoint.</p>
+<p>The angle to rotate by is supplied in degrees. Code based on:
+<a class="reference external" href="https://gist.github.com/somada141/d81a05f172bb2df26a2c">https://gist.github.com/somada141/d81a05f172bb2df26a2c</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>point</strong> (<em>tuple</em>) &#8211; The point to be rotated, represented as an (x,y) tuple.</li>
+<li><strong>centerPoint</strong> (<em>tuple</em>) &#8211; The point to be rotated about, represented as an</li>
+<li><strong>tuple.</strong> (<em></em><em>(</em><em>x</em><em>,</em><em>y</em><em>)</em><em></em>) &#8211; </li>
+<li><strong>angle</strong> (<em>float</em>) &#8211; The angle to rotate point by, in the counter-clockwise</li>
+<li><strong>direction.</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A tuple representing the rotated point, (x,y).</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Stuart W.D. Grieve.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to Spatial EFD’s documentation! &mdash; Spatial EFD 0.1 documentation</title>
+  <title>Spatial Elliptical Fourier Descriptors &mdash; Spatial EFD 0.1 documentation</title>
   
 
   
@@ -33,8 +33,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Spatial EFD 0.1 documentation" href="#"/>
-        <link rel="next" title="Spatial Elliptical Fourier Descriptors" href="readme.html"/> 
+    <link rel="top" title="Spatial EFD 0.1 documentation" href="#"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -83,12 +82,24 @@
           
             
             
-                <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="readme.html">Spatial Elliptical Fourier Descriptors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">API</a></li>
+                <!-- Local TOC -->
+                <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Spatial Elliptical Fourier Descriptors</a><ul>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li><a class="reference internal" href="#tests">Tests</a></li>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#contribute">Contribute</a></li>
+<li><a class="reference internal" href="#support">Support</a></li>
+<li><a class="reference internal" href="#license">License</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+<li><a class="reference internal" href="#api">API</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
-
+</li>
+</ul>
+</div>
             
           
         </div>
@@ -117,7 +128,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="#">Docs</a> &raquo;</li>
       
-    <li>Welcome to Spatial EFD&#8217;s documentation!</li>
+    <li>Spatial Elliptical Fourier Descriptors</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -131,65 +142,44 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="welcome-to-spatial-efd-s-documentation">
-<h1>Welcome to Spatial EFD&#8217;s documentation!<a class="headerlink" href="#welcome-to-spatial-efd-s-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="readme.html">Spatial Elliptical Fourier Descriptors</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#features">Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#tests">Tests</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#contribute">Contribute</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#support">Support</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#license">License</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="spatial_efd.html">spatial_efd</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-<div class="section" id="spatial-elliptical-fourier-descriptors">
+  <div class="section" id="spatial-elliptical-fourier-descriptors">
 <h1>Spatial Elliptical Fourier Descriptors<a class="headerlink" href="#spatial-elliptical-fourier-descriptors" title="Permalink to this headline">¶</a></h1>
 <a class="reference external image-reference" href="https://travis-ci.org/sgrieve/spatial_efd"><img alt="https://travis-ci.org/sgrieve/spatial_efd.svg?branch=master" src="https://travis-ci.org/sgrieve/spatial_efd.svg?branch=master" /></a>
 <a class="reference external image-reference" href="https://codecov.io/github/sgrieve/spatial_efd"><img alt="https://img.shields.io/codecov/c/github/sgrieve/spatial_efd.svg" src="https://img.shields.io/codecov/c/github/sgrieve/spatial_efd.svg" /></a>
 <a class="reference external image-reference" href="https://requires.io/github/sgrieve/spatial_efd/requirements/?branch=master"><img alt="https://requires.io/github/sgrieve/spatial_efd/requirements.svg?branch=master" src="https://requires.io/github/sgrieve/spatial_efd/requirements.svg?branch=master" /></a>
-<a class="reference external image-reference" href="https://codecov.io/github/sgrieve/spatial_efd/issues"><img alt="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" /></a>
+<a class="reference external image-reference" href="http://spatial-efd.readthedocs.io/en/latest/?badge=latest"><img alt="https://readthedocs.org/projects/spatial-efd/badge/?version=latest" src="https://readthedocs.org/projects/spatial-efd/badge/?version=latest" /></a>
 <a class="reference external image-reference" href="https://opensource.org/licenses/MIT"><img alt="https://img.shields.io/badge/License-MIT-green.svg" src="https://img.shields.io/badge/License-MIT-green.svg" /></a>
-<p>A python package to facilitate EFD analysis on shapefile data, built upon the pyefd module.</p>
-<p>This package handles basic shapefile input using pyshp and deals with all of the issues of normalizing spatial data to work with the EFD technique.</p>
-<p>$project will solve your problem of where to start with documentation,
-by providing a basic explanation of how to do it easily.</p>
-<p>Look how easy it is to use:</p>
-<blockquote>
-<div>import project
-# Get your stuff done
-project.do_stuff()</div></blockquote>
+<p>A pure python implementation of the elliptical Fourier analysis method described by Kuhl and Giardina (1982). This package is designed to allow the rapid analysis of spatial data stored as ESRI shapefiles, handling all of the geometric conversions. The code is built upon the pyefd module and it is hoped that this package will allow more geoscientists to apply this technique to analyze spatial data using the elliptical Fourier descriptor technique.</p>
+<p>[Image of a drainage basin fitted fitted by the first 2,4,10,20 harmonics of its Fourier series]</p>
 <div class="section" id="features">
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Be awesome</li>
-<li>Make things faster</li>
+<li>Built-in geometry processing, just pass in a shapefile and get results quickly!</li>
+<li>Fourier coefficient average and standard devation calculation</li>
+<li>Handles spatial input data through the pyshp library</li>
+<li>Compute an appropriate number of harmonics for a given polygon</li>
+<li>Basic plotting for analysis and debugging through matplotlib</li>
 </ul>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>Install $project by running:</p>
-<blockquote>
-<div>install project</div></blockquote>
+<p>Install spatial_efd by running:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ pip install spatial_efd
+</pre></div>
+</div>
 </div>
 <div class="section" id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
-<p>Here are the dependencies.</p>
+<p>This package is developed on linux for python 2.7 and requires matplotlib, numpy and pyshp. These packages will all install automatically if spatial_efd is installed using pip.</p>
 </div>
 <div class="section" id="tests">
 <h2>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h2>
-<p>To test the code...</p>
+<p>A range of unit tests are included in the /spatial/tests/ directory. These can
+be run using nose or directly from setup.py:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ python setup.py test
+$ nosetests
+</pre></div>
+</div>
 </div>
 <div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
@@ -197,41 +187,47 @@ project.do_stuff()</div></blockquote>
 </div>
 <div class="section" id="contribute">
 <h2>Contribute<a class="headerlink" href="#contribute" title="Permalink to this headline">¶</a></h2>
+<a class="reference external image-reference" href="https://codecov.io/github/sgrieve/spatial_efd/issues"><img alt="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" /></a>
+<p>I welcome contributions to the code, head to the issue tracker on github to get involved!</p>
 <ul class="simple">
-<li>Issue Tracker: github.com/$project/$project/issues</li>
-<li>Source Code: github.com/$project/$project</li>
+<li>Issue Tracker: github.com/sgrieve/spatial_efd/issues</li>
+<li>Source Code: github.com/sgrieve/spatial_efd</li>
 </ul>
 </div>
 <div class="section" id="support">
 <h2>Support<a class="headerlink" href="#support" title="Permalink to this headline">¶</a></h2>
-<p>If you are having issues, please let us know.
-We have a mailing list located at: <a class="reference external" href="mailto:project&#37;&#52;&#48;google-groups&#46;com">project<span>&#64;</span>google-groups<span>&#46;</span>com</a></p>
+<p>If you find any bugs, have any questions or would like to see a feature in a new version, drop me a line:</p>
+<ul class="simple">
+<li>Twitter: &#64;GIStuart</li>
+<li>Email: <a class="reference external" href="mailto:s&#46;grieve&#37;&#52;&#48;ed&#46;ac&#46;uk">s<span>&#46;</span>grieve<span>&#64;</span>ed<span>&#46;</span>ac<span>&#46;</span>uk</a></li>
+</ul>
 </div>
 <div class="section" id="license">
 <h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
 <p>The project is licensed under the MIT license.</p>
 </div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<p>Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed contour. Computer graphics and image processing, 18(3), 236-258.</p>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="spatial_efd.html#api-ref"><span class="std std-ref">Click here</span></a> for the module level documentation.</p>
 </div>
 <div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
 <li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
 <li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
 </ul>
 </div>
+</div>
 
 
            </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="readme.html" class="btn btn-neutral float-right" title="Spatial Elliptical Fourier Descriptors" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-    </div>
   
 
   <hr/>
@@ -278,12 +274,6 @@ We have a mailing list located at: <a class="reference external" href="mailto:pr
   
 
   
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
    
 
 </body>

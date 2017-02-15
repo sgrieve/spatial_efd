@@ -440,7 +440,27 @@ def FourierPower(coeffs, contour, threshold=0.9999):
 
 def normalize_efd(coeffs, size_invariant=True):
     '''
-    Taken and modified to run in python 2.7 from pyefd.
+    Normalize the Elliptical Fourier Descriptor coefficients for a polygon.
+
+    Implements Kuhl and Giardina method of normalizing the coefficients
+    An, Bn, Cn, Dn. Performs 3 separate normalizations. First, it makes the data
+    location invariant by re-scaling the data to a common origin. Secondly, the
+    data is rotated with respect to the major axis. Thirdly, the coefficients
+    are normalized with regard to the absolute value of A_1. This code is
+    adapted from the pyefd module. See the original paper for more detail:
+
+    Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed
+    contour. Computer graphics and image processing, 18(3), 236-258.
+
+    Args:
+        coeffs (numpy.ndarray): A numpy array of shape (n, 4) representing the
+        four coefficients for each harmonic computed.
+        size_invariant (bool): Set to True (the default) to perform the third
+        normalization and false to return the data withot this processing step.
+
+    Returns:
+        numpy.ndarray: A numpy array of shape (harmonics, 4) representing the
+        four coefficients for each harmonic computed.
     '''
     # Make the coefficients have a zero phase shift from
     # the first major axis. Theta_1 is that shift angle.
@@ -483,12 +503,24 @@ def normalize_efd(coeffs, size_invariant=True):
 
 def calculate_dc_coefficients(X, Y):
     '''
-    X,Y are a lists coordinates, transformed into contour to
-    maintain the original syntax from the pyefd module.
-    code adapted from pyefd module.
+    Compute the dc coefficients, used as the locus when calling
+    inverse_transform().
 
-    ToDo: test this against other efd modules to check that the x,y to y,x
-    conversion is correct
+    This code is adapted from the pyefd module. See the original paper for
+    more detail:
+
+    Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed
+    contour. Computer graphics and image processing, 18(3), 236-258.
+
+    Args:
+        X (list): A list (or numpy array) of x coordinate values.
+        Y (list): A list (or numpy array) of y coordinate values.
+
+    Returns:
+        tuple: A tuple containing the c and d coefficients.
+
+    Todo: Test this against other efd modules to check that the x,y to y,x
+    conversion is correct.
     '''
 
     contour = np.array([(x, y) for x, y in zip(X, Y)])

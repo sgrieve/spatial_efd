@@ -244,10 +244,26 @@ def PlotEllipse(ax, x, y, color='k', width=1.):
     ax.plot(x, y, color, linewidth=width)
 
 
-def SavePlot(ax, harmonic, filename, figformat):
+def SavePlot(ax, harmonic, filename, figformat='png'):
     '''
-    Wrapper around the savefig method, to add a title to an axis, ax, and save
-    the plot to a file.
+    Wrapper around the savefig method.
+
+    Call this method to add a title identifying the harmonic being plotted, and
+    save the plot to a file. Note that harmonic is simply an int value to be
+    appended to the plot title, it does not select a harmonic to plot.
+
+    The figformat argumet can take any value which matplotlib understands, which
+    varies by system. To see a full list suitable for your matplotlib instance,
+    call plt.gcf().canvas.get_supported_filetypes().
+
+    Args:
+        ax (matplotlib.axes.Axes): Matplotlib axis instance.
+        harmonic (int): The harmonic which is being plotted.
+        filename (string): A complete path and filename, without an extension,
+        for the saved plot.
+        figformat (string): A string denoting the format to save the figure as.
+        Defaults to png.
+
     '''
     ax.set_title('Harmonic: {0}'.format(harmonic))
     plt.savefig('{0}_{1}.{2}'.format(filename, harmonic, figformat))
@@ -269,7 +285,7 @@ def PlotContour(ax, contour, color='b', width=1.):
     ax.plot(contour[:, 0], contour[:, 1], color, linewidth=width)
 
 
-def AverageCoefficients(coeffList, nHarmonics):
+def AverageCoefficients(coeffList):
     '''
     Average the coefficients contained in the list of coefficient arrays,
     coeffList.
@@ -277,7 +293,10 @@ def AverageCoefficients(coeffList, nHarmonics):
     2-D particle shape averaging and comparison using Fourier descriptors:
     Powder Technology Volume 104, Issue 2, 1 September 1999, Pages 180-189
     '''
+
+    nHarmonics = coeffList[0].shape[0]
     coeffsum = np.zeros((nHarmonics, 4))
+
     for coeff in coeffList:
         coeffsum += coeff
 

@@ -1,5 +1,11 @@
 .. include:: ../../README.rst
 
+API
+----
+
+:ref:`Click here <API-ref>` for the module level documentation.
+
+
 Indices and tables
 ------------------
 

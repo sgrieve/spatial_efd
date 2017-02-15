@@ -86,9 +86,3 @@ References
 -----------
 
 Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed contour. Computer graphics and image processing, 18(3), 236-258.
-
-
-API
-----
-
-:ref:`Click here <API-ref>` for the module level documentation.

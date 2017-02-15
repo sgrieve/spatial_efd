@@ -5,6 +5,7 @@
    :hidden:
 
    raster_link
+   modules
 
 
 .. include:: ../../README.rst

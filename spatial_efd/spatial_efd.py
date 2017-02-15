@@ -305,7 +305,7 @@ def AverageCoefficients(coeffList):
     return coeffsum
 
 
-def AverageSD(coeffList, avgcoeffs, nHarmonics):
+def AverageSD(coeffList, avgcoeffs):
     '''
     Use the coefficients contained in the list of coefficient arrays,
     coeffList, and the average coefficient values to compute the standard
@@ -314,7 +314,9 @@ def AverageSD(coeffList, avgcoeffs, nHarmonics):
     2-D particle shape averaging and comparison using Fourier descriptors:
     Powder Technology Volume 104, Issue 2, 1 September 1999, Pages 180-189
     '''
+    nHarmonics = avgcoeffs.shape[0]
     coeffsum = np.zeros((nHarmonics, 4))
+
     for coeff in coeffList:
         coeffsum += (coeff ** 2.)
 

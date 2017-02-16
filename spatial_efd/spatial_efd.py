@@ -289,19 +289,6 @@ def SavePlot(ax, harmonic, filename, figformat='png'):
     plt.clf()
 
 
-def PlotContour(ax, contour, color='b', width=1.):
-    '''
-    Plots a contour on a given axis.
-
-    Args:
-        ax (matplotlib.axes.Axes): Matplotlib axis instance.
-        contour (numpy.ndarray): A numpy array of shape (n, 2) representing the input contour.
-        color (string): A matplotlib color string to color the line used to plot the contour. Defaults to b (blue).
-        width (float): The width of the plotted line. Defaults to 1.
-    '''
-    ax.plot(contour[:, 0], contour[:, 1], color, linewidth=width)
-
-
 def AverageCoefficients(coeffList):
     '''
     Average the coefficients contained in the list of coefficient arrays,

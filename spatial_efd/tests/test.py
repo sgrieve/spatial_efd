@@ -7,7 +7,7 @@ import numpy.testing as ntest
 import shapefile as shp
 from unittest import TestCase
 import matplotlib
-matplotlib.use('Agg')
+
 
 
 class TestEFD(TestCase):

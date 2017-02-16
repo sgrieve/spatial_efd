@@ -26,7 +26,7 @@ def RotateContour(X, Y, rotation, centroid):
     rys = []
 
     for nx, ny in zip(X, Y):
-        rx, ry = rotatePoint((nx, ny), centroid, rotation + 180.)
+        rx, ry = rotatePoint((nx, ny), centroid, rotation)
         rxs.append(rx)
         rys.append(ry)
 

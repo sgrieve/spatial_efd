@@ -47,11 +47,11 @@ class TestEFD(TestCase):
     def test_rotate_contour(self):
         x, y = spatial_efd.RotateContour([0, 10, 10, 0], [0, 0, 10, 10], 30.,
                                          (5, 5))
-        self.assertAlmostEqual(x, [6.8301270189221928, -1.8301270189221928,
-                                   3.1698729810778077, 11.830127018922193],
+        self.assertAlmostEqual(x, [3.1698729810778059, 11.830127018922193,
+                                   6.8301270189221945, -1.8301270189221928],
                                places=7)
-        self.assertAlmostEqual(y, [11.830127018922193, 6.8301270189221928,
-                                   -1.8301270189221928, 3.1698729810778077],
+        self.assertAlmostEqual(y, [-1.8301270189221928, 3.1698729810778059,
+                                   11.830127018922193, 6.8301270189221945],
                                places=7)
 
     def test_rotate_point(self):

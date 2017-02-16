@@ -432,7 +432,7 @@ def normalize_efd(coeffs, size_invariant=True):
 
     Args:
         coeffs (numpy.ndarray): A numpy array of shape (n, 4) representing the four coefficients for each harmonic computed.
-        size_invariant (bool): Set to True (the default) to perform the third normalization and false to return the data withot this processing step.
+        size_invariant (bool): Set to True (the default) to perform the third normalization and false to return the data withot this processing step. Set this to False when plotting a comparison between the input data and the Fourier ellipse.
 
     Returns:
         tuple: A tuple consisting of a numpy.ndarray of shape (harmonics, 4) representing the four coefficients for each harmonic computed and the rotation in degrees applied to the normalized contour.

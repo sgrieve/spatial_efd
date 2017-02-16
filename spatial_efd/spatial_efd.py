@@ -566,9 +566,7 @@ def ProcessGeometry(shape):
     centroid = ContourCentroid(x, y)
     X, Y, NormCentroid = NormContour(x, y, centroid)
 
-    contour = np.array([(a, b) for a, b in zip(X, Y)])
-
-    return X, Y, contour, NormCentroid
+    return X, Y, NormCentroid
 
 
 def rotatePoint(point, centerPoint, angle):

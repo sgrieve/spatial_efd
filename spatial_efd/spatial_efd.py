@@ -222,8 +222,8 @@ def inverse_transform(coeffs, locus=(0., 0.), n=300, harmonic=10):
     '''
 
     t = np.linspace(0, 1., n)
-    xt = np.ones((n,)) * locus[1]
-    yt = np.ones((n,)) * locus[0]
+    xt = np.ones((n,)) * locus[0]
+    yt = np.ones((n,)) * locus[1]
 
     for n in xrange(harmonic):
 

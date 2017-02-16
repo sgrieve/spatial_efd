@@ -9,7 +9,6 @@ from unittest import TestCase
 import matplotlib
 
 
-
 class TestEFD(TestCase):
     def test_area(self):
         a = spatial_efd.ContourArea([0, 10, 10, 0], [0, 0, 10, 10])
@@ -128,6 +127,25 @@ class TestEFD(TestCase):
                                               0.417775492831905,
                                               0.416754380393524,
                                               0.41495338852007846])
+
+    def test_inverse_transform_locus(self):
+        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(filepath, 'example_data.shp')
+        s = spatial_efd.LoadGeometries(filepath)
+        x, y, _, _ = spatial_efd.ProcessGeometry(s[2])
+        coeffs = spatial_efd.CalculateEFD(x, y, 10)
+        a, b = spatial_efd.inverse_transform(coeffs, locus=(0.5, 0.9))
+
+        self.assertListEqual(a[:5].tolist(), [0.1789922960130197,
+                                              0.17981434191563422,
+                                              0.181307199085701,
+                                              0.18345170841767827,
+                                              0.1862205795930986])
+        self.assertListEqual(b[:5].tolist(), [1.3174800975360959,
+                                              1.3180142260117702,
+                                              1.317775492831905,
+                                              1.3167543803935242,
+                                              1.3149533885200781])
 
     def test_average_coefficients(self):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))

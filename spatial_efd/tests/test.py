@@ -197,13 +197,14 @@ class TestEFD(TestCase):
         s = spatial_efd.LoadGeometries(filepath)
         x, y, _, _ = spatial_efd.ProcessGeometry(s[0])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
-        coeffs = spatial_efd.normalize_efd(coeffs)
+        coeffs, rotation = spatial_efd.normalize_efd(coeffs)
 
         ntest.assert_almost_equal(coeffs[9].tolist(),
                                   [-0.004300377673482293,
                                    0.00884561305918755,
                                   -0.013450240117972431,
                                   -0.0029657314108907686])
+        self.assertAlmostEqual(rotation, 14.5510829786)
 
     def test_calculate_dc_coefficients(self):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))

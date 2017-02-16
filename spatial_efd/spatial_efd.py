@@ -435,8 +435,7 @@ def normalize_efd(coeffs, size_invariant=True):
         size_invariant (bool): Set to True (the default) to perform the third normalization and false to return the data withot this processing step.
 
     Returns:
-        numpy.ndarray: A numpy array of shape (harmonics, 4) representing the
-        four coefficients for each harmonic computed.
+        tuple: A tuple consisting of a numpy.ndarray of shape (harmonics, 4) representing the four coefficients for each harmonic computed and the rotation in degrees applied to the normalized contour.
     '''
     # Make the coefficients have a zero phase shift from
     # the first major axis. Theta_1 is that shift angle.
@@ -474,7 +473,7 @@ def normalize_efd(coeffs, size_invariant=True):
         # Obtain size-invariance by normalizing.
         coeffs /= np.abs(coeffs[0, 0])
 
-    return coeffs
+    return coeffs, np.degrees(psi_1)
 
 
 def calculate_dc_coefficients(X, Y):

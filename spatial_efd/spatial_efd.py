@@ -525,8 +525,42 @@ def LoadGeometries(filename):
 
 def ProcessGeometry(shape):
     '''
-    Method to handle all the geometry conversion that may be needed by the rest
+    Method to handle all the geometry processing that may be needed by the rest
     of the EFD code.
+
+    Method which takes a single shape instance from a shapefile
+    eg shp.Reader('shapefile.shp').shapeRecords()[n]
+    where n is the index of the shape within a multipart geometry. This results
+    in the contour, coordinate list and centroid data computed for the input
+    polygon being normalized and returned to the user.
+
+    Args:
+        shapefile._ShapeRecord: A shapefile object representing the geometry and attributes of a single polygon from a multipart shapefile.
+
+    Returns:
+        tuple: A tuple containing a list of normalized x coordinates, a list of
+        normalized y coordinates, contour (a list of [x,y] coordinate pairs,
+        normalized about the shape's centroid) and the normalized coordinate
+        centroid.
+    '''
+    x = []
+    y = []
+
+    for point in shape.shape.points:
+        x.append(point[0])
+        y.append(point[1])
+
+    centroid = ContourCentroid(x, y)
+    X, Y, NormCentroid = NormContour(x, y, centroid)
+
+    return X, Y, NormCentroid
+
+
+def ProcessGeometryNorm(shape):
+    '''
+    Method to handle all the geometry processing that may be needed by the rest
+    of the EFD code. This method normalizes the input data to allow spatially
+    distributed data to be plotted in the same cartesian space.
 
     Method which takes a single shape instance from a shapefile
     eg shp.Reader('shapefile.shp').shapeRecords()[n]

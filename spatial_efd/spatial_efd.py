@@ -359,7 +359,7 @@ def AverageSD(coeffList, avgcoeffs):
     return (coeffsum / float(len(coeffList) - 1)) - (avgcoeffs ** 2.)
 
 
-def Nyquist(contour):
+def Nyquist(X):
     '''
     Returns the maximum number of harmonics that can be computed for a given
     contour, the nyquist freqency.
@@ -368,15 +368,15 @@ def Nyquist(contour):
     C. Costa et al. / Postharvest Biology and Technology 54 (2009) 38-47
 
     Args:
-        contour (numpy.ndarray): A numpy array of shape (n, 2) representing the input contour.
+        X (list): A list (or numpy array) of x coordinate values.
 
     Returns:
         int: The nyquist frequency, expressed as a number of harmonics.
     '''
-    return contour.shape[0] / 2
+    return len(X) / 2
 
 
-def FourierPower(coeffs, contour, threshold=0.9999):
+def FourierPower(coeffs, X, threshold=0.9999):
     '''
     Compute the total Fourier power and find the minium number of harmonics
     required to exceed the threshold fraction of the total power.
@@ -391,7 +391,7 @@ def FourierPower(coeffs, contour, threshold=0.9999):
 
     Args:
         coeffs (numpy.ndarray): A numpy array of shape (n, 4) representing the four coefficients for each harmonic computed.
-        contour (numpy.ndarray): A numpy array of shape (n, 2) representing the input contour.
+        X (list): A list (or numpy array) of x coordinate values.
         threshold (float): The threshold fraction of the total Fourier power, the default is 0.9999.
 
     Returns:
@@ -399,7 +399,7 @@ def FourierPower(coeffs, contour, threshold=0.9999):
         threshold Fourier power.
 
     '''
-    nyquist = Nyquist(contour)
+    nyquist = Nyquist(X)
 
     totalPower = 0.
     currentPower = 0.

@@ -37,7 +37,7 @@ class TestEFD(TestCase):
         self.assertEqual(Y[0], Y[-1])
 
     def test_nyquist(self):
-        n = spatial_efd.Nyquist(np.array([[0, 0], [10, 0], [10, 10], [10, 0]]))
+        n = spatial_efd.Nyquist([0, 10, 10, 0, 0])
         self.assertEqual(n, 2)
 
     def test_plot_init(self):
@@ -186,9 +186,9 @@ class TestEFD(TestCase):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
         filepath = path.join(filepath, 'example_data.shp')
         s = spatial_efd.LoadGeometries(filepath)
-        x, y, contour, _ = spatial_efd.ProcessGeometry(s[2])
+        x, y, _, _ = spatial_efd.ProcessGeometry(s[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 500)
-        n = spatial_efd.FourierPower(coeffs, contour)
+        n = spatial_efd.FourierPower(coeffs, x)
         self.assertEqual(n, 19)
 
     def test_normalize_efd(self):

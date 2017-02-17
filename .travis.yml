@@ -10,6 +10,8 @@ install:
  - pip install -r .travis.requirements.txt
 before_install:
  - pip install codecov
+ - pip install pillow
+ - pip install imagehash
 after_success:
  - codecov
 before_script:

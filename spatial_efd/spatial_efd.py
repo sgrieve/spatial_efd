@@ -582,9 +582,8 @@ def ProcessGeometry(shape):
         y.append(point[1])
 
     centroid = ContourCentroid(x, y)
-    X, Y, NormCentroid = NormContour(x, y, centroid)
 
-    return X, Y, NormCentroid
+    return x, y, centroid
 
 
 def ProcessGeometryNorm(shape):

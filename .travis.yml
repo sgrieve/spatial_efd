@@ -11,7 +11,7 @@ install:
 before_install:
  - pip install codecov
  - pip install pillow
- - apt-get install gfortran libopenblas-dev liblapack-dev
+ - sudo apt-get install gfortran libopenblas-dev liblapack-dev
  - pip install imagehash
 after_success:
  - codecov
@@ -19,3 +19,4 @@ before_script:
  - "export DISPLAY=:99.0"
  - "sh -e /etc/init.d/xvfb start"
  - sleep 3 # give xvfb some time to start
+sudo: required

@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 import spatial_efd
-import os
 import matplotlib
-import hashlib
+import imagehash
+import os
 import os.path as path
 import numpy as np
 import numpy.testing as ntest
 import shapefile as shp
 from unittest import TestCase
-
+from PIL import Image
 
 class TestEFD(TestCase):
     def test_area(self):
@@ -259,10 +259,9 @@ class TestEFD(TestCase):
         spatial_efd.PlotEllipse(ax, a, b, color='k', width=1.)
         spatial_efd.SavePlot(ax, 5, figpath, 'png')
 
-        h1 = hashlib.md5(open('{0}_5.png'.format(figpath)).read()).hexdigest()
-        h2 = hashlib.md5(open(testpath).read()).hexdigest()
-
-        self.assertMultiLineEqual(h1, h2)
+        h1 = imagehash.phash(Image.open('{0}_5.png'.format(figpath)))
+        h2 = imagehash.phash(Image.open(testpath))
+        self.assertMultiLineEqual(str(h1), str(h2))
         os.remove('{0}_5.png'.format(figpath))
 
     def test_plot_comparison(self):
@@ -278,9 +277,9 @@ class TestEFD(TestCase):
         spatial_efd.plotComparison(ax, coeffs, 10, x, y)
         spatial_efd.SavePlot(ax, 10, figpath, 'png')
 
-        h1 = hashlib.md5(open('{0}_10.png'.format(figpath)).read()).hexdigest()
-        h2 = hashlib.md5(open(testpath).read()).hexdigest()
-        self.assertMultiLineEqual(h1, h2)
+        h1 = imagehash.phash(Image.open('{0}_10.png'.format(figpath)))
+        h2 = imagehash.phash(Image.open(testpath))
+        self.assertMultiLineEqual(str(h1), str(h2))
         os.remove('{0}_10.png'.format(figpath))
 
     def test_plot_comparison_norm(self):
@@ -298,9 +297,9 @@ class TestEFD(TestCase):
         spatial_efd.plotComparison(ax, coeffs, 7, x, y, rotation=rotation)
         spatial_efd.SavePlot(ax, 7, figpath, 'png')
 
-        h1 = hashlib.md5(open('{0}_7.png'.format(figpath)).read()).hexdigest()
-        h2 = hashlib.md5(open(testpath).read()).hexdigest()
-        self.assertMultiLineEqual(h1, h2)
+        h1 = imagehash.phash(Image.open('{0}_7.png'.format(figpath)))
+        h2 = imagehash.phash(Image.open(testpath))
+        self.assertMultiLineEqual(str(h1), str(h2))
         os.remove('{0}_7.png'.format(figpath))
 
     def test_plot_comparison_norm_size_invariant(self):
@@ -318,7 +317,7 @@ class TestEFD(TestCase):
         spatial_efd.plotComparison(ax, coeffs, 7, x, y, rotation=rotation)
         spatial_efd.SavePlot(ax, 8, figpath, 'png')
 
-        h1 = hashlib.md5(open('{0}_8.png'.format(figpath)).read()).hexdigest()
-        h2 = hashlib.md5(open(testpath).read()).hexdigest()
-        self.assertMultiLineEqual(h1, h2)
+        h1 = imagehash.phash(Image.open('{0}_8.png'.format(figpath)))
+        h2 = imagehash.phash(Image.open(testpath))
+        self.assertMultiLineEqual(str(h1), str(h2))
         os.remove('{0}_8.png'.format(figpath))

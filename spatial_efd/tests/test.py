@@ -7,7 +7,6 @@ import os.path as path
 import numpy as np
 import numpy.testing as ntest
 import shapefile as shp
-from scipy import misc
 from unittest import TestCase
 
 

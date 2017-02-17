@@ -297,8 +297,8 @@ class TestEFD(TestCase):
         spatial_efd.plotComparison(ax, coeffs, 7, x, y, rotation=rotation)
         spatial_efd.SavePlot(ax, 7, figpath, 'png')
 
-        h1 = imagehash.phash(Image.open('{0}_7.png'.format(figpath)))
-        h2 = imagehash.phash(Image.open(testpath))
+        h1 = imagehash.dhash(Image.open('{0}_7.png'.format(figpath)))
+        h2 = imagehash.dhash(Image.open(testpath))
         self.assertMultiLineEqual(str(h1), str(h2))
         os.remove('{0}_7.png'.format(figpath))
 

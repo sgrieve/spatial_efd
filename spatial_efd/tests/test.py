@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 import spatial_efd
 import os
+import matplotlib
+import hashlib
 import os.path as path
 import numpy as np
 import numpy.testing as ntest
 import shapefile as shp
+from scipy import misc
 from unittest import TestCase
-import matplotlib
 
 
 class TestEFD(TestCase):
@@ -113,7 +115,6 @@ class TestEFD(TestCase):
                                       0.48704663212435234, 0.48704663212435234,
                                       0.48186528497409326, 0.48186528497409326,
                                       0.47668393782383417, 0.47668393782383417])
-
 
     def test_calculate_efd(self):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
@@ -231,7 +232,8 @@ class TestEFD(TestCase):
         dc = spatial_efd.calculate_dc_coefficients(x, y)
         self.assertTupleEqual(dc, (0.34071444143386936, 0.56752000996605101))
 
-    def test_plotting(self):
+    def test_plotting_savefig(self):
+        matplotlib.pyplot.clf()
         path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
         filepath = path.join(path_, 'example_data.shp')
         figpath = path.join(path_, 'Test')
@@ -243,5 +245,49 @@ class TestEFD(TestCase):
         ax = spatial_efd.InitPlot()
         spatial_efd.PlotEllipse(ax, a, b, color='k', width=1.)
         spatial_efd.SavePlot(ax, 5, figpath, 'png')
+        self.assertTrue(path.isfile('{0}_5.png'.format(figpath)))
         os.remove('{0}_5.png'.format(figpath))
-        self.assertTrue(isinstance(ax, matplotlib.axes.Axes))
+
+    def test_plotting(self):
+        matplotlib.pyplot.clf()
+        path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(path_, 'example_data.shp')
+        figpath = path.join(path_, 'Test')
+        testpath = path.join(path_, 'image1.png')
+        s = spatial_efd.LoadGeometries(filepath)
+        x, y, _ = spatial_efd.ProcessGeometryNorm(s[2])
+        coeffs = spatial_efd.CalculateEFD(x, y, 10)
+        a, b = spatial_efd.inverse_transform(coeffs)
+
+        ax = spatial_efd.InitPlot()
+        spatial_efd.PlotEllipse(ax, a, b, color='k', width=1.)
+        spatial_efd.SavePlot(ax, 5, figpath, 'png')
+
+        h1 = hashlib.md5(open('{0}_5.png'.format(figpath)).read()).hexdigest()
+        h2 = hashlib.md5(open(testpath).read()).hexdigest()
+
+        self.assertMultiLineEqual(h1, h2)
+        os.remove('{0}_5.png'.format(figpath))
+
+    def test_plot_comparison(self):
+        matplotlib.pyplot.clf()
+        path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(path_, 'example_data.shp')
+        figpath = path.join(path_, 'Test')
+        s = spatial_efd.LoadGeometries(filepath)
+        x, y, _ = spatial_efd.ProcessGeometry(s[2])
+        coeffs = spatial_efd.CalculateEFD(x, y, 10)
+        ax = spatial_efd.InitPlot()
+        spatial_efd.plotComparison(ax, coeffs, 10, x, y)
+
+    def test_plot_comparison_norm(self):
+        matplotlib.pyplot.clf()
+        path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(path_, 'example_data.shp')
+        figpath = path.join(path_, 'Test')
+        s = spatial_efd.LoadGeometries(filepath)
+        x, y, _ = spatial_efd.ProcessGeometry(s[2])
+        coeffs = spatial_efd.CalculateEFD(x, y, 10)
+        coeffs, rotation = spatial_efd.normalize_efd(coeffs)
+        ax = spatial_efd.InitPlot()
+        spatial_efd.plotComparison(ax, coeffs, 10, x, y, rotation=rotation)

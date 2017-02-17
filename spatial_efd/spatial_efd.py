@@ -620,7 +620,7 @@ def ProcessGeometryNorm(shape):
     return X, Y, NormCentroid
 
 
-def writeGeometry(coeffs, x, y, harmonic, shpinstance, id):
+def writeGeometry(coeffs, x, y, harmonic, shpinstance, ID):
     '''
     Write the results of inverse_transform() to a shapefile.
 

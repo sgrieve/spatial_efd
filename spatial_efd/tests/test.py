@@ -306,3 +306,8 @@ class TestEFD(TestCase):
         spatial_efd.SavePlot(ax, 8, figpath, 'png')
         self.assertTrue(path.isfile('{0}_8.png'.format(figpath)))
         os.remove('{0}_8.png'.format(figpath))
+
+    def test_write_geometry(self):
+        coeffs, x, y, harmonic, shpinstance, ID = 0, 0, 0, 0, 0, 0
+        spatial_efd.writeGeometry(coeffs, x, y, harmonic, shpinstance, ID)
+        self.assertEqual(3, 3)

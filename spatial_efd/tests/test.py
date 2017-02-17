@@ -257,6 +257,7 @@ class TestEFD(TestCase):
         ax = spatial_efd.InitPlot()
         spatial_efd.PlotEllipse(ax, a, b, color='k', width=1.)
         spatial_efd.SavePlot(ax, 5, figpath, 'png')
+        self.assertTrue(path.isfile('{0}_5.png'.format(figpath)))
         os.remove('{0}_5.png'.format(figpath))
 
     def test_plot_comparison(self):
@@ -270,7 +271,7 @@ class TestEFD(TestCase):
         ax = spatial_efd.InitPlot()
         spatial_efd.plotComparison(ax, coeffs, 10, x, y)
         spatial_efd.SavePlot(ax, 10, figpath, 'png')
-
+        self.assertTrue(path.isfile('{0}_10.png'.format(figpath)))
         os.remove('{0}_10.png'.format(figpath))
 
     def test_plot_comparison_norm(self):
@@ -287,6 +288,7 @@ class TestEFD(TestCase):
         ax = spatial_efd.InitPlot()
         spatial_efd.plotComparison(ax, coeffs, 7, x, y, rotation=rotation)
         spatial_efd.SavePlot(ax, 7, figpath, 'png')
+        self.assertTrue(path.isfile('{0}_7.png'.format(figpath)))
         os.remove('{0}_7.png'.format(figpath))
 
     def test_plot_comparison_norm_size_invariant(self):
@@ -302,4 +304,5 @@ class TestEFD(TestCase):
         ax = spatial_efd.InitPlot()
         spatial_efd.plotComparison(ax, coeffs, 7, x, y, rotation=rotation)
         spatial_efd.SavePlot(ax, 8, figpath, 'png')
+        self.assertTrue(path.isfile('{0}_8.png'.format(figpath)))
         os.remove('{0}_8.png'.format(figpath))

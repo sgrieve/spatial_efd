@@ -1,3 +1,2 @@
 include README.rst
 include spatial_efd/tests/example_data.*
-include spatial_efd/tests/image*

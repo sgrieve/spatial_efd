@@ -706,6 +706,7 @@ def saveShapefile(filename, shape, template=None):
 
     Todo:
         Some basic checking that files exist.
+        could look at building prj files using epsg codes.
 
     Args:
         filename (string): A complete path and filename, with or without the

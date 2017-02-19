@@ -311,3 +311,12 @@ class TestEFD(TestCase):
         coeffs, x, y, harmonic, shpinstance, ID = 0, 0, 0, 0, 0, 0
         spatial_efd.writeGeometry(coeffs, x, y, harmonic, shpinstance, ID)
         self.assertEqual(3, 3)
+
+    def test_generate_shapefile(self):
+        spatial_efd.generateShapefile()
+        self.assertEqual(3, 3)
+
+    def test_save_shapefile(self):
+        filename, shape, template = 0, 0, 0
+        spatial_efd.saveShapefile(filename, shape, template)
+        self.assertEqual(3, 3)

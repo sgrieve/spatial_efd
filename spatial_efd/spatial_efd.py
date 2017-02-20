@@ -697,10 +697,10 @@ def writeGeometry(coeffs, x, y, harmonic, shpinstance, ID):
 
     '''
 
-    locus = EFD.calculate_dc_coefficients(x, y)
-    xt, yt = EFD.inverse_transform(coeffs, locus=locus, harmonic=harmonic)
+    locus = calculate_dc_coefficients(x, y)
+    xt, yt = inverse_transform(coeffs, locus=locus, harmonic=harmonic)
 
-    contour = np.array([(x, y) for x, y in zip(xt, yt)])
+    contour = [(x, y) for x, y in zip(xt, yt)]
     shpinstance.poly(parts=[contour])
     shpinstance.record(ID, 'Poly_ID')
 

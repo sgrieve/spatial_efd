@@ -307,7 +307,6 @@ class TestEFD(TestCase):
         os.remove('{0}_8.png'.format(figpath))
 
     def test_write_geometry(self):
-
         path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
         filepath = path.join(path_, 'example_data.shp')
         figpath = path.join(path_, 'Test')

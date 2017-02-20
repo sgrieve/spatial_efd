@@ -279,7 +279,6 @@ class TestEFD(TestCase):
         path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
         filepath = path.join(path_, 'example_data.shp')
         figpath = path.join(path_, 'Test')
-        testpath = path.join(path_, 'image3.png')
         s = spatial_efd.LoadGeometries(filepath)
         x, y, _ = spatial_efd.ProcessGeometry(s[1])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
@@ -308,15 +307,50 @@ class TestEFD(TestCase):
         os.remove('{0}_8.png'.format(figpath))
 
     def test_write_geometry(self):
-        coeffs, x, y, harmonic, shpinstance, ID = 0, 0, 0, 0, 0, 0
-        spatial_efd.writeGeometry(coeffs, x, y, harmonic, shpinstance, ID)
-        self.assertEqual(3, 3)
+
+        path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(path_, 'example_data.shp')
+        figpath = path.join(path_, 'Test')
+        s = spatial_efd.LoadGeometries(filepath)
+        x, y, _ = spatial_efd.ProcessGeometry(s[1])
+        coeffs = spatial_efd.CalculateEFD(x, y, 10)
+        shape = spatial_efd.generateShapefile()
+        shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
+        self.assertTrue(isinstance(shape, shp.Writer))
 
     def test_generate_shapefile(self):
-        spatial_efd.generateShapefile()
-        self.assertEqual(3, 3)
+        shape = spatial_efd.generateShapefile()
+        self.assertTrue(isinstance(shape, shp.Writer))
 
     def test_save_shapefile(self):
-        filename, shape, template = 0, 0, 0
-        spatial_efd.saveShapefile(filename, shape, template)
-        self.assertEqual(3, 3)
+        path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(path_, 'example_data.shp')
+        outpath = path.join(path_, 'OutShape')
+        s = spatial_efd.LoadGeometries(filepath)
+        x, y, _ = spatial_efd.ProcessGeometry(s[1])
+        coeffs = spatial_efd.CalculateEFD(x, y, 10)
+        shape = spatial_efd.generateShapefile()
+        shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
+        spatial_efd.saveShapefile(outpath, shape, prj=None)
+        self.assertTrue(path.isfile('{0}.shp'.format(outpath)))
+        os.remove('{0}.shp'.format(outpath))
+        os.remove('{0}.dbf'.format(outpath))
+        os.remove('{0}.shx'.format(outpath))
+
+    def test_save_shapefile_prj(self):
+        path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+        filepath = path.join(path_, 'example_data.shp')
+        prjpath = path.join(path_, 'example_data.prj')
+        outpath = path.join(path_, 'OutShape')
+        s = spatial_efd.LoadGeometries(filepath)
+        x, y, _ = spatial_efd.ProcessGeometry(s[1])
+        coeffs = spatial_efd.CalculateEFD(x, y, 10)
+        shape = spatial_efd.generateShapefile()
+        shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
+        spatial_efd.saveShapefile(outpath, shape, prj=prjpath)
+        self.assertTrue(path.isfile('{0}.shp'.format(outpath)))
+        self.assertTrue(path.isfile(prjpath))
+        os.remove('{0}.shp'.format(outpath))
+        os.remove('{0}.dbf'.format(outpath))
+        os.remove('{0}.shx'.format(outpath))
+        os.remove('{0}.prj'.format(outpath))

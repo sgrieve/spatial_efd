@@ -720,10 +720,6 @@ def saveShapefile(filename, shpinstance, prj=None):
     apply the same spatial reference to the output data as was present in the
     input data.
 
-    Todo:
-        Some basic checking that files exist.
-        could look at building prj files using epsg codes.
-
     Args:
         filename (string): A complete path and filename, with or without the
             .shp extenion, to write the final shapefile data to. Must be a path
@@ -733,6 +729,10 @@ def saveShapefile(filename, shpinstance, prj=None):
         prj (string): A complete path and filename, with or without the
             .shp extenion, to the shapefile that data was loaded from initially,
             Used to copy the spatial projection information to the new file.
+
+    Warning:
+        Code does not test if output paths exist, and if files exist they will
+        be overwritten.
     '''
     # create prj file
     if prj:

@@ -17,7 +17,7 @@ Spatial Elliptical Fourier Descriptors
     :target: https://opensource.org/licenses/MIT
 
 
-A pure python implementation of the elliptical Fourier analysis method described by Kuhl and Giardina (1982). This package is designed to allow the rapid analysis of spatial data stored as ESRI shapefiles, handling all of the geometric conversions. The resulting data can be written back to shapefiles to allow analysis with other spatial data or can be plotted using matplotlib.
+A pure python implementation of the elliptical Fourier analysis method described by `Khul and Giardina (1982) <http://www.sci.utah.edu/~gerig/CS7960-S2010/handouts/Kuhl-Giardina-CGIP1982.pdf>`_. This package is designed to allow the rapid analysis of spatial data stored as ESRI shapefiles, handling all of the geometric conversions. The resulting data can be written back to shapefiles to allow analysis with other spatial data or can be plotted using matplotlib.
 
 The code is built upon the `pyefd module <https://github.com/hbldh/pyefd>`_ and it is hoped that this package will allow more geoscientists to apply this technique to analyze spatial data using the elliptical Fourier descriptor technique as there is no longer a data conversion barrier to entry. This package is also more feature rich than previous implementations, providing calculations of Fourier power and spatial averaging of collections of ellipses.
 
@@ -91,36 +91,70 @@ In cases where the original coordinates are not needed, a different processing m
 
     x, y, centroid = spatial_efd.ProcessGeometryNorm(shp[20])
 
-If you already know how many harmonics you wish to compute this can be specified during the caclulation of the Fourier coefficients:
+If you already know how many harmonics you wish to compute this can be specified during the calculation of the Fourier coefficients:
 
 .. code-block::
 
-    
+    harmonic = 20
+    coeffs = spatial_efd.CalculateEFD(x, y, harmonic)
+
+However, if you need to quantify the number of harmonics needed to exceed a threshold Fourier power. To do this, an initial set of coefficients need to be computed to the number of harmonics required to equal the Nyquist frequency:
+
+.. code-block::
+
+    nyquist = spatial_efd.Nyquist(x)
+    tmpcoeffs = spatial_efd.CalculateEFD(x, y, nyquist)
+    harmonic = spatial_efd.FourierPower(tmpcoeffs, x)
+    coeffs = spatial_efd.CalculateEFD(x, y, harmonic)
+
+Once the coefficients have been calculated they can be normalized following the steps outlined by `Khul and Giardina (1982) <http://www.sci.utah.edu/~gerig/CS7960-S2010/handouts/Kuhl-Giardina-CGIP1982.pdf>`_:
+
+.. code-block::
+
+    coeffs, rotation = spatial_efd.normalize_efd(coeffs, size_invariant=True)
+
+``size_invariant`` should be set to True (the default value) in most cases to normalize the coefficient values, allowing comparison between polygons of differing sizes. Set ``size_invariant`` to False if it is required to plot the Fourier ellipses alongside the input shapefiles, or if the Fourier ellipses are to be written to a shapefile.
 
 
-compute coefficients with a given harmonic value
+A set of coefficients can be converted back into a series of x and y coordinates by performing an inverse transform, where the harmonic value passed in will be the harmonic reconstructed:
 
-norm the coefficients
+.. code-block::
 
-visualize the transformed coeffs
+    xt, yt = spatial_efd.inverse_transform(coeffs, harmonic=harmonic)
 
-plot the shapefile and the transformed coefficients
+Again, if plotting the data alongside the original shapefile data, the locus of the coefficients must also be computed and passed as an argument to the inverse transform method:
 
+.. code-block::
+    locus = spatial_efd.calculate_dc_coefficients(x, y)
+    xt, yt = spatial_efd.inverse_transform(coeffs,  harmonic=harmonic, locus=locus)
 
+Wrappers around some of the basic ``matplotlib`` functionality is provided to speed up the visualization of results:
 
-compute the required number of harmonics
+.. code-block::
 
+    ax = spatial_efd.InitPlot()
+    spatial_efd.PlotEllipse(ax, xt, yt, color='k', width=1.)
+    spatial_efd.SavePlot(ax, harmonic, '/plots/myfigure', 'png')
 
-averaging a collection of coefficients
+This example generates an axis object, plots our transformed coordinates onto it with a line width of 1 and a line color of black. These axes are saved with a title denoting the harmonic used to generate the coordinates and are saved in the format provided in the location provided.
 
-get the sd of a collection of coefficients
+Note that as this plotting is performed using ``matplotlib`` many other formatting options can be applied to the created axis object, to easily create publication ready plots.
+
+To plot an overlay of a Fourier ellipse and the original shapefile data, a convenience function has been provided to streamline the coordinate processing required:
+
+.. code-block::
+
 
 
 
 output coeffs to a shapefile
 
 
-need to highlight the size invariant param and the two different ProcessGeometry methods
+
+averaging a collection of coefficients
+
+get the sd of a collection of coefficients
+
 
 Contribute
 ----------
@@ -149,4 +183,4 @@ The project is licensed under the MIT license.
 References
 -----------
 
-Kuhl, FP and Giardina, CR (1982). Elliptic Fourier features of a closed contour. Computer graphics and image processing, 18(3), 236-258.
+`Khul and Giardina (1982) <http://www.sci.utah.edu/~gerig/CS7960-S2010/handouts/Kuhl-Giardina-CGIP1982.pdf>`_. Elliptic Fourier features of a closed contour. Computer graphics and image processing, 18(3), 236-258.

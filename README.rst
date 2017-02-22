@@ -182,7 +182,7 @@ In the case of the non-normalized data plotted above, these ellipses can also be
     shpinstance = spatial_efd.writeGeometry(coeffs, x, y, harmonic, shpinstance, shape_id)
     spatial_efd.saveShapefile('myShapefile', shpinstance, prj='example_data.prj')
 
-By passing in the existing ``example.prj`` file to the save method, a new projection file will be generated for the saved shapefile, ensuring that it has the correct spatial reference information for when it is loaded into a GIS package. Note that no reprojection is performed as the aim is for the input and output coordinate systems to match. If this parameter is excluded, the output shapefile will have no defined spatial reference system. ``shape_id`` is written into the attribute table of the output shapefile and can be set to any integer as a means of identifying the Fourier ellipses.
+The first method called creates a blank shapefile object in memory, ready to be populated with Fourier ellipses. The second method can be wrapped in a loop to write as many ellipses as required to a single file. ``shape_id`` is written into the attribute table of the output shapefile and can be set to any integer as a means of identifying the Fourier ellipses. By passing in the existing ``example.prj`` file to the save method, a new projection file will be generated for the saved shapefile, ensuring that it has the correct spatial reference information for when it is loaded into a GIS package. Note that no reprojection is performed as the aim is for the input and output coordinate systems to match. If this parameter is excluded, the output shapefile will have no defined spatial reference system.
 
 All of the above examples have focused on processing a single polygon from a multipart shapefile, but in most cases multiple geometries will be required to be processed. One of the common techniques surrounding elliptical Fourier analysis is the averaging of a collection of polygons. This can be achieved as follows:
 
@@ -190,7 +190,7 @@ All of the above examples have focused on processing a single polygon from a mul
 
 
 
-Once the average coefficents for a collection of polygons has been computed, the standard deviation can also be calculated:
+Once the average coefficients for a collection of polygons has been computed, the standard deviation can also be calculated:
 
 .. code-block::
 

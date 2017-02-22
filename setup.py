@@ -22,8 +22,9 @@ setup(name='spatial_efd',
       author_email='s.grieve@ed.ac.uk',
       license='MIT',
       packages=['spatial_efd'],
-      install_requires=['matplotlib>=2.0.0', 'numpy>=1.12.0', 'pyshp>=1.2.10', 'nose>=1.3.7'],
+      install_requires=['matplotlib>=2.0.0', 'numpy>=1.12.0',
+                        'pyshp>=1.2.10'],
       include_package_data=True,
       zip_safe=False,
       test_suite='nose.collector',
-      tests_require=['nose'])
+      tests_require=['nose>=1.3.7'])

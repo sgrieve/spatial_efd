@@ -21,7 +21,13 @@ A pure python implementation of the elliptical Fourier analysis method described
 
 The code is built upon the `pyefd module <https://github.com/hbldh/pyefd>`_ and it is hoped that this package will allow more geoscientists to apply this technique to analyze spatial data using the elliptical Fourier descriptor technique as there is no longer a data conversion barrier to entry. This package is also more feature rich than previous implementations, providing calculations of Fourier power and spatial averaging of collections of ellipses.
 
-[Image of a drainage basin fitted fitted by the first 2,4,10,20 harmonics of its Fourier series]
+.. figure:: docs/figure_1.png
+    :width: 600px
+    :align: center
+    :alt: spatial_efd example
+    :figclass: align-center
+
+    Examples of Fourier ellipses (black) being fitted to a shapefile outline (red), for increasing numbers of harmonics.
 
 Features
 --------
@@ -36,7 +42,7 @@ Features
 Installation
 ------------
 
-Install spatial_efd by running::
+Install ``spatial_efd`` by running::
 
   $ pip install spatial_efd
 

@@ -68,7 +68,59 @@ Many of these tests make use of the ``example_data.shp`` file which is a shapefi
 Usage
 ----------
 
-Here are examples of how to use the code.
+Load a shapefile:
+
+.. code-block::
+
+    import spatial_efd
+    shp = spatial_efd.LoadGeometries('Shapefile.shp')
+
+This creates a shapefile object ``shp`` which contains the polygon geometries we want to analyze. As in most cases more than one polygon will be stored in an individual file, a single polygon can be selected for processing using python's list notation:
+
+.. code-block::
+
+    x, y, centroid = spatial_efd.ProcessGeometry(shp[20])
+
+This loads the geometry from the 21st polygon within the shapefile into a list of x and a list of y coordinates. This method also computes the centroid of the polygon, which can be useful for later analysis.
+
+Note that the contents of x, y and centroid have not been normalized and so this method should be used where the original coordinates need to be preserved, for example if output to a shapefile is desired.
+
+In cases where the original coordinates are not needed, a different processing method can be called, to return the same data, but normalized, which can make comparisons between data from different locations simpler:
+
+.. code-block::
+
+    x, y, centroid = spatial_efd.ProcessGeometryNorm(shp[20])
+
+If you already know how many harmonics you wish to compute this can be specified during the caclulation of the Fourier coefficients:
+
+.. code-block::
+
+    
+
+
+compute coefficients with a given harmonic value
+
+norm the coefficients
+
+visualize the transformed coeffs
+
+plot the shapefile and the transformed coefficients
+
+
+
+compute the required number of harmonics
+
+
+averaging a collection of coefficients
+
+get the sd of a collection of coefficients
+
+
+
+output coeffs to a shapefile
+
+
+need to highlight the size invariant param and the two different ProcessGeometry methods
 
 Contribute
 ----------

@@ -126,7 +126,7 @@ Again, if plotting the data alongside the original shapefile data, the locus of 
 .. code-block::
 
     locus = spatial_efd.calculate_dc_coefficients(x, y)
-    xt, yt = spatial_efd.inverse_transform(coeffs,  harmonic=harmonic, locus=locus)
+    xt, yt = spatial_efd.inverse_transform(coeffs, harmonic=harmonic, locus=locus)
 
 Wrappers around some of the basic ``matplotlib`` functionality is provided to speed up the visualization of results:
 
@@ -188,22 +188,56 @@ All of the above examples have focused on processing a single polygon from a mul
 
 .. code-block::
 
+    shp = spatial_efd.LoadGeometries('Shapefile.shp')
 
+    coeffsList = []
+
+    for shape in shp:
+      x, y, centroid = spatial_efd.ProcessGeometryNorm(shape)
+
+      harmonic = 10
+      coeffs = spatial_efd.CalculateEFD(x, y, harmonic)
+
+      coeffs, rotation = spatial_efd.normalize_efd(coeffs, size_invariant=True)
+
+      coeffsList.append(coeffs)
+
+    avgcoeffs = spatial_efd.AverageCoefficients(coeffsList)
 
 Once the average coefficients for a collection of polygons has been computed, the standard deviation can also be calculated:
 
 .. code-block::
 
-With the average and standard deviation coefficients calculated, the average shape, with errorbars can be plotted in the same manner as individual ellipses were plotted earlier
+    SDcoeffs = spatial_efd.AverageSD(coeffsList, avgcoeffs)
+
+With the average and standard deviation coefficients calculated, the average shape, with error ellipses can be plotted in the same manner as individual ellipses were plotted earlier
 
 .. code-block::
 
+    x_avg, y_avg = spatial_efd.inverse_transform(avgcoeffs, harmonic=harmonic)
+    x_sd, y_sd = spatial_efd.inverse_transform(SDcoeffs, harmonic=harmonic)
 
-Figure 4
+    ax = spatial_efd.InitPlot()
+    spatial_efd.PlotEllipse(ax, x_avg, y_avg, color='b', width=2.)
+
+    # Plot avg +/- 1 SD error ellipses
+    spatial_efd.PlotEllipse(ax, x_avg + x_sd, y_avg + y_sd, color='k', width=1.)
+    spatial_efd.PlotEllipse(ax, x_avg - x_sd, y_avg - y_sd, color='k', width=1.)
+
+    spatial_efd.SavePlot(ax, harmonic, '/plots/average', 'png')
+
+Which produces a figure like this:
+
+.. figure:: docs/figure_4.png
+    :width: 400
+    :align: center
+    :alt: spatial_efd example
+    :figclass: align-center
+
+    Example of an average Fourier ellipse (blue) being plotted with standard deviation error ellipses (black).
 
 
-
-
+For more detailed guidance on all of the functions and arguments in this package please check out the source code on `github <https://github.com/sgrieve/spatial_efd>`_ or the `API documentation. <http://spatial-efd.readthedocs.io/en/latest/spatial_efd.html>`_
 
 Contribute
 ----------

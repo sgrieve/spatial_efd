@@ -17,7 +17,9 @@ Spatial Elliptical Fourier Descriptors
     :target: https://opensource.org/licenses/MIT
 
 
-A pure python implementation of the elliptical Fourier analysis method described by Kuhl and Giardina (1982). This package is designed to allow the rapid analysis of spatial data stored as ESRI shapefiles, handling all of the geometric conversions. The code is built upon the pyefd module and it is hoped that this package will allow more geoscientists to apply this technique to analyze spatial data using the elliptical Fourier descriptor technique.
+A pure python implementation of the elliptical Fourier analysis method described by Kuhl and Giardina (1982). This package is designed to allow the rapid analysis of spatial data stored as ESRI shapefiles, handling all of the geometric conversions. The resulting data can be written back to shapefiles to allow analysis with other spatial data or can be plotted using matplotlib.
+
+The code is built upon the `pyefd module <https://github.com/hbldh/pyefd>`_ and it is hoped that this package will allow more geoscientists to apply this technique to analyze spatial data using the elliptical Fourier descriptor technique as there is no longer a data conversion barrier to entry. This package is also more feature rich than previous implementations, providing calculations of Fourier power and spatial averaging of collections of ellipses.
 
 [Image of a drainage basin fitted fitted by the first 2,4,10,20 harmonics of its Fourier series]
 
@@ -29,6 +31,7 @@ Features
 - Handles spatial input data through the pyshp library
 - Compute an appropriate number of harmonics for a given polygon
 - Basic plotting for analysis and debugging through matplotlib
+- Write Fourier ellipses as shapefiles
 
 Installation
 ------------
@@ -40,8 +43,9 @@ Install spatial_efd by running::
 Dependencies
 ------------
 
-This package is developed on linux for python 2.7 and requires matplotlib, numpy and pyshp. These packages will all install automatically if spatial_efd is installed using pip.
+This package is developed on Linux for Python 2.7 and requires ``matplotlib``, ``numpy``, ``nose`` and ``pyshp``. These packages will all install automatically if ``spatial_efd`` is installed using ``pip``.
 
+Dependencies can be tracked by visiting `requires.io <https://requires.io/github/sgrieve/spatial_efd/requirements/?branch=master>`_
 
 Tests
 ----------
@@ -52,6 +56,8 @@ be run using nose or directly from setup.py::
   $ python setup.py test
   $ nosetests
 
+
+Many of these tests make use of the ``example_data.shp`` file which is a shapefile containing six polygons taken from a real dataset of landslide source areas.
 
 Usage
 ----------
@@ -66,15 +72,15 @@ Contribute
 
 I welcome contributions to the code, head to the issue tracker on github to get involved!
 
-- Issue Tracker: github.com/sgrieve/spatial_efd/issues
-- Source Code: github.com/sgrieve/spatial_efd
+- `Issue Tracker <github.com/sgrieve/spatial_efd/issues>`_
+- `Source Code <github.com/sgrieve/spatial_efd>`_
 
 Support
 -------
 
 If you find any bugs, have any questions or would like to see a feature in a new version, drop me a line:
 
-- Twitter: @GIStuart
+- Twitter: `@GIStuart <https://www.twitter.com/GIStuart>`_
 - Email: s.grieve@ed.ac.uk
 
 License

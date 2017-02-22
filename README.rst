@@ -115,7 +115,6 @@ Once the coefficients have been calculated they can be normalized following the 
 
 ``size_invariant`` should be set to True (the default value) in most cases to normalize the coefficient values, allowing comparison between polygons of differing sizes. Set ``size_invariant`` to False if it is required to plot the Fourier ellipses alongside the input shapefiles, or if the Fourier ellipses are to be written to a shapefile.
 
-
 A set of coefficients can be converted back into a series of x and y coordinates by performing an inverse transform, where the harmonic value passed in will be the harmonic reconstructed:
 
 .. code-block::
@@ -125,6 +124,7 @@ A set of coefficients can be converted back into a series of x and y coordinates
 Again, if plotting the data alongside the original shapefile data, the locus of the coefficients must also be computed and passed as an argument to the inverse transform method:
 
 .. code-block::
+
     locus = spatial_efd.calculate_dc_coefficients(x, y)
     xt, yt = spatial_efd.inverse_transform(coeffs,  harmonic=harmonic, locus=locus)
 
@@ -140,10 +140,43 @@ This example generates an axis object, plots our transformed coordinates onto it
 
 Note that as this plotting is performed using ``matplotlib`` many other formatting options can be applied to the created axis object, to easily create publication ready plots.
 
-To plot an overlay of a Fourier ellipse and the original shapefile data, a convenience function has been provided to streamline the coordinate processing required:
+To plot an overlay of a Fourier ellipse and the original shapefile data, a convenience function has been provided to streamline the coordinate processing required. To plot non-normalized coefficients:
 
 .. code-block::
 
+    spatial_efd.plotComparison(ax, coeffs, harmonic, x, y, rotation=0.)
+
+Which produces a figure like this:
+
+.. figure:: docs/figure_2.png
+    :width: 400
+    :align: center
+    :alt: spatial_efd example
+    :figclass: align-center
+
+    Example of a non-normalized Fourier ellipse (black) being plotted on top of a shapefile outline (red).
+
+And to plot normalized coefficients:
+
+.. code-block::
+
+    coeffs, rotation = spatial_efd.normalize_efd(coeffs, size_invariant=True)
+    spatial_efd.plotComparison(ax, coeffs, harmonic, x, y, rotation=rotation)
+
+Which produces a figure like this:
+
+.. figure:: docs/figure_3.png
+    :width: 400
+    :align: center
+    :alt: spatial_efd example
+    :figclass: align-center
+
+    Example of a normalized Fourier ellipse (black) being plotted on top of a shapefile outline (red).
+
+
+In the case of the non-normalized data plotted above, these ellipses can also be written to a shapefile to allow further analysis in a GIS package:
+
+.. code-block::
 
 
 

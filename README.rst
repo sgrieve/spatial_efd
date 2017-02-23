@@ -21,7 +21,7 @@ A pure python implementation of the elliptical Fourier analysis method described
 
 The code is built upon the `pyefd module <https://github.com/hbldh/pyefd>`_ and it is hoped that this package will allow more geoscientists to apply this technique to analyze spatial data using the elliptical Fourier descriptor technique as there is no longer a data conversion barrier to entry. This package is also more feature rich than previous implementations, providing calculations of Fourier power and spatial averaging of collections of ellipses.
 
-.. figure:: docs/figure_1.png
+.. figure:: _static/figure_1.png
     :width: 600px
     :align: center
     :alt: spatial_efd example
@@ -42,7 +42,9 @@ Features
 Installation
 ------------
 
-Install ``spatial_efd`` by running::
+Install ``spatial_efd`` by running:
+
+.. code-block:: bash
 
   $ pip install spatial_efd
 
@@ -57,7 +59,9 @@ Tests
 ----------
 
 A range of unit tests are included in the /spatial/tests/ directory. These can
-be run using nose or directly from setup.py::
+be run using nose or directly from setup.py:
+
+.. code-block:: bash
 
   $ python setup.py test
   $ nosetests
@@ -70,14 +74,14 @@ Usage
 
 Load a shapefile:
 
-.. code-block::
+.. code-block:: python
 
     import spatial_efd
     shp = spatial_efd.LoadGeometries('Shapefile.shp')
 
 This creates a shapefile object ``shp`` which contains the polygon geometries we want to analyze. As in most cases more than one polygon will be stored in an individual file, a single polygon can be selected for processing using python's list notation:
 
-.. code-block::
+.. code-block:: python
 
     x, y, centroid = spatial_efd.ProcessGeometry(shp[20])
 
@@ -87,20 +91,20 @@ Note that the contents of x, y and centroid have not been normalized and so this
 
 In cases where the original coordinates are not needed, a different processing method can be called, to return the same data, but normalized, which can make comparisons between data from different locations simpler:
 
-.. code-block::
+.. code-block:: python
 
     x, y, centroid = spatial_efd.ProcessGeometryNorm(shp[20])
 
 If you already know how many harmonics you wish to compute this can be specified during the calculation of the Fourier coefficients:
 
-.. code-block::
+.. code-block:: python
 
     harmonic = 20
     coeffs = spatial_efd.CalculateEFD(x, y, harmonic)
 
 However, if you need to quantify the number of harmonics needed to exceed a threshold Fourier power. To do this, an initial set of coefficients need to be computed to the number of harmonics required to equal the Nyquist frequency:
 
-.. code-block::
+.. code-block:: python
 
     nyquist = spatial_efd.Nyquist(x)
     tmpcoeffs = spatial_efd.CalculateEFD(x, y, nyquist)
@@ -109,7 +113,7 @@ However, if you need to quantify the number of harmonics needed to exceed a thre
 
 Once the coefficients have been calculated they can be normalized following the steps outlined by `Khul and Giardina (1982) <http://www.sci.utah.edu/~gerig/CS7960-S2010/handouts/Kuhl-Giardina-CGIP1982.pdf>`_:
 
-.. code-block::
+.. code-block:: python
 
     coeffs, rotation = spatial_efd.normalize_efd(coeffs, size_invariant=True)
 
@@ -117,20 +121,20 @@ Once the coefficients have been calculated they can be normalized following the 
 
 A set of coefficients can be converted back into a series of x and y coordinates by performing an inverse transform, where the harmonic value passed in will be the harmonic reconstructed:
 
-.. code-block::
+.. code-block:: python
 
     xt, yt = spatial_efd.inverse_transform(coeffs, harmonic=harmonic)
 
 Again, if plotting the data alongside the original shapefile data, the locus of the coefficients must also be computed and passed as an argument to the inverse transform method:
 
-.. code-block::
+.. code-block:: python
 
     locus = spatial_efd.calculate_dc_coefficients(x, y)
     xt, yt = spatial_efd.inverse_transform(coeffs, harmonic=harmonic, locus=locus)
 
 Wrappers around some of the basic ``matplotlib`` functionality is provided to speed up the visualization of results:
 
-.. code-block::
+.. code-block:: python
 
     ax = spatial_efd.InitPlot()
     spatial_efd.PlotEllipse(ax, xt, yt, color='k', width=1.)
@@ -142,13 +146,13 @@ Note that as this plotting is performed using ``matplotlib`` many other formatti
 
 To plot an overlay of a Fourier ellipse and the original shapefile data, a convenience function has been provided to streamline the coordinate processing required. To plot non-normalized coefficients:
 
-.. code-block::
+.. code-block:: python
 
     spatial_efd.plotComparison(ax, coeffs, harmonic, x, y, rotation=0.)
 
 Which produces a figure like this:
 
-.. figure:: docs/figure_2.png
+.. figure:: _static/figure_2.png
     :width: 400
     :align: center
     :alt: spatial_efd example
@@ -158,14 +162,14 @@ Which produces a figure like this:
 
 And to plot normalized coefficients, where the data has been processed using the ``ProcessGeometryNorm`` method:
 
-.. code-block::
+.. code-block:: python
 
     coeffs, rotation = spatial_efd.normalize_efd(coeffs, size_invariant=True)
     spatial_efd.plotComparison(ax, coeffs, harmonic, x, y, rotation=rotation)
 
 Which produces a figure like this:
 
-.. figure:: docs/figure_3.png
+.. figure:: _static/figure_3.png
     :width: 400
     :align: center
     :alt: spatial_efd example
@@ -175,7 +179,7 @@ Which produces a figure like this:
 
 In the case of the non-normalized data plotted above, these ellipses can also be written to a shapefile to allow further analysis in a GIS package:
 
-.. code-block::
+.. code-block:: python
 
     shape_id = 1
     shpinstance = spatial_efd.generateShapefile()
@@ -186,7 +190,7 @@ The first method called creates a blank shapefile object in memory, ready to be 
 
 All of the above examples have focused on processing a single polygon from a multipart shapefile, but in most cases multiple geometries will be required to be processed. One of the common techniques surrounding elliptical Fourier analysis is the averaging of a collection of polygons. This can be achieved as follows:
 
-.. code-block::
+.. code-block:: python
 
     shp = spatial_efd.LoadGeometries('Shapefile.shp')
 
@@ -206,13 +210,13 @@ All of the above examples have focused on processing a single polygon from a mul
 
 Once the average coefficients for a collection of polygons has been computed, the standard deviation can also be calculated:
 
-.. code-block::
+.. code-block:: python
 
     SDcoeffs = spatial_efd.AverageSD(coeffsList, avgcoeffs)
 
 With the average and standard deviation coefficients calculated, the average shape, with error ellipses can be plotted in the same manner as individual ellipses were plotted earlier
 
-.. code-block::
+.. code-block:: python
 
     x_avg, y_avg = spatial_efd.inverse_transform(avgcoeffs, harmonic=harmonic)
     x_sd, y_sd = spatial_efd.inverse_transform(SDcoeffs, harmonic=harmonic)
@@ -228,7 +232,7 @@ With the average and standard deviation coefficients calculated, the average sha
 
 Which produces a figure like this:
 
-.. figure:: docs/figure_4.png
+.. figure:: _static/figure_4.png
     :width: 400
     :align: center
     :alt: spatial_efd example

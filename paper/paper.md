@@ -17,6 +17,8 @@ affiliations:
    index: 2
 date: 23 February 2017
 bibliography: refs.bib
+repository: https://github.com/sgrieve/spatial-efd
+archive_doi: https://doi.org/xxxxxxxxx
 ---
 
 # Summary

@@ -17,7 +17,7 @@ Spatial Elliptical Fourier Descriptors
     :target: https://opensource.org/licenses/MIT
 
 
-A pure python implementation of the elliptical Fourier analysis method described by `Khul and Giardina (1982) <http://www.sci.utah.edu/~gerig/CS7960-S2010/handouts/Kuhl-Giardina-CGIP1982.pdf>`_. This package is designed to allow the rapid analysis of spatial data stored as ESRI shapefiles, handling all of the geometric conversions. The resulting data can be written back to shapefiles to allow analysis with other spatial data or can be plotted using matplotlib.
+A pure python implementation of the elliptical Fourier analysis method described by `Kuhl and Giardina (1982) <http://www.sci.utah.edu/~gerig/CS7960-S2010/handouts/Kuhl-Giardina-CGIP1982.pdf>`_. This package is designed to allow the rapid analysis of spatial data stored as ESRI shapefiles, handling all of the geometric conversions. The resulting data can be written back to shapefiles to allow analysis with other spatial data or can be plotted using matplotlib.
 
 The code is built upon the `pyefd module <https://github.com/hbldh/pyefd>`_ and it is hoped that this package will allow more geoscientists to apply this technique to analyze spatial data using the elliptical Fourier descriptor technique as there is no longer a data conversion barrier to entry. This package is also more feature rich than previous implementations, providing calculations of Fourier power and spatial averaging of collections of ellipses.
 
@@ -111,7 +111,7 @@ However, if you need to quantify the number of harmonics needed to exceed a thre
     harmonic = spatial_efd.FourierPower(tmpcoeffs, x)
     coeffs = spatial_efd.CalculateEFD(x, y, harmonic)
 
-Once the coefficients have been calculated they can be normalized following the steps outlined by `Khul and Giardina (1982) <http://www.sci.utah.edu/~gerig/CS7960-S2010/handouts/Kuhl-Giardina-CGIP1982.pdf>`_:
+Once the coefficients have been calculated they can be normalized following the steps outlined by `Kuhl and Giardina (1982) <http://www.sci.utah.edu/~gerig/CS7960-S2010/handouts/Kuhl-Giardina-CGIP1982.pdf>`_:
 
 .. code-block:: python
 
@@ -270,4 +270,4 @@ The project is licensed under the MIT license.
 References
 -----------
 
-`Khul and Giardina (1982) <http://www.sci.utah.edu/~gerig/CS7960-S2010/handouts/Kuhl-Giardina-CGIP1982.pdf>`_. Elliptic Fourier features of a closed contour. Computer graphics and image processing, 18(3), 236-258.
+`Kuhl and Giardina (1982) <http://www.sci.utah.edu/~gerig/CS7960-S2010/handouts/Kuhl-Giardina-CGIP1982.pdf>`_. Elliptic Fourier features of a closed contour. Computer graphics and image processing, 18(3), 236-258.

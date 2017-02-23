@@ -1,0 +1,23 @@
+{
+  "@context": "https://raw.githubusercontent.com/mbjones/codemeta/master/codemeta.jsonld",
+  "@type": "Code",
+  "author": [
+    {
+      "@id": "0000-0003-1893-7363",
+      "@type": "Person",
+      "email": "s.grieve@ed.ac.uk",
+      "name": "Stuart W D Grieve",
+      "affiliation": "The University of Edinburgh, School of GeoScience and Queen Mary, University of London, School of Geography"
+    }
+  ],
+  "identifier": "DOI Here",
+  "codeRepository": "github.com/sgrieve/spatial-efd",
+  "datePublished": "2017-02-23",
+  "dateModified": "2017-02-23",
+  "dateCreated": "2017-02-23",
+  "description": "A spatial-aware implementation of elliptical Fourier analysis",
+  "keywords": "elliptical fourier analysis, elliptical fourier descriptors, GIS, shapefile, geoscience",
+  "license": "MIT",
+  "title": "spatial-efd",
+  "version": "v1.0.0"
+}

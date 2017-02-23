@@ -8,7 +8,7 @@ def readme():
 
 
 setup(name='spatial_efd',
-      version='0.1',
+      version='1.0',
       description='Spatial elliptical fourier analysis',
       url='http://github.com/sgrieve',
       long_description=readme(),

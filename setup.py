@@ -1,30 +1,19 @@
 #!/usr/bin/env python
-import string
 from setuptools import setup
 
 
 def readme():
-    '''
-    Turn relative figure paths to urls
-    '''
-    url = ('https://raw.githubusercontent.com/sgrieve/'
-           'spatial_efd/master/_static/figure_')
-    lines = []
     with open('README.rst') as f:
-        for l in f.readlines():
-
-            lines.append(string.replace(l, '_static/figure_', url))
-
-    return string.join(lines)
+        return f.read()
 
 
 setup(name='spatial_efd',
-      version='1.0.1',
+      version='1.0.3',
       description='Spatial elliptical fourier analysis',
       url='http://github.com/sgrieve',
       long_description=readme(),
       keywords='GIS elliptical fourier analysis shapefile',
-      classifiers=['Development Status :: 4 - Beta',
+      classifiers=['Development Status :: 5 - Production/Stable',
                    'License :: OSI Approved :: MIT License',
                    'Programming Language :: Python :: 2.7',
                    'Intended Audience :: Science/Research',

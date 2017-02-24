@@ -1,10 +1,21 @@
 #!/usr/bin/env python
+import string
 from setuptools import setup
 
 
 def readme():
+    '''
+    Turn relative figure paths to urls
+    '''
+    url = ('https://raw.githubusercontent.com/sgrieve/'
+           'spatial_efd/master/_static/figure_')
+    lines = []
     with open('README.rst') as f:
-        return f.read()
+        for l in f.readlines():
+
+            lines.append(string.replace(l, '_static/figure_', url))
+
+    return string.join(lines)
 
 
 setup(name='spatial_efd',

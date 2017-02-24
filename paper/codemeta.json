@@ -14,11 +14,11 @@
   "identifier": "DOI Here",
   "codeRepository": "github.com/sgrieve/spatial-efd",
   "datePublished": "2017-02-23",
-  "dateModified": "2017-02-23",
+  "dateModified": "2017-02-24",
   "dateCreated": "2017-02-23",
   "description": "A spatial-aware implementation of elliptical Fourier analysis",
   "keywords": "elliptical fourier analysis, elliptical fourier descriptors, GIS, shapefile, geoscience",
   "license": "MIT",
   "title": "spatial-efd",
-  "version": "v1.0.0"
+  "version": "v1.0.1"
 }

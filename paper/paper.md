@@ -13,7 +13,7 @@ authors:
 affiliations:
  - name: The University of Edinburgh, School of GeoScience
    index: 1
- - name: Queen Mary, University of London, School of Geography
+ - name: Queen Mary University of London, School of Geography
    index: 2
 date: 23 February 2017
 bibliography: refs.bib

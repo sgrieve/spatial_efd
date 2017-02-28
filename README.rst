@@ -77,13 +77,13 @@ Load a shapefile:
 .. code-block:: python
 
     import spatial_efd
-    shp = spatial_efd.LoadGeometries('Shapefile.shp')
+    shp = spatial_efd.LoadGeometries('spatial_efd/tests/example_data.shp')
 
 This creates a shapefile object ``shp`` which contains the polygon geometries we want to analyze. As in most cases more than one polygon will be stored in an individual file, a single polygon can be selected for processing using python's list notation:
 
 .. code-block:: python
 
-    x, y, centroid = spatial_efd.ProcessGeometry(shp[20])
+    x, y, centroid = spatial_efd.ProcessGeometry(shp[1])
 
 This loads the geometry from the 21st polygon within the shapefile into a list of x and a list of y coordinates. This method also computes the centroid of the polygon, which can be useful for later analysis.
 
@@ -93,7 +93,7 @@ In cases where the original coordinates are not needed, a different processing m
 
 .. code-block:: python
 
-    x, y, centroid = spatial_efd.ProcessGeometryNorm(shp[20])
+    x, y, centroid = spatial_efd.ProcessGeometryNorm(shp[1])
 
 If you already know how many harmonics you wish to compute this can be specified during the calculation of the Fourier coefficients:
 
@@ -192,7 +192,7 @@ All of the above examples have focused on processing a single polygon from a mul
 
 .. code-block:: python
 
-    shp = spatial_efd.LoadGeometries('Shapefile.shp')
+    shp = spatial_efd.LoadGeometries('spatial_efd/tests/example_data.shp')
 
     coeffsList = []
 

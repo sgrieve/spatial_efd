@@ -85,7 +85,7 @@ This creates a shapefile object ``shp`` which contains the polygon geometries we
 
     x, y, centroid = spatial_efd.ProcessGeometry(shp[1])
 
-This loads the geometry from the 21st polygon within the shapefile into a list of x and a list of y coordinates. This method also computes the centroid of the polygon, which can be useful for later analysis.
+This loads the geometry from the 2nd polygon within the shapefile into a list of x and a list of y coordinates. This method also computes the centroid of the polygon, which can be useful for later analysis.
 
 Note that the contents of x, y and centroid have not been normalized and so this method should be used where the original coordinates need to be preserved, for example if output to a shapefile is desired.
 
@@ -102,7 +102,7 @@ If you already know how many harmonics you wish to compute this can be specified
     harmonic = 20
     coeffs = spatial_efd.CalculateEFD(x, y, harmonic)
 
-However, if you need to quantify the number of harmonics needed to exceed a threshold Fourier power. To do this, an initial set of coefficients need to be computed to the number of harmonics required to equal the Nyquist frequency:
+However, if you need to quantify the number of harmonics needed to exceed a threshold Fourier power, this functionality is available. To do this, an initial set of coefficients need to be computed to the number of harmonics required to equal the Nyquist frequency:
 
 .. code-block:: python
 
@@ -169,7 +169,9 @@ And to plot normalized coefficients, where the data has been processed using the
     # size_invariant must be set to false if a normalized Fourier ellipse
     # is to be plotted alongside the shapefile data
     coeffs, rotation = spatial_efd.normalize_efd(coeffs, size_invariant=False)
+    ax = spatial_efd.InitPlot()
     spatial_efd.plotComparison(ax, coeffs, harmonic, x, y, rotation=rotation)
+    spatial_efd.SavePlot(ax, harmonic, '/plots/myComparison', 'png')
 
 Which produces a figure like this:
 

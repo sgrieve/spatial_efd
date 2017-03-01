@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import warnings
 import numpy as np
 import shapefile as sf
 import matplotlib.pyplot as plt
@@ -542,8 +543,6 @@ def calculate_dc_coefficients(X, Y):
     Returns:
         tuple: A tuple containing the c and d coefficients.
 
-    Todo: Test this against other efd modules to check that the x,y to y,x
-    conversion is correct.
     '''
 
     contour = np.array([(x, y) for x, y in zip(X, Y)])
@@ -737,10 +736,20 @@ def saveShapefile(filename, shpinstance, prj=None):
     # create prj file
     if prj:
         # we have been passed a filename, check prj points to a *.prj file
-        if path.isfile(prj) and path.splitext(prj)[-1].lower() == '.prj':
-            # build the new filename
-            newprj = '{0}.{1}'.format(path.splitext(filename)[:-1][0], 'prj')
-            copy2(prj, newprj)
+        if path.isfile(prj):
+            if path.splitext(prj)[-1].lower() == '.prj':
+                # build the new filename
+                newprj = '{0}.{1}'.format(path.splitext(filename)[:-1][0],
+                                          'prj')
+                copy2(prj, newprj)
+            else:
+                warning = ('The file supplied ({0}) is not a prj file. '
+                           'No .prj file will be written').format(prj)
+                warnings.warn(warning)
+        else:
+            warning = ('The .prj file supplied ({0}) does not exist. '
+                       'No .prj file will be written'.format(prj))
+            warnings.warn(warning)
 
     shpinstance.save(filename)
 

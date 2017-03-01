@@ -59,13 +59,17 @@ Tests
 ----------
 
 A range of unit tests are included in the /spatial/tests/ directory. These can
-be run using nose or directly from setup.py:
+be run using nose:
+
+.. code-block:: bash
+
+  $ nosetests
+
+Or directly from setup.py:
 
 .. code-block:: bash
 
   $ python setup.py test
-  $ nosetests
-
 
 Many of these tests make use of the ``example_data.shp`` file which is a shapefile containing six polygons taken from a real dataset of landslide source areas.
 

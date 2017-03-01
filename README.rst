@@ -76,7 +76,10 @@ Many of these tests make use of the ``example_data.shp`` file which is a shapefi
 Usage
 ----------
 
-Load a shapefile:
+Normalized Data
+~~~~~~~~~~~~~~~~~~~~~~
+
+The first step in using ``spatial_efd`` is always to load a shapefile:
 
 .. code-block:: python
 
@@ -87,17 +90,9 @@ This creates a shapefile object ``shp`` which contains the polygon geometries we
 
 .. code-block:: python
 
-    x, y, centroid = spatial_efd.ProcessGeometry(shp[1])
-
-This loads the geometry from the 2nd polygon within the shapefile into a list of x and a list of y coordinates. This method also computes the centroid of the polygon, which can be useful for later analysis.
-
-Note that the contents of x, y and centroid have not been normalized and so this method should be used where the original coordinates need to be preserved, for example if output to a shapefile is desired.
-
-In cases where the original coordinates are not needed, a different processing method can be called, to return the same data, but normalized, which can make comparisons between data from different locations simpler:
-
-.. code-block:: python
-
     x, y, centroid = spatial_efd.ProcessGeometryNorm(shp[1])
+
+This loads the geometry from the 2nd polygon within the shapefile into a list of x and a list of y coordinates. This method also computes the centroid of the polygon, which can be useful for later analysis. To make comparisons between data from different locations simpler, these data are normalized.
 
 If you already know how many harmonics you wish to compute this can be specified during the calculation of the Fourier coefficients:
 
@@ -121,20 +116,13 @@ Once the coefficients have been calculated they can be normalized following the 
 
     coeffs, rotation = spatial_efd.normalize_efd(coeffs, size_invariant=True)
 
-``size_invariant`` should be set to True (the default value) in most cases to normalize the coefficient values, allowing comparison between polygons of differing sizes. Set ``size_invariant`` to False if it is required to plot the Fourier ellipses alongside the input shapefiles, or if the Fourier ellipses are to be written to a shapefile.
+``size_invariant`` should be set to True (the default value) in most cases to normalize the coefficient values, allowing comparison between polygons of differing sizes. Set ``size_invariant`` to False if it is required to plot the Fourier ellipses alongside the input shapefiles, or if the Fourier ellipses are to be written to a shapefile. These techniques which apply to normalized data are outlined later in this document.
 
 A set of coefficients can be converted back into a series of x and y coordinates by performing an inverse transform, where the harmonic value passed in will be the harmonic reconstructed:
 
 .. code-block:: python
 
     xt, yt = spatial_efd.inverse_transform(coeffs, harmonic=harmonic)
-
-Again, if plotting the data alongside the original shapefile data, the locus of the coefficients must also be computed and passed as an argument to the inverse transform method:
-
-.. code-block:: python
-
-    locus = spatial_efd.calculate_dc_coefficients(x, y)
-    xt, yt = spatial_efd.inverse_transform(coeffs, harmonic=harmonic, locus=locus)
 
 Wrappers around some of the basic ``matplotlib`` functionality is provided to speed up the visualization of results:
 
@@ -148,25 +136,8 @@ This example generates an axis object, plots our transformed coordinates onto it
 
 Note that as this plotting is performed using ``matplotlib`` many other formatting options can be applied to the created axis object, to easily create publication ready plots.
 
-To plot an overlay of a Fourier ellipse and the original shapefile data, a convenience function has been provided to streamline the coordinate processing required. To plot non-normalized coefficients:
-
-.. code-block:: python
-
-    ax = spatial_efd.InitPlot()
-    spatial_efd.plotComparison(ax, coeffs, harmonic, x, y, rotation=0.)
-    spatial_efd.SavePlot(ax, harmonic, '/plots/myComparison', 'png')
-
-Which produces a figure like this:
-
-.. figure:: _static/figure_2.png
-    :width: 400
-    :align: center
-    :alt: spatial_efd example
-    :figclass: align-center
-
-    Example of a non-normalized Fourier ellipse (black) being plotted on top of a shapefile outline (red).
-
-And to plot normalized coefficients, where the data has been processed using the ``ProcessGeometryNorm`` method:
+To plot an overlay of a Fourier ellipse and the original shapefile data, a convenience function has been provided to streamline the coordinate processing required.
+Plotting the normalized coefficients, where the data has been processed using the ``ProcessGeometryNorm`` method is undertaken as follows (Note that ``size_invariant`` has been set to ``False``):
 
 .. code-block:: python
 
@@ -186,17 +157,6 @@ Which produces a figure like this:
     :figclass: align-center
 
     Example of a normalized Fourier ellipse (black) being plotted on top of a shapefile outline (red).
-
-In the case of the non-normalized data plotted above, these ellipses can also be written to a shapefile to allow further analysis in a GIS package:
-
-.. code-block:: python
-
-    shape_id = 1
-    shpinstance = spatial_efd.generateShapefile()
-    shpinstance = spatial_efd.writeGeometry(coeffs, x, y, harmonic, shpinstance, shape_id)
-    spatial_efd.saveShapefile('myShapefile', shpinstance, prj='example_data.prj')
-
-The first method called creates a blank shapefile object in memory, ready to be populated with Fourier ellipses. The second method can be wrapped in a loop to write as many ellipses as required to a single file. ``shape_id`` is written into the attribute table of the output shapefile and can be set to any integer as a means of identifying the Fourier ellipses. By passing in the existing ``example.prj`` file to the save method, a new projection file will be generated for the saved shapefile, ensuring that it has the correct spatial reference information for when it is loaded into a GIS package. Note that no reprojection is performed as the aim is for the input and output coordinate systems to match. If this parameter is excluded, the output shapefile will have no defined spatial reference system.
 
 All of the above examples have focused on processing a single polygon from a multipart shapefile, but in most cases multiple geometries will be required to be processed. One of the common techniques surrounding elliptical Fourier analysis is the averaging of a collection of polygons. This can be achieved as follows:
 
@@ -249,6 +209,52 @@ Which produces a figure like this:
     :figclass: align-center
 
     Example of an average Fourier ellipse (blue) being plotted with standard deviation error ellipses (black).
+
+Non-Normalized Data
+~~~~~~~~~~~~~~~~~~~~~~
+
+In cases where the original coordinates are needed, a different processing method can be called when loading coordinates from a shapefile, to return the non-normalized data:
+
+.. code-block:: python
+
+    x, y, centroid = spatial_efd.ProcessGeometry(shp[1])
+
+This method should be used where the original coordinates need to be preserved, for example if output to a shapefile is desired. To plot non-normalized data alongside the original shapefile data, the locus of the coefficients must be computed and passed as an argument to the inverse transform method:
+
+.. code-block:: python
+
+    locus = spatial_efd.calculate_dc_coefficients(x, y)
+    xt, yt = spatial_efd.inverse_transform(coeffs, harmonic=harmonic, locus=locus)
+
+To plot non-normalized coefficients, again call the ``plotComparison`` method, with the rotation value set to ``0`` as no normalization has been performed on the input data:
+
+.. code-block:: python
+
+   ax = spatial_efd.InitPlot()
+   spatial_efd.plotComparison(ax, coeffs, harmonic, x, y, rotation=0.)
+   spatial_efd.SavePlot(ax, harmonic, '/plots/myComparison', 'png')
+
+Which produces a figure like this:
+
+.. figure:: _static/figure_2.png
+   :width: 400
+   :align: center
+   :alt: spatial_efd example
+   :figclass: align-center
+
+   Example of a non-normalized Fourier ellipse (black) being plotted on top of a shapefile outline (red).
+
+In the case of the non-normalized data plotted above, these ellipses can also be written to a shapefile to allow further analysis in a GIS package:
+
+.. code-block:: python
+
+   shape_id = 1
+   shpinstance = spatial_efd.generateShapefile()
+   shpinstance = spatial_efd.writeGeometry(coeffs, x, y, harmonic, shpinstance, shape_id)
+   spatial_efd.saveShapefile('myShapefile', shpinstance, prj='example_data.prj')
+
+The first method called creates a blank shapefile object in memory, ready to be populated with Fourier ellipses. The second method can be wrapped in a loop to write as many ellipses as required to a single file. ``shape_id`` is written into the attribute table of the output shapefile and can be set to any integer as a means of identifying the Fourier ellipses. By passing in the existing ``example.prj`` file to the save method, a new projection file will be generated for the saved shapefile, ensuring that it has the correct spatial reference information for when it is loaded into a GIS package. Note that no reprojection is performed as the aim is for the input and output coordinate systems to match. If this parameter is excluded, the output shapefile will have no defined spatial reference system.
+
 
 
 For more detailed guidance on all of the functions and arguments in this package please check out the source code on `github <https://github.com/sgrieve/spatial_efd>`_ or the `API documentation. <http://spatial-efd.readthedocs.io/en/latest/spatial_efd.html>`_

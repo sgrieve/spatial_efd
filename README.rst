@@ -147,6 +147,7 @@ Note that as this plotting is performed using ``matplotlib`` many other formatti
 To plot an overlay of a Fourier ellipse and the original shapefile data, a convenience function has been provided to streamline the coordinate processing required. To plot non-normalized coefficients:
 
 .. code-block:: python
+
     ax = spatial_efd.InitPlot()
     spatial_efd.plotComparison(ax, coeffs, harmonic, x, y, rotation=0.)
     spatial_efd.SavePlot(ax, harmonic, '/plots/myComparison', 'png')

@@ -5,7 +5,7 @@
     {
       "@id": "0000-0003-1893-7363",
       "@type": "Person",
-      "email": "s.grieve@ed.ac.uk",
+      "email": "s.grieve@qmul.ac.uk",
       "name": "Stuart W D Grieve",
       "affiliation": "The University of Edinburgh, School of GeoScience",
       "affiliation": "Queen Mary University of London, School of Geography"
@@ -20,5 +20,5 @@
   "keywords": "elliptical fourier analysis, elliptical fourier descriptors, GIS, shapefile, geoscience",
   "license": "MIT",
   "title": "spatial-efd",
-  "version": "v1.0.3"
+  "version": "v1.0.4"
 }

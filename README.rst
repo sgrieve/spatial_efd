@@ -276,7 +276,7 @@ Support
 If you find any bugs, have any questions or would like to see a feature in a new version, drop me a line:
 
 - Twitter: `@GIStuart <https://www.twitter.com/GIStuart>`_
-- Email: s.grieve@ed.ac.uk
+- Email: s.grieve@qmul.ac.uk
 
 License
 -------

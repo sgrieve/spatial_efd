@@ -16,8 +16,8 @@ Spatial Elliptical Fourier Descriptors
 .. image:: https://img.shields.io/badge/License-MIT-green.svg
     :target: https://opensource.org/licenses/MIT
 
-    .. image:: http://joss.theoj.org/papers/10.21105/joss.00189/status.svg
-        :target: http://dx.doi.org/10.21105/joss.00189
+.. image:: http://joss.theoj.org/papers/10.21105/joss.00189/status.svg
+    :target: http://dx.doi.org/10.21105/joss.00189
 
 
 A pure python implementation of the elliptical Fourier analysis method described by `Kuhl and Giardina (1982) <http://www.sci.utah.edu/~gerig/CS7960-S2010/handouts/Kuhl-Giardina-CGIP1982.pdf>`_. This package is designed to allow the rapid analysis of spatial data stored as ESRI shapefiles, handling all of the geometric conversions. The resulting data can be written back to shapefiles to allow analysis with other spatial data or can be plotted using matplotlib.

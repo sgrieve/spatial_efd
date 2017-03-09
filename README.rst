@@ -286,6 +286,16 @@ License
 
 The project is licensed under the MIT license.
 
+Citation
+--------
+
+If you use this package for scientific research please cite it as:
+
+Grieve, S. W. D. (2017), spatial-efd: A spatial-aware implementation of elliptical Fourier analysis, The Journal of Open Source Software, 2 (11), doi:10.21105/joss.00189.
+
+
+You can grab a bibtex file `here <http://www.doi2bib.org/#/doi/10.21105/joss.00189>`_.
+
 References
 -----------
 

@@ -1,3 +1,5 @@
 matplotlib
 numpy
 pyshp
+flake8
+codecov

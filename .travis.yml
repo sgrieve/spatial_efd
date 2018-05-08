@@ -8,10 +8,9 @@ branches:
 install:
  - pip install .
  - pip install -r .travis.requirements.txt
-before_install:
- - pip install codecov
 after_success:
  - codecov
+ - flake8 spatial_efd/spatial_efd.py
 before_script:
  - "export DISPLAY=:99.0"
  - "sh -e /etc/init.d/xvfb start"

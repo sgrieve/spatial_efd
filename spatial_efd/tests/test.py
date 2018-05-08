@@ -129,16 +129,16 @@ class TestEFD(TestCase):
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         a, b = spatial_efd.inverse_transform(coeffs)
 
-        self.assertListEqual(a[:5].tolist(), [-0.32100770398698036,
-                                              -0.3201856580843658,
-                                              -0.318692800914299,
-                                              -0.3165482915823218,
-                                              -0.31377942040690143])
-        self.assertListEqual(b[:5].tolist(), [0.4174800975360954,
-                                              0.4180142260117704,
-                                              0.417775492831905,
-                                              0.416754380393524,
-                                              0.41495338852007846])
+        ntest.assert_almost_equal(a[:5], [-0.32100770398698036,
+                                          -0.3201856580843658,
+                                          -0.318692800914299,
+                                          -0.3165482915823218,
+                                          -0.31377942040690143])
+        ntest.assert_almost_equal(b[:5], [0.4174800975360954,
+                                          0.4180142260117704,
+                                          0.417775492831905,
+                                          0.416754380393524,
+                                          0.41495338852007846])
 
     def test_inverse_transform_locus(self):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
@@ -148,16 +148,18 @@ class TestEFD(TestCase):
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         a, b = spatial_efd.inverse_transform(coeffs, locus=(0.5, 0.9))
 
-        self.assertListEqual(a[:5].tolist(), [0.1789922960130197,
-                                              0.17981434191563422,
-                                              0.181307199085701,
-                                              0.18345170841767827,
-                                              0.1862205795930986])
-        self.assertListEqual(b[:5].tolist(), [1.3174800975360959,
-                                              1.3180142260117702,
-                                              1.317775492831905,
-                                              1.3167543803935242,
-                                              1.3149533885200781])
+        ntest.assert_almost_equal(a[:5], [0.1789922960130197,
+                                          0.17981434191563422,
+                                          0.181307199085701,
+                                          0.18345170841767827,
+                                          0.1862205795930986]
+                                          )
+        ntest.assert_almost_equal(b[:5], [1.3174800975360959,
+                                          1.3180142260117702,
+                                          1.317775492831905,
+                                          1.3167543803935242,
+                                          1.3149533885200781]
+                                          )
 
     def test_average_coefficients(self):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))

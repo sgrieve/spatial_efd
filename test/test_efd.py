@@ -45,29 +45,27 @@ class TestEFD():
         a = spatial_efd.InitPlot()
         assert isinstance(a, matplotlib.axes.Axes)
 
-    def test_rotate_contour(self):
-        x, y = spatial_efd.RotateContour([0, 10, 10, 0], [0, 0, 10, 10], 30.,
-                                         (5, 5))
+    def test_rotate_contour(self, open_square):
+        x, y = spatial_efd.RotateContour(*open_square, rotation=30.,
+                                         centroid=(5, 5))
         ntest.assert_almost_equal(x, [3.1698729810778059, 11.830127018922193,
-                                   6.8301270189221945, -1.8301270189221928])
+                                      6.8301270189221945, -1.8301270189221928])
         ntest.assert_almost_equal(y, [-1.8301270189221928, 3.1698729810778059,
-                                   11.830127018922193, 6.8301270189221945])
+                                      11.830127018922193, 6.8301270189221945])
 
     def test_rotate_point(self):
         rx, ry = spatial_efd.rotatePoint((3., 2.), (1., 1.), 73.)
         assert pytest.approx(rx) == 0.628438653482
         assert pytest.approx(ry) == 3.20498121665
 
-    def test_norm_contour(self):
-        x, y, c = spatial_efd.NormContour([0., 10., 10., 0.],
-                                          [0., 0., 10., 10.], (5., 5.))
+    def test_norm_contour(self, open_square):
+        x, y, c = spatial_efd.NormContour(*open_square, rawCentroid=(5., 5.))
         assert pytest.approx(c) == (0.5, 0.5)
         assert pytest.approx(x) == [0.0, 1.0, 1.0, 0.0]
         assert pytest.approx(y) == [0.0, 0.0, 1.0, 1.0]
 
-    def test_get_bbox_dimensions(self):
-        xw, yw, xmin, ymin = spatial_efd.getBBoxDimensions([0, 10, 10, 0],
-                                                           [0, 0, 10, 10])
+    def test_get_bbox_dimensions(self, open_square):
+        xw, yw, xmin, ymin = spatial_efd.getBBoxDimensions(*open_square)
         assert xw == 10
         assert yw == 10
         assert xmin == 0
@@ -212,7 +210,7 @@ class TestEFD():
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         coeffs, rotation = spatial_efd.normalize_efd(coeffs)
 
-        ntest.assert_almost_equal(coeffs[9].tolist(),
+        ntest.assert_almost_equal(coeffs[9],
                                   [-0.004300377673482293,
                                    0.00884561305918755,
                                   -0.013450240117972431,

@@ -16,29 +16,29 @@ class TestEFD():
 
     def test_centroid(self):
         c = spatial_efd.ContourCentroid([0, 10, 10, 0], [0, 0, 10, 10])
-        self.assertTupleEqual(c, (5, 5))
+        assert c == (5, 5)
 
     def test_centroid_closed(self):
         c = spatial_efd.ContourCentroid([0, 10, 10, 0, 0], [0, 0, 10, 10, 0])
-        self.assertTupleEqual(c, (5, 5))
+        assert c == (5, 5)
 
     def test_area_closed(self):
         a = spatial_efd.ContourArea([0, 10, 10, 0, 0], [0, 0, 10, 10, 0])
-        self.assertEqual(a, 100)
+        assert a == 100
 
     def test_close_contour_closed_input(self):
         X, Y = spatial_efd.CloseContour([0, 10, 10, 0, 0], [0, 0, 10, 10, 0])
-        self.assertEqual(X[0], X[-1])
-        self.assertEqual(Y[0], Y[-1])
+        assert X[0] == X[-1]
+        assert Y[0] == Y[-1]
 
     def test_close_contour_open_input(self):
         X, Y = spatial_efd.CloseContour([0, 10, 10, 0], [0, 0, 10, 10])
-        self.assertEqual(X[0], X[-1])
-        self.assertEqual(Y[0], Y[-1])
+        assert X[0] == X[-1]
+        assert Y[0] == Y[-1]
 
     def test_nyquist(self):
         n = spatial_efd.Nyquist([0, 10, 10, 0, 0])
-        self.assertEqual(n, 2)
+        assert n == 2
 
     def test_plot_init(self):
         a = spatial_efd.InitPlot()
@@ -69,10 +69,10 @@ class TestEFD():
     def test_get_bbox_dimensions(self):
         xw, yw, xmin, ymin = spatial_efd.getBBoxDimensions([0, 10, 10, 0],
                                                            [0, 0, 10, 10])
-        self.assertEqual(xw, 10)
-        self.assertEqual(yw, 10)
-        self.assertEqual(xmin, 0)
-        self.assertEqual(ymin, 0)
+        assert xw == 10
+        assert yw == 10
+        assert xmin == 0
+        assert ymin == 0
 
     def test_load_geometry(self):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
@@ -203,7 +203,7 @@ class TestEFD():
         x, y, _ = spatial_efd.ProcessGeometryNorm(s[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 500)
         n = spatial_efd.FourierPower(coeffs, x)
-        self.assertEqual(n, 19)
+        assert n == 19
 
     def test_normalize_efd(self):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))

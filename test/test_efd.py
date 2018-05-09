@@ -31,18 +31,14 @@ class TestEFD():
         c = spatial_efd.ContourCentroid(*shape)
         assert c == (5, 5)
 
-    def test_close_contour_closed_input(self):
-        X, Y = spatial_efd.CloseContour([0, 10, 10, 0, 0], [0, 0, 10, 10, 0])
+    @pytest.mark.parametrize('shape', [open_square(), closed_square()])
+    def test_close_contour(self, shape):
+        X, Y = spatial_efd.CloseContour(*shape)
         assert X[0] == X[-1]
         assert Y[0] == Y[-1]
 
-    def test_close_contour_open_input(self):
-        X, Y = spatial_efd.CloseContour([0, 10, 10, 0], [0, 0, 10, 10])
-        assert X[0] == X[-1]
-        assert Y[0] == Y[-1]
-
-    def test_nyquist(self):
-        n = spatial_efd.Nyquist([0, 10, 10, 0, 0])
+    def test_nyquist(self, closed_square):
+        n = spatial_efd.Nyquist(closed_square[0])
         assert n == 2
 
     def test_plot_init(self):

@@ -6,7 +6,7 @@ import os.path as path
 import numpy as np
 import numpy.testing as ntest
 import shapefile as shp
-
+import pytest
 
 
 class TestEFD():
@@ -42,29 +42,27 @@ class TestEFD():
 
     def test_plot_init(self):
         a = spatial_efd.InitPlot()
-        self.assertTrue(isinstance(a, matplotlib.axes.Axes))
+        assert isinstance(a, matplotlib.axes.Axes)
 
     def test_rotate_contour(self):
         x, y = spatial_efd.RotateContour([0, 10, 10, 0], [0, 0, 10, 10], 30.,
                                          (5, 5))
-        self.assertAlmostEqual(x, [3.1698729810778059, 11.830127018922193,
-                                   6.8301270189221945, -1.8301270189221928],
-                               places=7)
-        self.assertAlmostEqual(y, [-1.8301270189221928, 3.1698729810778059,
-                                   11.830127018922193, 6.8301270189221945],
-                               places=7)
+        ntest.assert_almost_equal(x, [3.1698729810778059, 11.830127018922193,
+                                   6.8301270189221945, -1.8301270189221928])
+        ntest.assert_almost_equal(y, [-1.8301270189221928, 3.1698729810778059,
+                                   11.830127018922193, 6.8301270189221945])
 
     def test_rotate_point(self):
         rx, ry = spatial_efd.rotatePoint((3., 2.), (1., 1.), 73.)
-        self.assertAlmostEqual(rx, 0.628438653482)
-        self.assertAlmostEqual(ry, 3.20498121665)
+        assert pytest.approx(rx) == 0.628438653482
+        assert pytest.approx(ry) == 3.20498121665
 
     def test_norm_contour(self):
         x, y, c = spatial_efd.NormContour([0., 10., 10., 0.],
                                           [0., 0., 10., 10.], (5., 5.))
-        self.assertTupleEqual(c, (0.5, 0.5))
-        self.assertListEqual(x, [0.0, 1.0, 1.0, 0.0])
-        self.assertListEqual(y, [0.0, 0.0, 1.0, 1.0])
+        assert pytest.approx(c) == (0.5, 0.5)
+        assert pytest.approx(x) == [0.0, 1.0, 1.0, 0.0]
+        assert pytest.approx(y) == [0.0, 0.0, 1.0, 1.0]
 
     def test_get_bbox_dimensions(self):
         xw, yw, xmin, ymin = spatial_efd.getBBoxDimensions([0, 10, 10, 0],
@@ -78,18 +76,18 @@ class TestEFD():
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
         filepath = path.join(filepath, 'example_data.shp')
         s = spatial_efd.LoadGeometries(filepath)
-        self.assertTrue(isinstance(s[0], shp._ShapeRecord))
+        assert isinstance(s[0], shp._ShapeRecord)
 
     def test_process_geometry(self):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
         filepath = path.join(filepath, 'example_data.shp')
         s = spatial_efd.LoadGeometries(filepath)
         x, y, c = spatial_efd.ProcessGeometry(s[1])
-        self.assertTupleEqual(c, (280621.2724338955, 3882371.5613158443))
-        self.assertListEqual(x[:10], [280587.0, 280598.0, 280598.0, 280599.0,
+        ntest.assert_almost_equal(c, (280621.2724338955, 3882371.5613158443))
+        ntest.assert_almost_equal(x[:10], [280587.0, 280598.0, 280598.0, 280599.0,
                                       280599.0, 280600.0, 280600.0, 280601.0,
                                       280601.0, 280602.0])
-        self.assertListEqual(y[:10], [3882424.0, 3882424.0, 3882423.0,
+        ntest.assert_almost_equal(y[:10], [3882424.0, 3882424.0, 3882423.0,
                                       3882423.0, 3882422.0, 3882422.0,
                                       3882421.0, 3882421.0, 3882420.0,
                                       3882420.0])
@@ -99,13 +97,13 @@ class TestEFD():
         filepath = path.join(filepath, 'example_data.shp')
         s = spatial_efd.LoadGeometries(filepath)
         x, y, c = spatial_efd.ProcessGeometryNorm(s[1])
-        self.assertTupleEqual(c, (0.4729141652616648, 0.22570629971140485))
-        self.assertListEqual(x[:10], [0.29533678756476683, 0.35233160621761656,
+        ntest.assert_almost_equal(c, (0.4729141652616648, 0.22570629971140485))
+        ntest.assert_almost_equal(x[:10], [0.29533678756476683, 0.35233160621761656,
                                       0.35233160621761656, 0.35751295336787564,
                                       0.35751295336787564, 0.3626943005181347,
                                       0.3626943005181347, 0.36787564766839376,
                                       0.36787564766839376, 0.37305699481865284])
-        self.assertListEqual(y[:10], [0.49740932642487046, 0.49740932642487046,
+        ntest.assert_almost_equal(y[:10], [0.49740932642487046, 0.49740932642487046,
                                       0.49222797927461137, 0.49222797927461137,
                                       0.48704663212435234, 0.48704663212435234,
                                       0.48186528497409326, 0.48186528497409326,
@@ -117,7 +115,7 @@ class TestEFD():
         s = spatial_efd.LoadGeometries(filepath)
         x, y, _ = spatial_efd.ProcessGeometryNorm(s[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
-        ntest.assert_almost_equal(coeffs[6].tolist(),
+        ntest.assert_almost_equal(coeffs[6],
                                   [-0.00134937648, -0.000604478718,
                                    0.0003257416778, 0.001951924972])
 
@@ -174,7 +172,7 @@ class TestEFD():
 
         avg = spatial_efd.AverageCoefficients(coeffsList)
 
-        ntest.assert_almost_equal(avg[6].tolist(),
+        ntest.assert_almost_equal(avg[6],
                                   [0.00049541617818, 0.00515338138093,
                                   -0.0005087032263, 9.7046992097e-05])
 
@@ -192,7 +190,7 @@ class TestEFD():
         avg = spatial_efd.AverageCoefficients(coeffsList)
         sd = spatial_efd.AverageSD(coeffsList, avg)
 
-        ntest.assert_almost_equal(sd[3].tolist(),
+        ntest.assert_almost_equal(sd[3],
                                   [0.000381631249123, 0.00018247277186,
                                    4.6821200993e-05, 9.3013816155e-05])
 
@@ -218,7 +216,7 @@ class TestEFD():
                                    0.00884561305918755,
                                   -0.013450240117972431,
                                   -0.0029657314108907686])
-        self.assertAlmostEqual(rotation, 14.5510829786)
+        assert pytest.approx(rotation) == 14.5510829786
 
     def test_calculate_dc_coefficients(self):
         filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
@@ -227,7 +225,7 @@ class TestEFD():
         x, y, _ = spatial_efd.ProcessGeometryNorm(s[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         dc = spatial_efd.calculate_dc_coefficients(x, y)
-        self.assertTupleEqual(dc, (0.34071444143386936, 0.56752000996605101))
+        assert pytest.approx(dc) == (0.34071444143386936, 0.56752000996605101)
 
     def test_plotting_savefig(self):
         matplotlib.pyplot.clf()
@@ -242,7 +240,7 @@ class TestEFD():
         ax = spatial_efd.InitPlot()
         spatial_efd.PlotEllipse(ax, a, b, color='k', width=1.)
         spatial_efd.SavePlot(ax, 5, figpath, 'png')
-        self.assertTrue(path.isfile('{0}_5.png'.format(figpath)))
+        assert path.isfile('{0}_5.png'.format(figpath))
         os.remove('{0}_5.png'.format(figpath))
 
     def test_plotting(self):
@@ -259,7 +257,7 @@ class TestEFD():
         ax = spatial_efd.InitPlot()
         spatial_efd.PlotEllipse(ax, a, b, color='k', width=1.)
         spatial_efd.SavePlot(ax, 5, figpath, 'png')
-        self.assertTrue(path.isfile('{0}_5.png'.format(figpath)))
+        assert path.isfile('{0}_5.png'.format(figpath))
         os.remove('{0}_5.png'.format(figpath))
 
     def test_plot_comparison(self):
@@ -273,7 +271,7 @@ class TestEFD():
         ax = spatial_efd.InitPlot()
         spatial_efd.plotComparison(ax, coeffs, 10, x, y)
         spatial_efd.SavePlot(ax, 10, figpath, 'png')
-        self.assertTrue(path.isfile('{0}_10.png'.format(figpath)))
+        assert path.isfile('{0}_10.png'.format(figpath))
         os.remove('{0}_10.png'.format(figpath))
 
     def test_plot_comparison_norm(self):
@@ -289,7 +287,7 @@ class TestEFD():
         ax = spatial_efd.InitPlot()
         spatial_efd.plotComparison(ax, coeffs, 7, x, y, rotation=rotation)
         spatial_efd.SavePlot(ax, 7, figpath, 'png')
-        self.assertTrue(path.isfile('{0}_7.png'.format(figpath)))
+        assert path.isfile('{0}_7.png'.format(figpath))
         os.remove('{0}_7.png'.format(figpath))
 
     def test_plot_comparison_norm_size_invariant(self):
@@ -305,7 +303,7 @@ class TestEFD():
         ax = spatial_efd.InitPlot()
         spatial_efd.plotComparison(ax, coeffs, 7, x, y, rotation=rotation)
         spatial_efd.SavePlot(ax, 8, figpath, 'png')
-        self.assertTrue(path.isfile('{0}_8.png'.format(figpath)))
+        assert path.isfile('{0}_8.png'.format(figpath))
         os.remove('{0}_8.png'.format(figpath))
 
     def test_write_geometry(self):
@@ -317,11 +315,11 @@ class TestEFD():
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         shape = spatial_efd.generateShapefile()
         shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
-        self.assertTrue(isinstance(shape, shp.Writer))
+        assert isinstance(shape, shp.Writer)
 
     def test_generate_shapefile(self):
         shape = spatial_efd.generateShapefile()
-        self.assertTrue(isinstance(shape, shp.Writer))
+        assert isinstance(shape, shp.Writer)
 
     def test_save_shapefile(self):
         path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
@@ -333,7 +331,7 @@ class TestEFD():
         shape = spatial_efd.generateShapefile()
         shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
         spatial_efd.saveShapefile(outpath, shape, prj=None)
-        self.assertTrue(path.isfile('{0}.shp'.format(outpath)))
+        assert path.isfile('{0}.shp'.format(outpath))
         os.remove('{0}.shp'.format(outpath))
         os.remove('{0}.dbf'.format(outpath))
         os.remove('{0}.shx'.format(outpath))
@@ -349,8 +347,8 @@ class TestEFD():
         shape = spatial_efd.generateShapefile()
         shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
         spatial_efd.saveShapefile(outpath, shape, prj=prjpath)
-        self.assertTrue(path.isfile('{0}.shp'.format(outpath)))
-        self.assertTrue(path.isfile(prjpath))
+        assert path.isfile('{0}.shp'.format(outpath))
+        assert path.isfile(prjpath)
         os.remove('{0}.shp'.format(outpath))
         os.remove('{0}.dbf'.format(outpath))
         os.remove('{0}.shx'.format(outpath))
@@ -367,7 +365,7 @@ class TestEFD():
         shape = spatial_efd.generateShapefile()
         shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
         spatial_efd.saveShapefile(outpath, shape, prj=prjpath)
-        self.assertTrue(path.isfile('{0}.shp'.format(outpath)))
+        assert path.isfile('{0}.shp'.format(outpath))
         os.remove('{0}.shp'.format(outpath))
         os.remove('{0}.dbf'.format(outpath))
         os.remove('{0}.shx'.format(outpath))
@@ -383,7 +381,7 @@ class TestEFD():
         shape = spatial_efd.generateShapefile()
         shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
         spatial_efd.saveShapefile(outpath, shape, prj=prjpath)
-        self.assertTrue(path.isfile('{0}.shp'.format(outpath)))
+        assert path.isfile('{0}.shp'.format(outpath))
         os.remove('{0}.shp'.format(outpath))
         os.remove('{0}.dbf'.format(outpath))
         os.remove('{0}.shx'.format(outpath))

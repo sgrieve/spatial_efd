@@ -17,6 +17,12 @@ def open_square():
 def closed_square():
     return [0, 10, 10, 0, 0], [0, 0, 10, 10, 0]
 
+@pytest.fixture
+def example_shp():
+    filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
+    filepath = path.join(filepath, 'example_data.shp')
+    return spatial_efd.LoadGeometries(filepath)
+
 class TestEFD():
     @pytest.mark.parametrize('shape, area',
                              [(open_square(), 100), (closed_square(), 100)])
@@ -71,17 +77,11 @@ class TestEFD():
         assert xmin == 0
         assert ymin == 0
 
-    def test_load_geometry(self):
-        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-        filepath = path.join(filepath, 'example_data.shp')
-        s = spatial_efd.LoadGeometries(filepath)
-        assert isinstance(s[0], shp._ShapeRecord)
+    def test_load_geometry(self, example_shp):
+        assert isinstance(example_shp[0], shp._ShapeRecord)
 
-    def test_process_geometry(self):
-        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-        filepath = path.join(filepath, 'example_data.shp')
-        s = spatial_efd.LoadGeometries(filepath)
-        x, y, c = spatial_efd.ProcessGeometry(s[1])
+    def test_process_geometry(self, example_shp):
+        x, y, c = spatial_efd.ProcessGeometry(example_shp[1])
         ntest.assert_almost_equal(c, (280621.2724338955, 3882371.5613158443))
         ntest.assert_almost_equal(x[:10], [280587.0, 280598.0, 280598.0, 280599.0,
                                       280599.0, 280600.0, 280600.0, 280601.0,
@@ -91,11 +91,8 @@ class TestEFD():
                                       3882421.0, 3882421.0, 3882420.0,
                                       3882420.0])
 
-    def test_process_geometry_norm(self):
-        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-        filepath = path.join(filepath, 'example_data.shp')
-        s = spatial_efd.LoadGeometries(filepath)
-        x, y, c = spatial_efd.ProcessGeometryNorm(s[1])
+    def test_process_geometry_norm(self, example_shp):
+        x, y, c = spatial_efd.ProcessGeometryNorm(example_shp[1])
         ntest.assert_almost_equal(c, (0.4729141652616648, 0.22570629971140485))
         ntest.assert_almost_equal(x[:10], [0.29533678756476683, 0.35233160621761656,
                                       0.35233160621761656, 0.35751295336787564,
@@ -108,21 +105,15 @@ class TestEFD():
                                       0.48186528497409326, 0.48186528497409326,
                                       0.47668393782383417, 0.47668393782383417])
 
-    def test_calculate_efd(self):
-        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-        filepath = path.join(filepath, 'example_data.shp')
-        s = spatial_efd.LoadGeometries(filepath)
-        x, y, _ = spatial_efd.ProcessGeometryNorm(s[2])
+    def test_calculate_efd(self, example_shp):
+        x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         ntest.assert_almost_equal(coeffs[6],
                                   [-0.00134937648, -0.000604478718,
                                    0.0003257416778, 0.001951924972])
 
-    def test_inverse_transform(self):
-        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-        filepath = path.join(filepath, 'example_data.shp')
-        s = spatial_efd.LoadGeometries(filepath)
-        x, y, _ = spatial_efd.ProcessGeometryNorm(s[2])
+    def test_inverse_transform(self, example_shp):
+        x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         a, b = spatial_efd.inverse_transform(coeffs)
 
@@ -137,11 +128,8 @@ class TestEFD():
                                           0.416754380393524,
                                           0.41495338852007846])
 
-    def test_inverse_transform_locus(self):
-        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-        filepath = path.join(filepath, 'example_data.shp')
-        s = spatial_efd.LoadGeometries(filepath)
-        x, y, _ = spatial_efd.ProcessGeometryNorm(s[2])
+    def test_inverse_transform_locus(self, example_shp):
+        x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         a, b = spatial_efd.inverse_transform(coeffs, locus=(0.5, 0.9))
 
@@ -158,15 +146,11 @@ class TestEFD():
                                           1.3149533885200781]
                                           )
 
-    def test_average_coefficients(self):
-        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-        filepath = path.join(filepath, 'example_data.shp')
-        s = spatial_efd.LoadGeometries(filepath)
-
+    def test_average_coefficients(self, example_shp):
         coeffsList = []
 
         for i in xrange(3):
-            x, y, _ = spatial_efd.ProcessGeometryNorm(s[i])
+            x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[i])
             coeffsList.append(spatial_efd.CalculateEFD(x, y, 10))
 
         avg = spatial_efd.AverageCoefficients(coeffsList)
@@ -175,15 +159,11 @@ class TestEFD():
                                   [0.00049541617818, 0.00515338138093,
                                   -0.0005087032263, 9.7046992097e-05])
 
-    def test_average_sd(self):
-        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-        filepath = path.join(filepath, 'example_data.shp')
-        s = spatial_efd.LoadGeometries(filepath)
-
+    def test_average_sd(self, example_shp):
         coeffsList = []
 
         for i in xrange(3):
-            x, y, _ = spatial_efd.ProcessGeometryNorm(s[i])
+            x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[i])
             coeffsList.append(spatial_efd.CalculateEFD(x, y, 10))
 
         avg = spatial_efd.AverageCoefficients(coeffsList)
@@ -193,20 +173,14 @@ class TestEFD():
                                   [0.000381631249123, 0.00018247277186,
                                    4.6821200993e-05, 9.3013816155e-05])
 
-    def test_fourier_power(self):
-        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-        filepath = path.join(filepath, 'example_data.shp')
-        s = spatial_efd.LoadGeometries(filepath)
-        x, y, _ = spatial_efd.ProcessGeometryNorm(s[2])
+    def test_fourier_power(self, example_shp):
+        x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 500)
         n = spatial_efd.FourierPower(coeffs, x)
         assert n == 19
 
-    def test_normalize_efd(self):
-        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-        filepath = path.join(filepath, 'example_data.shp')
-        s = spatial_efd.LoadGeometries(filepath)
-        x, y, _ = spatial_efd.ProcessGeometryNorm(s[0])
+    def test_normalize_efd(self, example_shp):
+        x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[0])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         coeffs, rotation = spatial_efd.normalize_efd(coeffs)
 
@@ -217,11 +191,8 @@ class TestEFD():
                                   -0.0029657314108907686])
         assert pytest.approx(rotation) == 14.5510829786
 
-    def test_calculate_dc_coefficients(self):
-        filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-        filepath = path.join(filepath, 'example_data.shp')
-        s = spatial_efd.LoadGeometries(filepath)
-        x, y, _ = spatial_efd.ProcessGeometryNorm(s[2])
+    def test_calculate_dc_coefficients(self, example_shp):
+        x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         dc = spatial_efd.calculate_dc_coefficients(x, y)
         assert pytest.approx(dc) == (0.34071444143386936, 0.56752000996605101)

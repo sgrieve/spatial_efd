@@ -9,21 +9,29 @@ import shapefile as shp
 import pytest
 
 
+@pytest.fixture
+def open_square():
+    return [0, 10, 10, 0], [0, 0, 10, 10]
+
+@pytest.fixture
+def closed_square():
+    return [0, 10, 10, 0, 0], [0, 0, 10, 10, 0]
+
 class TestEFD():
-    def test_area(self):
-        a = spatial_efd.ContourArea([0, 10, 10, 0], [0, 0, 10, 10])
+    def test_area(self, open_square):
+        a = spatial_efd.ContourArea(*open_square)
         assert a == 100
 
-    def test_centroid(self):
-        c = spatial_efd.ContourCentroid([0, 10, 10, 0], [0, 0, 10, 10])
+    def test_centroid(self, open_square):
+        c = spatial_efd.ContourCentroid(*open_square)
         assert c == (5, 5)
 
-    def test_centroid_closed(self):
-        c = spatial_efd.ContourCentroid([0, 10, 10, 0, 0], [0, 0, 10, 10, 0])
+    def test_centroid_closed(self, closed_square):
+        c = spatial_efd.ContourCentroid(*closed_square)
         assert c == (5, 5)
 
-    def test_area_closed(self):
-        a = spatial_efd.ContourArea([0, 10, 10, 0, 0], [0, 0, 10, 10, 0])
+    def test_area_closed(self, closed_square):
+        a = spatial_efd.ContourArea(*closed_square)
         assert a == 100
 
     def test_close_contour_closed_input(self):

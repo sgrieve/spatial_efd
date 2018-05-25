@@ -2,7 +2,6 @@
 from spatial_efd import spatial_efd
 import matplotlib
 import os
-import os.path as path
 import numpy as np
 import numpy.testing as ntest
 import shapefile as shp
@@ -19,9 +18,10 @@ def closed_square():
 
 @pytest.fixture
 def shp_paths():
-    filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-    shppath = path.join(filepath, 'example_data.shp')
-    prjpath = path.join(filepath, 'example_data.prj')
+    filepath = os.path.realpath(os.path.join(os.getcwd(),
+                                             os.path.dirname(__file__)))
+    shppath = os.path.join(filepath, 'example_data.shp')
+    prjpath = os.path.join(filepath, 'example_data.prj')
     return shppath, prjpath
 
 @pytest.fixture
@@ -210,7 +210,7 @@ class TestEFD():
         ax = spatial_efd.InitPlot()
         spatial_efd.PlotEllipse(ax, a, b, color='k', width=1.)
         spatial_efd.SavePlot(ax, 5, tmpdir, 'png')
-        assert path.isfile('{0}_5.png'.format(tmpdir))
+        assert os.path.isfile('{0}_5.png'.format(tmpdir))
 
     def test_plot_comparison(self, example_shp, tmpdir):
         matplotlib.pyplot.clf()
@@ -219,7 +219,7 @@ class TestEFD():
         ax = spatial_efd.InitPlot()
         spatial_efd.plotComparison(ax, coeffs, 10, x, y)
         spatial_efd.SavePlot(ax, 10, tmpdir, 'png')
-        assert path.isfile('{0}_10.png'.format(tmpdir))
+        assert os.path.isfile('{0}_10.png'.format(tmpdir))
 
     def test_plot_comparison_norm(self, example_shp, tmpdir):
         x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
@@ -229,7 +229,7 @@ class TestEFD():
         ax = spatial_efd.InitPlot()
         spatial_efd.plotComparison(ax, coeffs, 7, x, y, rotation=rotation)
         spatial_efd.SavePlot(ax, 7, tmpdir, 'png')
-        assert path.isfile('{0}_7.png'.format(tmpdir))
+        assert os.path.isfile('{0}_7.png'.format(tmpdir))
 
     def test_plot_comparison_norm_size_invariant(self, example_shp, tmpdir):
         matplotlib.pyplot.clf()
@@ -240,7 +240,7 @@ class TestEFD():
         ax = spatial_efd.InitPlot()
         spatial_efd.plotComparison(ax, coeffs, 7, x, y, rotation=rotation)
         spatial_efd.SavePlot(ax, 8, tmpdir, 'png')
-        assert path.isfile('{0}_8.png'.format(tmpdir))
+        assert os.path.isfile('{0}_8.png'.format(tmpdir))
 
     def test_write_geometry(self, example_shp):
         x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
@@ -259,7 +259,7 @@ class TestEFD():
         shape = spatial_efd.generateShapefile()
         shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
         spatial_efd.saveShapefile(tmpdir.strpath, shape, prj=None)
-        assert path.isfile('{}.shp'.format(tmpdir))
+        assert os.path.isfile('{}.shp'.format(tmpdir))
 
     def test_save_shapefile_prj(self, example_shp, tmpdir, shp_paths):
         x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
@@ -267,18 +267,17 @@ class TestEFD():
         shape = spatial_efd.generateShapefile()
         shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
         spatial_efd.saveShapefile(tmpdir.strpath, shape, prj=shp_paths[1])
-        assert path.isfile('{}.shp'.format(tmpdir))
-        assert path.isfile('{}.prj'.format(tmpdir))
+        assert os.path.isfile('{}.shp'.format(tmpdir))
+        assert os.path.isfile('{}.prj'.format(tmpdir))
 
     def test_save_shapefile_prj_missing(self, example_shp, tmpdir):
-        path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
         x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         shape = spatial_efd.generateShapefile()
         shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
         spatial_efd.saveShapefile(tmpdir.strpath, shape, prj='missing.prj')
-        assert path.isfile('{0}.shp'.format(tmpdir))
-        assert not path.isfile('{0}.prj'.format(tmpdir))
+        assert os.path.isfile('{0}.shp'.format(tmpdir))
+        assert not os.path.isfile('{0}.prj'.format(tmpdir))
 
     def test_save_shapefile_prj_wrong(self, example_shp, tmpdir, shp_paths):
         x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
@@ -286,5 +285,5 @@ class TestEFD():
         shape = spatial_efd.generateShapefile()
         shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
         spatial_efd.saveShapefile(tmpdir.strpath, shape, prj=shp_paths[0])
-        assert path.isfile('{0}.shp'.format(tmpdir))
-        assert not path.isfile('{0}.prj'.format(tmpdir))
+        assert os.path.isfile('{0}.shp'.format(tmpdir))
+        assert not os.path.isfile('{0}.prj'.format(tmpdir))

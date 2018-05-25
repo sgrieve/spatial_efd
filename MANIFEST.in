@@ -1,3 +1,4 @@
 include README.rst
-include spatial_efd/tests/example_data.*
+include test/fixtures/example_data.*
+include test/fixtures/expected.json
 include _static/*

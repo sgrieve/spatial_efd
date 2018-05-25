@@ -14,7 +14,7 @@ from spatial_efd import spatial_efd
 def expected():
     filepath = os.path.realpath(os.path.join(os.getcwd(),
                                              os.path.dirname(__file__)))
-    with open(os.path.join(filepath, 'expected.json')) as f:
+    with open(os.path.join(filepath, 'fixtures/expected.json')) as f:
         return json.loads(f.read())
 
 
@@ -32,8 +32,8 @@ def closed_square():
 def shp_paths():
     filepath = os.path.realpath(os.path.join(os.getcwd(),
                                              os.path.dirname(__file__)))
-    shppath = os.path.join(filepath, 'example_data.shp')
-    prjpath = os.path.join(filepath, 'example_data.prj')
+    shppath = os.path.join(filepath, 'fixtures/example_data.shp')
+    prjpath = os.path.join(filepath, 'fixtures/example_data.prj')
     return shppath, prjpath
 
 

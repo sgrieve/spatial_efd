@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-from spatial_efd import spatial_efd
-import matplotlib
 import os
-import numpy.testing as ntest
-import shapefile as shp
-import pytest
-import warnings
 import re
 import json
+import pytest
+import warnings
+import matplotlib
+import shapefile as shp
+import numpy.testing as ntest
+from spatial_efd import spatial_efd
 
 
 @pytest.fixture

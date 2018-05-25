@@ -202,22 +202,6 @@ class TestEFD():
         path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
         filepath = path.join(path_, 'example_data.shp')
         figpath = path.join(path_, 'Test')
-        s = spatial_efd.LoadGeometries(filepath)
-        x, y, _ = spatial_efd.ProcessGeometryNorm(s[2])
-        coeffs = spatial_efd.CalculateEFD(x, y, 10)
-        a, b = spatial_efd.inverse_transform(coeffs)
-
-        ax = spatial_efd.InitPlot()
-        spatial_efd.PlotEllipse(ax, a, b, color='k', width=1.)
-        spatial_efd.SavePlot(ax, 5, figpath, 'png')
-        assert path.isfile('{0}_5.png'.format(figpath))
-        os.remove('{0}_5.png'.format(figpath))
-
-    def test_plotting(self):
-        matplotlib.pyplot.clf()
-        path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-        filepath = path.join(path_, 'example_data.shp')
-        figpath = path.join(path_, 'Test')
 
         s = spatial_efd.LoadGeometries(filepath)
         x, y, _ = spatial_efd.ProcessGeometryNorm(s[2])

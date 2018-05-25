@@ -197,68 +197,45 @@ class TestEFD():
         dc = spatial_efd.calculate_dc_coefficients(x, y)
         assert pytest.approx(dc) == (0.34071444143386936, 0.56752000996605101)
 
-    def test_plotting_savefig(self):
+    def test_plotting_savefig(self, example_shp, tmpdir):
         matplotlib.pyplot.clf()
-        path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-        filepath = path.join(path_, 'example_data.shp')
-        figpath = path.join(path_, 'Test')
-
-        s = spatial_efd.LoadGeometries(filepath)
-        x, y, _ = spatial_efd.ProcessGeometryNorm(s[2])
+        x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         a, b = spatial_efd.inverse_transform(coeffs)
-
         ax = spatial_efd.InitPlot()
         spatial_efd.PlotEllipse(ax, a, b, color='k', width=1.)
-        spatial_efd.SavePlot(ax, 5, figpath, 'png')
-        assert path.isfile('{0}_5.png'.format(figpath))
-        os.remove('{0}_5.png'.format(figpath))
+        spatial_efd.SavePlot(ax, 5, tmpdir, 'png')
+        assert path.isfile('{0}_5.png'.format(tmpdir))
 
-    def test_plot_comparison(self):
+    def test_plot_comparison(self, example_shp, tmpdir):
         matplotlib.pyplot.clf()
-        path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-        filepath = path.join(path_, 'example_data.shp')
-        figpath = path.join(path_, 'Test')
-        s = spatial_efd.LoadGeometries(filepath)
-        x, y, _ = spatial_efd.ProcessGeometry(s[0])
+        x, y, _ = spatial_efd.ProcessGeometry(example_shp[0])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         ax = spatial_efd.InitPlot()
         spatial_efd.plotComparison(ax, coeffs, 10, x, y)
-        spatial_efd.SavePlot(ax, 10, figpath, 'png')
-        assert path.isfile('{0}_10.png'.format(figpath))
-        os.remove('{0}_10.png'.format(figpath))
+        spatial_efd.SavePlot(ax, 10, tmpdir, 'png')
+        assert path.isfile('{0}_10.png'.format(tmpdir))
 
-    def test_plot_comparison_norm(self):
-        matplotlib.pyplot.clf()
-        path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-        filepath = path.join(path_, 'example_data.shp')
-        figpath = path.join(path_, 'Test')
-        s = spatial_efd.LoadGeometries(filepath)
-        x, y, _ = spatial_efd.ProcessGeometry(s[1])
+    def test_plot_comparison_norm(self, example_shp, tmpdir):
+        x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         coeffs, rotation = spatial_efd.normalize_efd(coeffs,
                                                      size_invariant=False)
         ax = spatial_efd.InitPlot()
         spatial_efd.plotComparison(ax, coeffs, 7, x, y, rotation=rotation)
-        spatial_efd.SavePlot(ax, 7, figpath, 'png')
-        assert path.isfile('{0}_7.png'.format(figpath))
-        os.remove('{0}_7.png'.format(figpath))
+        spatial_efd.SavePlot(ax, 7, tmpdir, 'png')
+        assert path.isfile('{0}_7.png'.format(tmpdir))
 
-    def test_plot_comparison_norm_size_invariant(self):
+    def test_plot_comparison_norm_size_invariant(self, example_shp, tmpdir):
         matplotlib.pyplot.clf()
-        path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-        filepath = path.join(path_, 'example_data.shp')
-        figpath = path.join(path_, 'Test')
-        s = spatial_efd.LoadGeometries(filepath)
-        x, y, _ = spatial_efd.ProcessGeometry(s[1])
+        x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         coeffs, rotation = spatial_efd.normalize_efd(coeffs,
                                                      size_invariant=True)
         ax = spatial_efd.InitPlot()
         spatial_efd.plotComparison(ax, coeffs, 7, x, y, rotation=rotation)
-        spatial_efd.SavePlot(ax, 8, figpath, 'png')
-        assert path.isfile('{0}_8.png'.format(figpath))
-        os.remove('{0}_8.png'.format(figpath))
+        spatial_efd.SavePlot(ax, 8, tmpdir, 'png')
+        assert path.isfile('{0}_8.png'.format(tmpdir))
 
     def test_write_geometry(self):
         path_ = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))

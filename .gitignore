@@ -9,3 +9,8 @@
 
 # sphinx build files
 /docs/build/*
+
+.cache/
+.coverage
+.eggs/
+.pytest_cache/

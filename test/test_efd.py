@@ -18,10 +18,15 @@ def closed_square():
     return [0, 10, 10, 0, 0], [0, 0, 10, 10, 0]
 
 @pytest.fixture
-def example_shp():
+def shp_paths():
     filepath = path.realpath(path.join(os.getcwd(), path.dirname(__file__)))
-    filepath = path.join(filepath, 'example_data.shp')
-    return spatial_efd.LoadGeometries(filepath)
+    shppath = path.join(filepath, 'example_data.shp')
+    prjpath = path.join(filepath, 'example_data.prj')
+    return shppath, prjpath
+
+@pytest.fixture
+def example_shp():
+    return spatial_efd.LoadGeometries(shp_paths()[0])
 
 class TestEFD():
     @pytest.mark.parametrize('shape, area',
@@ -256,12 +261,12 @@ class TestEFD():
         spatial_efd.saveShapefile(tmpdir.strpath, shape, prj=None)
         assert path.isfile('{}.shp'.format(tmpdir))
 
-    def test_save_shapefile_prj(self, example_shp, tmpdir):
+    def test_save_shapefile_prj(self, example_shp, tmpdir, shp_paths):
         x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         shape = spatial_efd.generateShapefile()
         shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
-        spatial_efd.saveShapefile(tmpdir.strpath, shape, prj='/Users/stuart/spatial_efd/test/example_data.prj')
+        spatial_efd.saveShapefile(tmpdir.strpath, shape, prj=shp_paths[1])
         assert path.isfile('{}.shp'.format(tmpdir))
         assert path.isfile('{}.prj'.format(tmpdir))
 
@@ -275,11 +280,11 @@ class TestEFD():
         assert path.isfile('{0}.shp'.format(tmpdir))
         assert not path.isfile('{0}.prj'.format(tmpdir))
 
-    def test_save_shapefile_prj_wrong(self, example_shp, tmpdir):
+    def test_save_shapefile_prj_wrong(self, example_shp, tmpdir, shp_paths):
         x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         shape = spatial_efd.generateShapefile()
         shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
-        spatial_efd.saveShapefile(tmpdir.strpath, shape, prj='/Users/stuart/spatial_efd/test/example_data.shp')
+        spatial_efd.saveShapefile(tmpdir.strpath, shape, prj=shp_paths[0])
         assert path.isfile('{0}.shp'.format(tmpdir))
         assert not path.isfile('{0}.prj'.format(tmpdir))

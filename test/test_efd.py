@@ -186,7 +186,6 @@ class TestEFD():
 
     def test_calculate_dc_coefficients(self, example_shp, expected):
         x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[2])
-        coeffs = spatial_efd.CalculateEFD(x, y, 10)
         dc = spatial_efd.calculate_dc_coefficients(x, y)
         assert pytest.approx(dc) == expected['calculate_dc_coefficients']['dc']
 

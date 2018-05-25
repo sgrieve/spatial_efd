@@ -2,13 +2,20 @@
 from spatial_efd import spatial_efd
 import matplotlib
 import os
-import numpy as np
 import numpy.testing as ntest
 import shapefile as shp
 import pytest
 import warnings
 import re
+import json
 
+
+@pytest.fixture
+def expected():
+    filepath = os.path.realpath(os.path.join(os.getcwd(),
+                                             os.path.dirname(__file__)))
+    with open(os.path.join(filepath, 'expected.json')) as f:
+        return json.loads(f.read())
 
 @pytest.fixture
 def open_square():
@@ -36,7 +43,8 @@ def warn_wrong_prj():
 
 @pytest.fixture
 def warn_missing_prj():
-    return 'The .prj file supplied does not exist. No .prj file will be written'
+    return ('The .prj file supplied does not exist.'
+            ' No .prj file will be written')
 
 def clean_warning(message):
     '''
@@ -57,7 +65,7 @@ class TestEFD():
                               (closed_square(), (5, 5))])
     def test_centroid(self, shape, centre):
         c = spatial_efd.ContourCentroid(*shape)
-        assert c == (5, 5)
+        assert c == centre
 
     @pytest.mark.parametrize('shape', [open_square(), closed_square()])
     def test_close_contour(self, shape):
@@ -73,102 +81,73 @@ class TestEFD():
         a = spatial_efd.InitPlot()
         assert isinstance(a, matplotlib.axes.Axes)
 
-    def test_rotate_contour(self, open_square):
+    def test_rotate_contour(self, open_square, expected):
         x, y = spatial_efd.RotateContour(*open_square, rotation=30.,
                                          centroid=(5, 5))
-        ntest.assert_almost_equal(x, [3.1698729810778059, 11.830127018922193,
-                                      6.8301270189221945, -1.8301270189221928])
-        ntest.assert_almost_equal(y, [-1.8301270189221928, 3.1698729810778059,
-                                      11.830127018922193, 6.8301270189221945])
 
-    def test_rotate_point(self):
+        ntest.assert_almost_equal(x, expected['rotate_contour']['x'])
+        ntest.assert_almost_equal(y, expected['rotate_contour']['y'])
+
+    def test_rotate_point(self, expected):
         rx, ry = spatial_efd.rotatePoint((3., 2.), (1., 1.), 73.)
-        assert pytest.approx(rx) == 0.628438653482
-        assert pytest.approx(ry) == 3.20498121665
+        assert pytest.approx(rx) == expected['rotate_point']['rx']
+        assert pytest.approx(ry) == expected['rotate_point']['ry']
 
-    def test_norm_contour(self, open_square):
+    def test_norm_contour(self, open_square, expected):
         x, y, c = spatial_efd.NormContour(*open_square, rawCentroid=(5., 5.))
-        assert pytest.approx(c) == (0.5, 0.5)
-        assert pytest.approx(x) == [0.0, 1.0, 1.0, 0.0]
-        assert pytest.approx(y) == [0.0, 0.0, 1.0, 1.0]
+        assert pytest.approx(c) == expected['norm_contour']['c']
+        assert pytest.approx(x) == expected['norm_contour']['x']
+        assert pytest.approx(y) == expected['norm_contour']['y']
 
-    def test_get_bbox_dimensions(self, open_square):
+    def test_get_bbox_dimensions(self, open_square, expected):
         xw, yw, xmin, ymin = spatial_efd.getBBoxDimensions(*open_square)
-        assert xw == 10
-        assert yw == 10
-        assert xmin == 0
-        assert ymin == 0
+        assert xw == expected['get_bbox_dimensions']['xw']
+        assert yw == expected['get_bbox_dimensions']['yw']
+        assert xmin == expected['get_bbox_dimensions']['xmin']
+        assert ymin == expected['get_bbox_dimensions']['ymin']
 
     def test_load_geometry(self, example_shp):
         assert isinstance(example_shp[0], shp._ShapeRecord)
 
-    def test_process_geometry(self, example_shp):
+    def test_process_geometry(self, example_shp, expected):
         x, y, c = spatial_efd.ProcessGeometry(example_shp[1])
-        ntest.assert_almost_equal(c, (280621.2724338955, 3882371.5613158443))
-        ntest.assert_almost_equal(x[:10], [280587.0, 280598.0, 280598.0, 280599.0,
-                                      280599.0, 280600.0, 280600.0, 280601.0,
-                                      280601.0, 280602.0])
-        ntest.assert_almost_equal(y[:10], [3882424.0, 3882424.0, 3882423.0,
-                                      3882423.0, 3882422.0, 3882422.0,
-                                      3882421.0, 3882421.0, 3882420.0,
-                                      3882420.0])
+        ntest.assert_almost_equal(c, expected['process_geometry']['c'])
+        ntest.assert_almost_equal(x[:10], expected['process_geometry']['x'])
+        ntest.assert_almost_equal(y[:10], expected['process_geometry']['y'])
 
-    def test_process_geometry_norm(self, example_shp):
+    def test_process_geometry_norm(self, example_shp, expected):
         x, y, c = spatial_efd.ProcessGeometryNorm(example_shp[1])
-        ntest.assert_almost_equal(c, (0.4729141652616648, 0.22570629971140485))
-        ntest.assert_almost_equal(x[:10], [0.29533678756476683, 0.35233160621761656,
-                                      0.35233160621761656, 0.35751295336787564,
-                                      0.35751295336787564, 0.3626943005181347,
-                                      0.3626943005181347, 0.36787564766839376,
-                                      0.36787564766839376, 0.37305699481865284])
-        ntest.assert_almost_equal(y[:10], [0.49740932642487046, 0.49740932642487046,
-                                      0.49222797927461137, 0.49222797927461137,
-                                      0.48704663212435234, 0.48704663212435234,
-                                      0.48186528497409326, 0.48186528497409326,
-                                      0.47668393782383417, 0.47668393782383417])
+        ntest.assert_almost_equal(c, expected['process_geometry_norm']['c'])
+        ntest.assert_almost_equal(x[:10],
+                                  expected['process_geometry_norm']['x'])
+        ntest.assert_almost_equal(y[:10],
+                                  expected['process_geometry_norm']['y'])
 
-    def test_calculate_efd(self, example_shp):
+    def test_calculate_efd(self, example_shp, expected):
         x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         ntest.assert_almost_equal(coeffs[6],
-                                  [-0.00134937648, -0.000604478718,
-                                   0.0003257416778, 0.001951924972])
+                                  expected['calculate_efd']['coeffs'])
 
-    def test_inverse_transform(self, example_shp):
+    def test_inverse_transform(self, example_shp, expected):
         x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         a, b = spatial_efd.inverse_transform(coeffs)
 
-        ntest.assert_almost_equal(a[:5], [-0.32100770398698036,
-                                          -0.3201856580843658,
-                                          -0.318692800914299,
-                                          -0.3165482915823218,
-                                          -0.31377942040690143])
-        ntest.assert_almost_equal(b[:5], [0.4174800975360954,
-                                          0.4180142260117704,
-                                          0.417775492831905,
-                                          0.416754380393524,
-                                          0.41495338852007846])
+        ntest.assert_almost_equal(a[:5], expected['inverse_transform']['a'])
+        ntest.assert_almost_equal(b[:5], expected['inverse_transform']['b'])
 
-    def test_inverse_transform_locus(self, example_shp):
+    def test_inverse_transform_locus(self, example_shp, expected):
         x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         a, b = spatial_efd.inverse_transform(coeffs, locus=(0.5, 0.9))
 
-        ntest.assert_almost_equal(a[:5], [0.1789922960130197,
-                                          0.17981434191563422,
-                                          0.181307199085701,
-                                          0.18345170841767827,
-                                          0.1862205795930986]
-                                          )
-        ntest.assert_almost_equal(b[:5], [1.3174800975360959,
-                                          1.3180142260117702,
-                                          1.317775492831905,
-                                          1.3167543803935242,
-                                          1.3149533885200781]
-                                          )
+        ntest.assert_almost_equal(a[:5],
+                                  expected['inverse_transform_locus']['a'])
+        ntest.assert_almost_equal(b[:5],
+                                  expected['inverse_transform_locus']['b'])
 
-    def test_average_coefficients(self, example_shp):
+    def test_average_coefficients(self, example_shp, expected):
         coeffsList = []
 
         for i in xrange(3):
@@ -176,12 +155,10 @@ class TestEFD():
             coeffsList.append(spatial_efd.CalculateEFD(x, y, 10))
 
         avg = spatial_efd.AverageCoefficients(coeffsList)
-
         ntest.assert_almost_equal(avg[6],
-                                  [0.00049541617818, 0.00515338138093,
-                                  -0.0005087032263, 9.7046992097e-05])
+                                  expected['average_coefficients']['avg'])
 
-    def test_average_sd(self, example_shp):
+    def test_average_sd(self, example_shp, expected):
         coeffsList = []
 
         for i in xrange(3):
@@ -190,10 +167,7 @@ class TestEFD():
 
         avg = spatial_efd.AverageCoefficients(coeffsList)
         sd = spatial_efd.AverageSD(coeffsList, avg)
-
-        ntest.assert_almost_equal(sd[3],
-                                  [0.000381631249123, 0.00018247277186,
-                                   4.6821200993e-05, 9.3013816155e-05])
+        ntest.assert_almost_equal(sd[3], expected['average_sd']['sd'])
 
     def test_fourier_power(self, example_shp):
         x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[2])
@@ -201,23 +175,20 @@ class TestEFD():
         n = spatial_efd.FourierPower(coeffs, x)
         assert n == 19
 
-    def test_normalize_efd(self, example_shp):
+    def test_normalize_efd(self, example_shp, expected):
         x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[0])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         coeffs, rotation = spatial_efd.normalize_efd(coeffs)
 
         ntest.assert_almost_equal(coeffs[9],
-                                  [-0.004300377673482293,
-                                   0.00884561305918755,
-                                  -0.013450240117972431,
-                                  -0.0029657314108907686])
-        assert pytest.approx(rotation) == 14.5510829786
+                                  expected['normalize_efd']['coeffs'])
+        assert pytest.approx(rotation) == expected['normalize_efd']['rotation']
 
-    def test_calculate_dc_coefficients(self, example_shp):
+    def test_calculate_dc_coefficients(self, example_shp, expected):
         x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[2])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         dc = spatial_efd.calculate_dc_coefficients(x, y)
-        assert pytest.approx(dc) == (0.34071444143386936, 0.56752000996605101)
+        assert pytest.approx(dc) == expected['calculate_dc_coefficients']['dc']
 
     def test_plotting_savefig(self, example_shp, tmpdir):
         matplotlib.pyplot.clf()

@@ -287,7 +287,8 @@ class TestEFD():
         assert os.path.isfile('{}.shp'.format(tmpdir))
         assert os.path.isfile('{}.prj'.format(tmpdir))
 
-    def test_save_shapefile_prj_missing(self, example_shp, tmpdir, warn_missing_prj):
+    def test_save_shapefile_prj_missing(self, example_shp, tmpdir,
+                                        warn_missing_prj):
         x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         shape = spatial_efd.generateShapefile()
@@ -302,7 +303,8 @@ class TestEFD():
             assert issubclass(w[0].category, UserWarning)
             assert clean_warning(w[0].message) == warn_missing_prj
 
-    def test_save_shapefile_prj_wrong(self, example_shp, tmpdir, shp_paths, warn_wrong_prj):
+    def test_save_shapefile_prj_wrong(self, example_shp, tmpdir, shp_paths,
+                                      warn_wrong_prj):
         x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         shape = spatial_efd.generateShapefile()

@@ -17,13 +17,16 @@ def expected():
     with open(os.path.join(filepath, 'expected.json')) as f:
         return json.loads(f.read())
 
+
 @pytest.fixture
 def open_square():
     return [0, 10, 10, 0], [0, 0, 10, 10]
 
+
 @pytest.fixture
 def closed_square():
     return [0, 10, 10, 0, 0], [0, 0, 10, 10, 0]
+
 
 @pytest.fixture
 def shp_paths():
@@ -33,18 +36,22 @@ def shp_paths():
     prjpath = os.path.join(filepath, 'example_data.prj')
     return shppath, prjpath
 
+
 @pytest.fixture
 def example_shp():
     return spatial_efd.LoadGeometries(shp_paths()[0])
+
 
 @pytest.fixture
 def warn_wrong_prj():
     return 'The file supplied is not a prj file. No .prj file will be written'
 
+
 @pytest.fixture
 def warn_missing_prj():
     return ('The .prj file supplied does not exist.'
             ' No .prj file will be written')
+
 
 def clean_warning(message):
     '''

@@ -6,6 +6,8 @@ import numpy as np
 import numpy.testing as ntest
 import shapefile as shp
 import pytest
+import warnings
+import re
 
 
 @pytest.fixture
@@ -27,6 +29,21 @@ def shp_paths():
 @pytest.fixture
 def example_shp():
     return spatial_efd.LoadGeometries(shp_paths()[0])
+
+@pytest.fixture
+def warn_wrong_prj():
+    return 'The file supplied is not a prj file. No .prj file will be written'
+
+@pytest.fixture
+def warn_missing_prj():
+    return 'The .prj file supplied does not exist. No .prj file will be written'
+
+def clean_warning(message):
+    '''
+    Helper function to format warning messages so they can be used for tests
+    '''
+    return re.sub(r'\(.*?\)\s', '', str(message))
+
 
 class TestEFD():
     @pytest.mark.parametrize('shape, area',
@@ -270,20 +287,32 @@ class TestEFD():
         assert os.path.isfile('{}.shp'.format(tmpdir))
         assert os.path.isfile('{}.prj'.format(tmpdir))
 
-    def test_save_shapefile_prj_missing(self, example_shp, tmpdir):
+    def test_save_shapefile_prj_missing(self, example_shp, tmpdir, warn_missing_prj):
         x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         shape = spatial_efd.generateShapefile()
         shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
-        spatial_efd.saveShapefile(tmpdir.strpath, shape, prj='missing.prj')
-        assert os.path.isfile('{0}.shp'.format(tmpdir))
-        assert not os.path.isfile('{0}.prj'.format(tmpdir))
 
-    def test_save_shapefile_prj_wrong(self, example_shp, tmpdir, shp_paths):
+        with warnings.catch_warnings(record=True) as w:
+            spatial_efd.saveShapefile(tmpdir.strpath, shape, prj='missing.prj')
+
+            assert os.path.isfile('{0}.shp'.format(tmpdir))
+            assert not os.path.isfile('{0}.prj'.format(tmpdir))
+            assert len(w) == 1
+            assert issubclass(w[0].category, UserWarning)
+            assert clean_warning(w[0].message) == warn_missing_prj
+
+    def test_save_shapefile_prj_wrong(self, example_shp, tmpdir, shp_paths, warn_wrong_prj):
         x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
         shape = spatial_efd.generateShapefile()
         shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
-        spatial_efd.saveShapefile(tmpdir.strpath, shape, prj=shp_paths[0])
-        assert os.path.isfile('{0}.shp'.format(tmpdir))
-        assert not os.path.isfile('{0}.prj'.format(tmpdir))
+
+        with warnings.catch_warnings(record=True) as w:
+            spatial_efd.saveShapefile(tmpdir.strpath, shape, prj=shp_paths[0])
+
+            assert os.path.isfile('{0}.shp'.format(tmpdir))
+            assert not os.path.isfile('{0}.prj'.format(tmpdir))
+            assert len(w) == 1
+            assert issubclass(w[0].category, UserWarning)
+            assert clean_warning(w[0].message) == warn_wrong_prj

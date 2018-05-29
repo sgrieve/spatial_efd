@@ -13,7 +13,7 @@ branches:
     - master
 install:
  - pip install .
- - pip install -r .travis.requirements.txt
+ - pip install -r .requirements.txt
 after_success:
  - pytest --cov=spatial_efd/
  - codecov

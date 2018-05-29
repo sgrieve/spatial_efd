@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from __future__ import division
+from builtins import range
 import warnings
 import numpy as np
 import shapefile as sf
@@ -115,7 +116,7 @@ def ContourArea(X, Y):
 
     Sum = 0.
 
-    for i in xrange(len(X) - 1):
+    for i in range(len(X) - 1):
         Sum += (X[i] * Y[i + 1]) - (X[i + 1] * Y[i])
 
     return abs(0.5 * Sum)
@@ -146,7 +147,7 @@ def ContourCentroid(X, Y):
     Cx = 0.
     Cy = 0.
 
-    for i in xrange(len(X) - 1):
+    for i in range(len(X) - 1):
         const = (X[i] * Y[i + 1]) - (X[i + 1] * Y[i])
 
         Cx += (X[i] + X[i + 1]) * const
@@ -192,7 +193,7 @@ def CalculateEFD(X, Y, harmonics=10):
     phi = (2. * np.pi * t) / T
 
     coeffs = np.zeros((harmonics, 4))
-    for n in xrange(1, harmonics + 1):
+    for n in range(1, harmonics + 1):
         const = T / (2. * n * n * np.pi * np.pi)
         phi_n = phi * n
         d_cos_phi_n = np.cos(phi_n[1:]) - np.cos(phi_n[:-1])
@@ -240,7 +241,7 @@ def inverse_transform(coeffs, locus=(0., 0.), n=300, harmonic=10):
     xt = np.ones((n,)) * locus[0]
     yt = np.ones((n,)) * locus[1]
 
-    for n in xrange(harmonic):
+    for n in range(harmonic):
 
         xt += ((coeffs[n, 2] * np.cos(2. * (n + 1.) * np.pi * t)) +
                (coeffs[n, 3] * np.sin(2. * (n + 1.) * np.pi * t)))
@@ -450,11 +451,11 @@ def FourierPower(coeffs, X, threshold=0.9999):
     totalPower = 0.
     currentPower = 0.
 
-    for n in xrange(nyquist):
+    for n in range(nyquist):
             totalPower += ((coeffs[n, 0] ** 2.) + (coeffs[n, 1] ** 2.) +
                            (coeffs[n, 2] ** 2.) + (coeffs[n, 3] ** 2.)) / 2.
 
-    for i in xrange(nyquist):
+    for i in range(nyquist):
         currentPower += ((coeffs[i, 0] ** 2.) + (coeffs[i, 1] ** 2.) +
                          (coeffs[i, 2] ** 2.) + (coeffs[i, 3] ** 2.)) / 2.
 
@@ -500,7 +501,7 @@ def normalize_efd(coeffs, size_invariant=True):
                (coeffs[0, 3] ** 2.))))
 
     # Rotate all coefficients by theta_1.
-    for n in xrange(1, coeffs.shape[0] + 1):
+    for n in range(1, coeffs.shape[0] + 1):
         coeffs[n - 1, :] = np.dot(np.array([[coeffs[n - 1, 0],
                                   coeffs[n - 1, 1]], [coeffs[n - 1, 2],
                                                       coeffs[n - 1, 3]]]),
@@ -516,7 +517,7 @@ def normalize_efd(coeffs, size_invariant=True):
                      [-np.sin(psi_1), np.cos(psi_1)]])
 
     # Rotate all coefficients by -psi_1.
-    for n in xrange(1, coeffs.shape[0] + 1):
+    for n in range(1, coeffs.shape[0] + 1):
         rot = np.array([[coeffs[n - 1, 0], coeffs[n - 1, 1]],
                         [coeffs[n - 1, 2], coeffs[n - 1, 3]]])
         coeffs[n - 1, :] = psi_r.dot(rot).flatten()

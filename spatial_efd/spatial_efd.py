@@ -114,7 +114,7 @@ def ContourArea(X, Y):
     # Check the contour provided is closed
     X, Y = CloseContour(X, Y)
 
-    Sum = 0.
+    Sum = 0
 
     for i in range(len(X) - 1):
         Sum += (X[i] * Y[i + 1]) - (X[i + 1] * Y[i])
@@ -144,8 +144,8 @@ def ContourCentroid(X, Y):
 
     Area = ContourArea(X, Y)
 
-    Cx = 0.
-    Cy = 0.
+    Cx = 0
+    Cy = 0
 
     for i in range(len(X) - 1):
         const = (X[i] * Y[i + 1]) - (X[i + 1] * Y[i])
@@ -153,7 +153,7 @@ def ContourCentroid(X, Y):
         Cx += (X[i] + X[i + 1]) * const
         Cy += (Y[i] + Y[i + 1]) * const
 
-    AreaFactor = (1. / (6. * Area))
+    AreaFactor = (1 / (6 * Area))
 
     Cx *= AreaFactor
     Cy *= AreaFactor
@@ -186,15 +186,15 @@ def CalculateEFD(X, Y, harmonics=10):
     contour = np.array([(x, y) for x, y in zip(X, Y)])
 
     dxy = np.diff(contour, axis=0)
-    dt = np.sqrt((dxy ** 2.).sum(axis=1))
-    t = np.concatenate([([0., ]), np.cumsum(dt)])
+    dt = np.sqrt((dxy ** 2).sum(axis=1))
+    t = np.concatenate([([0, ]), np.cumsum(dt)])
     T = t[-1]
 
     phi = (2. * np.pi * t) / T
 
     coeffs = np.zeros((harmonics, 4))
     for n in range(1, harmonics + 1):
-        const = T / (2. * n * n * np.pi * np.pi)
+        const = T / (2 * n * n * np.pi * np.pi)
         phi_n = phi * n
         d_cos_phi_n = np.cos(phi_n[1:]) - np.cos(phi_n[:-1])
         d_sin_phi_n = np.sin(phi_n[1:]) - np.sin(phi_n[:-1])
@@ -207,7 +207,7 @@ def CalculateEFD(X, Y, harmonics=10):
     return coeffs
 
 
-def inverse_transform(coeffs, locus=(0., 0.), n=300, harmonic=10):
+def inverse_transform(coeffs, locus=(0, 0), n=300, harmonic=10):
     '''
     Perform an inverse fourier transform to convert the coefficients back into
     spatial coordinates.
@@ -237,17 +237,17 @@ def inverse_transform(coeffs, locus=(0., 0.), n=300, harmonic=10):
         four coefficients for each harmonic computed.
     '''
 
-    t = np.linspace(0, 1., n)
+    t = np.linspace(0, 1, n)
     xt = np.ones((n,)) * locus[0]
     yt = np.ones((n,)) * locus[1]
 
     for n in range(harmonic):
 
-        xt += ((coeffs[n, 2] * np.cos(2. * (n + 1.) * np.pi * t)) +
-               (coeffs[n, 3] * np.sin(2. * (n + 1.) * np.pi * t)))
+        xt += ((coeffs[n, 2] * np.cos(2. * (n + 1) * np.pi * t)) +
+               (coeffs[n, 3] * np.sin(2. * (n + 1) * np.pi * t)))
 
-        yt += ((coeffs[n, 0] * np.cos(2. * (n + 1.) * np.pi * t)) +
-               (coeffs[n, 1] * np.sin(2. * (n + 1.) * np.pi * t)))
+        yt += ((coeffs[n, 0] * np.cos(2. * (n + 1) * np.pi * t)) +
+               (coeffs[n, 1] * np.sin(2. * (n + 1) * np.pi * t)))
 
         if n == harmonic - 1:
             return xt, yt
@@ -282,8 +282,8 @@ def PlotEllipse(ax, x, y, color='k', width=1.):
     ax.plot(x, y, color, linewidth=width)
 
 
-def plotComparison(ax, coeffs, harmonic, x, y, rotation=0., color1='k',
-                   width1=2., color2='r', width2=1.):
+def plotComparison(ax, coeffs, harmonic, x, y, rotation=0, color1='k',
+                   width1=2, color2='r', width2=1):
     '''
     Convenience function which plots an EFD ellipse and a shapefile polygon in
     the same coordate system.
@@ -399,9 +399,9 @@ def AverageSD(coeffList, avgcoeffs):
     coeffsum = np.zeros((nHarmonics, 4))
 
     for coeff in coeffList:
-        coeffsum += (coeff ** 2.)
+        coeffsum += (coeff ** 2)
 
-    return (coeffsum / float(len(coeffList) - 1)) - (avgcoeffs ** 2.)
+    return (coeffsum / float(len(coeffList) - 1)) - (avgcoeffs ** 2)
 
 
 def Nyquist(X):
@@ -448,16 +448,16 @@ def FourierPower(coeffs, X, threshold=0.9999):
     '''
     nyquist = Nyquist(X)
 
-    totalPower = 0.
-    currentPower = 0.
+    totalPower = 0
+    currentPower = 0
 
     for n in range(nyquist):
-            totalPower += ((coeffs[n, 0] ** 2.) + (coeffs[n, 1] ** 2.) +
-                           (coeffs[n, 2] ** 2.) + (coeffs[n, 3] ** 2.)) / 2.
+            totalPower += ((coeffs[n, 0] ** 2) + (coeffs[n, 1] ** 2) +
+                           (coeffs[n, 2] ** 2) + (coeffs[n, 3] ** 2)) / 2
 
     for i in range(nyquist):
-        currentPower += ((coeffs[i, 0] ** 2.) + (coeffs[i, 1] ** 2.) +
-                         (coeffs[i, 2] ** 2.) + (coeffs[i, 3] ** 2.)) / 2.
+        currentPower += ((coeffs[i, 0] ** 2) + (coeffs[i, 1] ** 2.) +
+                         (coeffs[i, 2] ** 2) + (coeffs[i, 3] ** 2.)) / 2
 
         if (currentPower / totalPower) > threshold:
             return i + 1
@@ -493,12 +493,12 @@ def normalize_efd(coeffs, size_invariant=True):
     '''
     # Make the coefficients have a zero phase shift from
     # the first major axis. Theta_1 is that shift angle.
-    theta_1 = (0.5 * np.arctan2(2. * ((coeffs[0, 0] * coeffs[0, 1]) +
+    theta_1 = (0.5 * np.arctan2(2 * ((coeffs[0, 0] * coeffs[0, 1]) +
                (coeffs[0, 2] * coeffs[0, 3])),
-              ((coeffs[0, 0] ** 2.) -
-               (coeffs[0, 1] ** 2.) +
-               (coeffs[0, 2] ** 2.) -
-               (coeffs[0, 3] ** 2.))))
+              ((coeffs[0, 0] ** 2) -
+               (coeffs[0, 1] ** 2) +
+               (coeffs[0, 2] ** 2) -
+               (coeffs[0, 3] ** 2))))
 
     # Rotate all coefficients by theta_1.
     for n in range(1, coeffs.shape[0] + 1):
@@ -552,15 +552,15 @@ def calculate_dc_coefficients(X, Y):
     contour = np.array([(x, y) for x, y in zip(X, Y)])
 
     dxy = np.diff(contour, axis=0)
-    dt = np.sqrt((dxy ** 2.).sum(axis=1))
-    t = np.concatenate([([0., ]), np.cumsum(dt)])
+    dt = np.sqrt((dxy ** 2).sum(axis=1))
+    t = np.concatenate([([0, ]), np.cumsum(dt)])
     T = t[-1]
 
-    diff = np.diff(t ** 2.)
+    diff = np.diff(t ** 2)
     xi = np.cumsum(dxy[:, 0]) - (dxy[:, 0] / dt) * t[1:]
-    A0 = (1. / T) * np.sum(((dxy[:, 0] / (2. * dt)) * diff) + xi * dt)
+    A0 = (1 / T) * np.sum(((dxy[:, 0] / (2 * dt)) * diff) + xi * dt)
     delta = np.cumsum(dxy[:, 1]) - (dxy[:, 1] / dt) * t[1:]
-    C0 = (1. / T) * np.sum(((dxy[:, 1] / (2. * dt)) * diff) + delta * dt)
+    C0 = (1 / T) * np.sum(((dxy[:, 1] / (2 * dt)) * diff) + delta * dt)
 
     # A0 and CO relate to the first point of the contour array as origin.
     # Adding those values to the coeffs to make them relate to true origin
@@ -799,10 +799,10 @@ def getBBoxDimensions(x, y):
         the y direction, the minimum x coordinate and the minimum y
         coordinate).
     '''
-    xmin = float(min(x))
-    ymin = float(min(y))
+    xmin = min(x)
+    ymin = min(y)
 
-    xmax = float(max(x))
-    ymax = float(max(y))
+    xmax = max(x)
+    ymax = max(y)
 
     return xmax - xmin, ymax - ymin, xmin, ymin

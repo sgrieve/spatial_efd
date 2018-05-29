@@ -4,3 +4,4 @@ pyshp
 flake8
 pytest-cov
 codecov
+future

@@ -157,7 +157,7 @@ class TestEFD():
     def test_average_coefficients(self, example_shp, expected):
         coeffsList = []
 
-        for i in xrange(3):
+        for i in range(3):
             x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[i])
             coeffsList.append(spatial_efd.CalculateEFD(x, y, 10))
 
@@ -168,7 +168,7 @@ class TestEFD():
     def test_average_sd(self, example_shp, expected):
         coeffsList = []
 
-        for i in xrange(3):
+        for i in range(3):
             x, y, _ = spatial_efd.ProcessGeometryNorm(example_shp[i])
             coeffsList.append(spatial_efd.CalculateEFD(x, y, 10))
 

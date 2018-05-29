@@ -1,7 +1,15 @@
 language: python
 python:
   - "2.7"
-script: pytest --cov=spatial_efd/
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  # PyPy versions
+  - "pypy2.7"
+  - "pypy3.5"
+
+script: pytest
 branches:
   only:
     - master
@@ -9,6 +17,7 @@ install:
  - pip install .
  - pip install -r .travis.requirements.txt
 after_success:
+ - pytest --cov=spatial_efd/
  - codecov
  - flake8 spatial_efd/spatial_efd.py
  - flake8 tests/test_efd.py

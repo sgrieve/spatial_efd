@@ -264,8 +264,8 @@ Contribute
 
 I welcome contributions to the code, head to the issue tracker on github to get involved!
 
-- `Issue Tracker <github.com/sgrieve/spatial_efd/issues>`_
-- `Source Code <github.com/sgrieve/spatial_efd>`_
+- `Issue Tracker <https://github.com/sgrieve/spatial_efd/issues>`_
+- `Source Code <https://github.com/sgrieve/spatial_efd>`_
 
 Support
 -------

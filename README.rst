@@ -4,8 +4,8 @@ Spatial Elliptical Fourier Descriptors
 .. image:: https://travis-ci.org/sgrieve/spatial_efd.svg?branch=master
     :target: https://travis-ci.org/sgrieve/spatial_efd
 
-.. image:: https://img.shields.io/codecov/c/github/sgrieve/spatial_efd.svg
-    :target: https://codecov.io/github/sgrieve/spatial_efd
+.. image:: https://codecov.io/gh/sgrieve/spatial_efd/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/sgrieve/spatial_efd
 
 .. image:: https://requires.io/github/sgrieve/spatial_efd/requirements.svg?branch=master
      :target: https://requires.io/github/sgrieve/spatial_efd/requirements/?branch=master

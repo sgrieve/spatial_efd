@@ -57,7 +57,7 @@ Install ``spatial_efd`` by running:
 Dependencies
 ------------
 
-This package supports Python 2.7 and Python 3 and is tested on Linux and Windows environments, using both the standard python interpreter and [pypy](https://pypy.org). It requires ``matplotlib``, ``numpy`` and ``pyshp``. These packages will all install automatically if ``spatial_efd`` is installed using ``pip``.
+This package supports Python 2.7 and Python 3 and is tested on Linux and Windows environments, using both the standard python interpreter and [pypy](https://pypy.org). It requires ``matplotlib``, ``numpy``, ``future`` and ``pyshp``. These packages will all install automatically if ``spatial_efd`` is installed using ``pip``.
 
 Dependencies can be tracked by visiting `requires.io <https://requires.io/github/sgrieve/spatial_efd/requirements/?branch=master>`_
 

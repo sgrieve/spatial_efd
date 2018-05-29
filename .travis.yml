@@ -1,7 +1,7 @@
 language: python
 python:
   - "2.7"
-script: coverage run --source spatial_efd setup.py test
+script: pytest --cov=spatial_efd/
 branches:
   only:
     - master
@@ -11,6 +11,7 @@ install:
 after_success:
  - codecov
  - flake8 spatial_efd/spatial_efd.py
+ - flake8 tests/test_efd.py
 before_script:
  - "export DISPLAY=:99.0"
  - "sh -e /etc/init.d/xvfb start"

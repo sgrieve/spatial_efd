@@ -2,4 +2,5 @@ matplotlib
 numpy
 pyshp
 flake8
+pytest-cov
 codecov

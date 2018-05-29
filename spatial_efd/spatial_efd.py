@@ -728,9 +728,9 @@ def saveShapefile(filename, shpinstance, prj=None):
         shape (shapefile.Writer): A shapefile object representing the
             geometry and attributes written by writeGeometry().
         prj (string): A complete path and filename, with or without the
-            .shp extenion, to the shapefile that data was loaded from
-            initially, Used to copy the spatial projection information to
-            the new file.
+            .prj extenion, to the projection file from the shapefile that the
+            data was loaded from initially, Used to copy the spatial projection
+            information to the new file.
 
     Warning:
         Code does not test if output paths exist, and if files exist they will

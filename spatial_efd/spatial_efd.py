@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import division
 import warnings
 import numpy as np
 import shapefile as sf
@@ -416,7 +417,7 @@ def Nyquist(X):
     Returns:
         int: The nyquist frequency, expressed as a number of harmonics.
     '''
-    return len(X) / 2
+    return len(X) // 2
 
 
 def FourierPower(coeffs, X, threshold=0.9999):

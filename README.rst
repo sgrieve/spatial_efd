@@ -57,14 +57,14 @@ Install ``spatial_efd`` by running:
 Dependencies
 ------------
 
-This package supports Python 2.7 and Python 3 and is tested on Linux and Windows environments, using both the standard python interpreter and [pypy](https://pypy.org). It requires ``matplotlib``, ``numpy``, ``future`` and ``pyshp``. These packages will all install automatically if ``spatial_efd`` is installed using ``pip``.
+This package supports Python 2.7 and Python 3 and is tested on Linux and Windows environments, using both the standard python interpreter and `pypy <https://pypy.org>`_. It requires ``matplotlib``, ``numpy``, ``future`` and ``pyshp``. These packages will all install automatically if ``spatial_efd`` is installed using ``pip``.
 
 Dependencies can be tracked by visiting `requires.io <https://requires.io/github/sgrieve/spatial_efd/requirements/?branch=master>`_
 
 Tests
 ----------
 
-A range of unit tests are included in the `/tests/` directory. These can
+A range of unit tests are included in the `/test/` directory. These can
 be run using `pytest`:
 
 .. code-block:: bash
@@ -84,7 +84,7 @@ The first step in using ``spatial_efd`` is always to load a shapefile:
 .. code-block:: python
 
     import spatial_efd
-    shp = spatial_efd.LoadGeometries('tests/fixtures/example_data.shp')
+    shp = spatial_efd.LoadGeometries('test/fixtures/example_data.shp')
 
 This creates a shapefile object ``shp`` which contains the polygon geometries we want to analyze. As in most cases more than one polygon will be stored in an individual file, a single polygon can be selected for processing using python's list notation:
 
@@ -162,7 +162,7 @@ All of the above examples have focused on processing a single polygon from a mul
 
 .. code-block:: python
 
-    shp = spatial_efd.LoadGeometries('tests/fixtures/example_data.shp')
+    shp = spatial_efd.LoadGeometries('test/fixtures/example_data.shp')
 
     coeffsList = []
 
@@ -251,7 +251,7 @@ In the case of the non-normalized data plotted above, these ellipses can also be
    shape_id = 1
    shpinstance = spatial_efd.generateShapefile()
    shpinstance = spatial_efd.writeGeometry(coeffs, x, y, harmonic, shpinstance, shape_id)
-   spatial_efd.saveShapefile('myShapefile', shpinstance, prj='tests/fixtures/example_data.prj')
+   spatial_efd.saveShapefile('myShapefile', shpinstance, prj='test/fixtures/example_data.prj')
 
 The first method called creates a blank shapefile object in memory, ready to be populated with Fourier ellipses. The second method can be wrapped in a loop to write as many ellipses as required to a single file. ``shape_id`` is written into the attribute table of the output shapefile and can be set to any integer as a means of identifying the Fourier ellipses. By passing in the existing ``example.prj`` file to the save method, a new projection file will be generated for the saved shapefile, ensuring that it has the correct spatial reference information for when it is loaded into a GIS package. Note that no reprojection is performed as the aim is for the input and output coordinate systems to match. If this parameter is excluded, the output shapefile will have no defined spatial reference system.
 

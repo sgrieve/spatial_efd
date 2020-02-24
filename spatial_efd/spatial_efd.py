@@ -238,18 +238,13 @@ def inverse_transform(coeffs, locus=(0, 0), n=300, harmonic=10):
         four coefficients for each harmonic computed.
     '''
 
-    t = np.linspace(0, 1, n)
-    xt = np.ones((n,)) * locus[0]
-    yt = np.ones((n,)) * locus[1]
-
     t = np.linspace(0, 1, n).reshape(1,-1)
-    xt = np.ones((n,)) * locus[0]
-    yt = np.ones((n,)) * locus[1]
     n = np.arange(harmonic-1).reshape(-1,1)
     
-    xt = np.matmul(coeffs[:harmonic-1,2].reshape(1,-1),np.cos(2. * (n + 1) * np.pi * t)) + np.matmul(coeffs[:harmonic-1,3].reshape(1,-1),np.sin(2. * (n + 1) * np.pi * t))
-    yt = np.matmul(coeffs[:harmonic-1,0].reshape(1,-1),np.cos(2. * (n + 1) * np.pi * t)) + np.matmul(coeffs[:harmonic-1,1].reshape(1,-1),np.sin(2. * (n + 1) * np.pi * t))
-    return xt, yt
+    xt = np.matmul(coeffs[:harmonic-1,2].reshape(1,-1),np.cos(2. * (n + 1) * np.pi * t)) + np.matmul(coeffs[:harmonic-1,3].reshape(1,-1),np.sin(2. * (n + 1) * np.pi * t)) + locus[0]
+    yt = np.matmul(coeffs[:harmonic-1,0].reshape(1,-1),np.cos(2. * (n + 1) * np.pi * t)) + np.matmul(coeffs[:harmonic-1,1].reshape(1,-1),np.sin(2. * (n + 1) * np.pi * t)) + locus[1]
+    
+    return xt.ravel(), yt.ravel()
 
 
 def InitPlot():

@@ -30,4 +30,4 @@ setup(name='spatial_efd',
       include_package_data=True,
       zip_safe=False,
       test_suite='pytest-runner',
-      tests_require=['pytest==3.6.0'])
+      tests_require=['pytest'])

@@ -184,7 +184,7 @@ def CalculateEFD(X, Y, harmonics=10):
     '''
 
     contour = np.array([(x, y) for x, y in zip(X, Y)])
-    
+
     dxy = np.diff(contour, axis=0)
     dt = np.sqrt((dxy ** 2).sum(axis=1))
     t = np.concatenate([([0, ]), np.cumsum(dt)]).reshape(-1,1)
@@ -203,12 +203,12 @@ def CalculateEFD(X, Y, harmonics=10):
     b_n = const *  np.sum((dxy[:, 1] / dt).reshape(-1,1) * d_sin_phi_n,axis=0)
     c_n = const *  np.sum((dxy[:, 0] / dt).reshape(-1,1) * d_cos_phi_n,axis=0)
     d_n = const *  np.sum((dxy[:, 0] / dt).reshape(-1,1) * d_sin_phi_n,axis=0)
-    
+
     coeffs = np.vstack((a_n, b_n, c_n, d_n)).T
     return coeffs
 
 
-def inverse_transform(coeffs, locus=(0, 0), n=300, harmonic=10):
+def inverse_transform(coeffs, locus=(0, 0), n_coords=300, harmonic=10):
     '''
     Perform an inverse fourier transform to convert the coefficients back into
     spatial coordinates.
@@ -221,14 +221,14 @@ def inverse_transform(coeffs, locus=(0, 0), n=300, harmonic=10):
     contour. Computer graphics and image processing, 18(3), 236-258.
 
     Args:
-        coeffs (numpy.ndarray): A numpy array of shape (n, 4) representing the
-            four coefficients for each harmonic computed.
+        coeffs (numpy.ndarray): A numpy array of shape (harmonic, 4)
+            representing the four coefficients for each harmonic computed.
         locus (tuple): The x,y coordinates of the centroid of the contour being
             generated. Use calculate_dc_coefficients() to generate the correct
             locus for a shape.
-        n (int): The number of coordinate pairs to compute. A larger value will
-            result in a more complex shape at the expense of increased
-            computational time. Defaults to 300.
+        n_coords (int): The number of coordinate pairs to compute. A larger
+            value will result in a more complex shape at the expense of
+            increased computational time. Defaults to 300.
         harmonics (int): The number of harmonics to be used to generate
             coordinates, defaults to 10. Must be <= coeffs.shape[0]. Supply a
             smaller value to produce coordinates for a more generalized shape.
@@ -238,12 +238,12 @@ def inverse_transform(coeffs, locus=(0, 0), n=300, harmonic=10):
         four coefficients for each harmonic computed.
     '''
 
-    t = np.linspace(0, 1, n).reshape(1,-1)
-    n = np.arange(harmonic-1).reshape(-1,1)
-    
-    xt = np.matmul(coeffs[:harmonic-1,2].reshape(1,-1),np.cos(2. * (n + 1) * np.pi * t)) + np.matmul(coeffs[:harmonic-1,3].reshape(1,-1),np.sin(2. * (n + 1) * np.pi * t)) + locus[0]
-    yt = np.matmul(coeffs[:harmonic-1,0].reshape(1,-1),np.cos(2. * (n + 1) * np.pi * t)) + np.matmul(coeffs[:harmonic-1,1].reshape(1,-1),np.sin(2. * (n + 1) * np.pi * t)) + locus[1]
-    
+    t = np.linspace(0, 1, n_coords).reshape(1,-1)
+    n = np.arange(harmonic).reshape(-1,1)
+
+    xt = np.matmul(coeffs[:harmonic,2].reshape(1,-1),np.cos(2. * (n + 1) * np.pi * t)) + np.matmul(coeffs[:harmonic,3].reshape(1,-1),np.sin(2. * (n + 1) * np.pi * t)) + locus[0]
+    yt = np.matmul(coeffs[:harmonic,0].reshape(1,-1),np.cos(2. * (n + 1) * np.pi * t)) + np.matmul(coeffs[:harmonic,1].reshape(1,-1),np.sin(2. * (n + 1) * np.pi * t)) + locus[1]
+
     return xt.ravel(), yt.ravel()
 
 

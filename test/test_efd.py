@@ -38,8 +38,8 @@ def shp_paths():
 
 
 @pytest.fixture
-def example_shp():
-    return spatial_efd.LoadGeometries(shp_paths()[0])
+def example_shp(shp_paths):
+    return spatial_efd.LoadGeometries(shp_paths[0])
 
 
 @pytest.fixture
@@ -61,22 +61,29 @@ def clean_warning(message):
 
 
 class TestEFD():
-    @pytest.mark.parametrize('shape, area',
-                             [(open_square(), 100), (closed_square(), 100)])
-    def test_area(self, shape, area):
-        a = spatial_efd.ContourArea(*shape)
-        assert a == area
+    def test_area_open(self, open_square):
+        area = spatial_efd.ContourArea(*open_square)
+        assert area == 100
 
-    @pytest.mark.parametrize('shape, centre',
-                             [(open_square(), (5, 5)),
-                              (closed_square(), (5, 5))])
-    def test_centroid(self, shape, centre):
-        c = spatial_efd.ContourCentroid(*shape)
-        assert c == centre
+    def test_area_closed(self, closed_square):
+        area = spatial_efd.ContourArea(*closed_square)
+        assert area == 100
 
-    @pytest.mark.parametrize('shape', [open_square(), closed_square()])
-    def test_close_contour(self, shape):
-        X, Y = spatial_efd.CloseContour(*shape)
+    def test_centroid_open(self, open_square):
+        centre = spatial_efd.ContourCentroid(*open_square)
+        assert centre == (5, 5)
+
+    def test_centroid_open(self, closed_square):
+        centre = spatial_efd.ContourCentroid(*closed_square)
+        assert centre == (5, 5)
+
+    def test_close_contour_open(self, open_square):
+        X, Y = spatial_efd.CloseContour(*open_square)
+        assert X[0] == X[-1]
+        assert Y[0] == Y[-1]
+
+    def test_close_contour_closed(self, closed_square):
+        X, Y = spatial_efd.CloseContour(*closed_square)
         assert X[0] == X[-1]
         assert Y[0] == Y[-1]
 

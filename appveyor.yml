@@ -6,7 +6,9 @@ environment:
   matrix:
     - PYTHON: "C:/Python38-x64"
 
-build_script:
+build: false
+
+install:
 - ps: "pip install -r .requirements.txt"
 test_script:
 - ps: "pytest"

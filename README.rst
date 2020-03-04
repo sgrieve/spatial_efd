@@ -39,7 +39,7 @@ Features
 --------
 
 - Built-in geometry processing, just pass in a shapefile and get results quickly!
-- Fourier coefficient average and standard devation calculation
+- Fourier coefficient average and standard deviation calculation
 - Handles spatial input data through the pyshp library
 - Compute an appropriate number of harmonics for a given polygon
 - Basic plotting for analysis and debugging through matplotlib
@@ -60,6 +60,8 @@ Dependencies
 This package supports Python 2.7 and Python 3 and is tested on Linux and Windows environments, using both the standard python interpreter and `pypy <https://pypy.org>`_. It requires ``matplotlib``, ``numpy``, ``future`` and ``pyshp``. These packages will all install automatically if ``spatial_efd`` is installed using ``pip``.
 
 Dependencies can be tracked by visiting `requires.io <https://requires.io/github/sgrieve/spatial_efd/requirements/?branch=master>`_
+
+Note that Python 2 has reached `end of life <https://www.python.org/doc/sunset-python-2/>`_ and although the code currently works under Python 2, this will not be supported, and future updates may completely break Python 2 support without warning.
 
 Tests
 ----------
@@ -249,13 +251,12 @@ In the case of the non-normalized data plotted above, these ellipses can also be
 .. code-block:: python
 
    shape_id = 1
-   shpinstance = spatial_efd.generateShapefile()
+   shpinstance = spatial_efd.generateShapefile('mydata/myShapefile', prj='test/fixtures/example_data.prj')
    shpinstance = spatial_efd.writeGeometry(coeffs, x, y, harmonic, shpinstance, shape_id)
-   spatial_efd.saveShapefile('myShapefile', shpinstance, prj='test/fixtures/example_data.prj')
 
-The first method called creates a blank shapefile object in memory, ready to be populated with Fourier ellipses. The second method can be wrapped in a loop to write as many ellipses as required to a single file. ``shape_id`` is written into the attribute table of the output shapefile and can be set to any integer as a means of identifying the Fourier ellipses. By passing in the existing ``example.prj`` file to the save method, a new projection file will be generated for the saved shapefile, ensuring that it has the correct spatial reference information for when it is loaded into a GIS package. Note that no reprojection is performed as the aim is for the input and output coordinate systems to match. If this parameter is excluded, the output shapefile will have no defined spatial reference system.
+The first method called creates a blank shapefile in the path ``mydata``, ready to be populated with Fourier ellipses. By passing in the existing ``example.prj`` file to the save method, a new projection file will be generated for the saved shapefile, ensuring that it has the correct spatial reference information for when it is loaded into a GIS package. Note that no reprojection is performed as the aim is for the input and output coordinate systems to match. If this parameter is excluded, the output shapefile will have no defined spatial reference system.
 
-
+The second method can be wrapped in a loop to write as many ellipses as required to a single file. ``shape_id`` is written into the attribute table of the output shapefile and can be set to any integer as a means of identifying the Fourier ellipses.
 
 For more detailed guidance on all of the functions and arguments in this package please check out the source code on `github <https://github.com/sgrieve/spatial_efd>`_ or the `API documentation. <http://spatial-efd.readthedocs.io/en/latest/spatial_efd.html>`_
 
@@ -265,7 +266,7 @@ Contribute
 .. image:: https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat
     :target: https://codecov.io/github/sgrieve/spatial_efd/issues
 
-I welcome contributions to the code, head to the issue tracker on github to get involved!
+I welcome contributions to the code, head to the issue tracker on GitHub to get involved!
 
 - `Issue Tracker <https://github.com/sgrieve/spatial_efd/issues>`_
 - `Source Code <https://github.com/sgrieve/spatial_efd>`_

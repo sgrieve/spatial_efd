@@ -38,8 +38,8 @@ def shp_paths():
 
 
 @pytest.fixture
-def example_shp():
-    return spatial_efd.LoadGeometries(shp_paths()[0])
+def example_shp(shp_paths):
+    return spatial_efd.LoadGeometries(shp_paths[0])
 
 
 @pytest.fixture
@@ -61,22 +61,29 @@ def clean_warning(message):
 
 
 class TestEFD():
-    @pytest.mark.parametrize('shape, area',
-                             [(open_square(), 100), (closed_square(), 100)])
-    def test_area(self, shape, area):
-        a = spatial_efd.ContourArea(*shape)
-        assert a == area
+    def test_area_open(self, open_square):
+        area = spatial_efd.ContourArea(*open_square)
+        assert area == 100
 
-    @pytest.mark.parametrize('shape, centre',
-                             [(open_square(), (5, 5)),
-                              (closed_square(), (5, 5))])
-    def test_centroid(self, shape, centre):
-        c = spatial_efd.ContourCentroid(*shape)
-        assert c == centre
+    def test_area_closed(self, closed_square):
+        area = spatial_efd.ContourArea(*closed_square)
+        assert area == 100
 
-    @pytest.mark.parametrize('shape', [open_square(), closed_square()])
-    def test_close_contour(self, shape):
-        X, Y = spatial_efd.CloseContour(*shape)
+    def test_centroid_open(self, open_square):
+        centre = spatial_efd.ContourCentroid(*open_square)
+        assert centre == (5, 5)
+
+    def test_centroid_open(self, closed_square):
+        centre = spatial_efd.ContourCentroid(*closed_square)
+        assert centre == (5, 5)
+
+    def test_close_contour_open(self, open_square):
+        X, Y = spatial_efd.CloseContour(*open_square)
+        assert X[0] == X[-1]
+        assert Y[0] == Y[-1]
+
+    def test_close_contour_closed(self, closed_square):
+        X, Y = spatial_efd.CloseContour(*closed_square)
         assert X[0] == X[-1]
         assert Y[0] == Y[-1]
 
@@ -114,7 +121,7 @@ class TestEFD():
         assert ymin == expected['get_bbox_dimensions']['ymin']
 
     def test_load_geometry(self, example_shp):
-        assert isinstance(example_shp[0], shp._ShapeRecord)
+        assert isinstance(example_shp[0], shp.ShapeRecord)
 
     def test_process_geometry(self, example_shp, expected):
         x, y, c = spatial_efd.ProcessGeometry(example_shp[1])
@@ -236,43 +243,32 @@ class TestEFD():
         spatial_efd.SavePlot(ax, 8, tmpdir, 'png')
         assert os.path.isfile('{0}_8.png'.format(tmpdir))
 
-    def test_write_geometry(self, example_shp):
-        x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
-        coeffs = spatial_efd.CalculateEFD(x, y, 10)
-        shape = spatial_efd.generateShapefile()
-        shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
+    def test_generate_shapefile(self, tmpdir):
+        shape = spatial_efd.generateShapefile(tmpdir.strpath)
         assert isinstance(shape, shp.Writer)
 
-    def test_generate_shapefile(self):
-        shape = spatial_efd.generateShapefile()
-        assert isinstance(shape, shp.Writer)
-
-    def test_save_shapefile(self, example_shp, tmpdir):
+    def test_write_geometry(self, example_shp, tmpdir):
         x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
-        shape = spatial_efd.generateShapefile()
+        shape = spatial_efd.generateShapefile(tmpdir.strpath)
         shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
-        spatial_efd.saveShapefile(tmpdir.strpath, shape, prj=None)
         assert os.path.isfile('{}.shp'.format(tmpdir))
 
-    def test_save_shapefile_prj(self, example_shp, tmpdir, shp_paths):
+    def test_write_geometry_prj(self, example_shp, tmpdir, shp_paths):
         x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
-        shape = spatial_efd.generateShapefile()
+        shape = spatial_efd.generateShapefile(tmpdir.strpath, prj=shp_paths[1])
         shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
-        spatial_efd.saveShapefile(tmpdir.strpath, shape, prj=shp_paths[1])
         assert os.path.isfile('{}.shp'.format(tmpdir))
         assert os.path.isfile('{}.prj'.format(tmpdir))
 
-    def test_save_shapefile_prj_missing(self, example_shp, tmpdir,
-                                        warn_missing_prj):
+    def test_write_missing_prj(self, example_shp, tmpdir, shp_paths,
+                               warn_missing_prj):
         x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
-        shape = spatial_efd.generateShapefile()
-        shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
 
         with warnings.catch_warnings(record=True) as w:
-            spatial_efd.saveShapefile(tmpdir.strpath, shape, prj='missing.prj')
+            spatial_efd.generateShapefile(tmpdir.strpath, prj='missing.prj')
 
             assert os.path.isfile('{0}.shp'.format(tmpdir))
             assert not os.path.isfile('{0}.prj'.format(tmpdir))
@@ -280,15 +276,13 @@ class TestEFD():
             assert issubclass(w[0].category, UserWarning)
             assert clean_warning(w[0].message) == warn_missing_prj
 
-    def test_save_shapefile_prj_wrong(self, example_shp, tmpdir, shp_paths,
+    def test_write_prj_wrong(self, example_shp, tmpdir, shp_paths,
                                       warn_wrong_prj):
         x, y, _ = spatial_efd.ProcessGeometry(example_shp[1])
         coeffs = spatial_efd.CalculateEFD(x, y, 10)
-        shape = spatial_efd.generateShapefile()
-        shape = spatial_efd.writeGeometry(coeffs, x, y, 4, shape, 1)
 
         with warnings.catch_warnings(record=True) as w:
-            spatial_efd.saveShapefile(tmpdir.strpath, shape, prj=shp_paths[0])
+            spatial_efd.generateShapefile(tmpdir.strpath, prj=shp_paths[0])
 
             assert os.path.isfile('{0}.shp'.format(tmpdir))
             assert not os.path.isfile('{0}.prj'.format(tmpdir))

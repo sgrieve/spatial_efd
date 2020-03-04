@@ -187,27 +187,28 @@ def CalculateEFD(X, Y, harmonics=10):
 
     dxy = np.diff(contour, axis=0)
     dt = np.sqrt((dxy ** 2).sum(axis=1))
-    t = np.concatenate([([0, ]), np.cumsum(dt)])
+    t = np.concatenate([([0, ]), np.cumsum(dt)]).reshape(-1, 1)
     T = t[-1]
 
-    phi = (2. * np.pi * t) / T
+    phi = (2. * np.pi * t)/T
 
     coeffs = np.zeros((harmonics, 4))
-    for n in range(1, harmonics + 1):
-        const = T / (2 * n * n * np.pi * np.pi)
-        phi_n = phi * n
-        d_cos_phi_n = np.cos(phi_n[1:]) - np.cos(phi_n[:-1])
-        d_sin_phi_n = np.sin(phi_n[1:]) - np.sin(phi_n[:-1])
-        a_n = const * np.sum((dxy[:, 1] / dt) * d_cos_phi_n)
-        b_n = const * np.sum((dxy[:, 1] / dt) * d_sin_phi_n)
-        c_n = const * np.sum((dxy[:, 0] / dt) * d_cos_phi_n)
-        d_n = const * np.sum((dxy[:, 0] / dt) * d_sin_phi_n)
-        coeffs[n - 1, :] = a_n, b_n, c_n, d_n
 
+    n = np.arange(1, harmonics + 1)
+    const = T / (2 * n * n * np.pi * np.pi)
+    phi_n = phi * n
+    d_cos_phi_n = np.cos(phi_n[1:, :]) - np.cos(phi_n[:-1, :])
+    d_sin_phi_n = np.sin(phi_n[1:, :]) - np.sin(phi_n[:-1, :])
+    a_n = const * np.sum((dxy[:, 1] / dt).reshape(-1, 1) * d_cos_phi_n, axis=0)
+    b_n = const * np.sum((dxy[:, 1] / dt).reshape(-1, 1) * d_sin_phi_n, axis=0)
+    c_n = const * np.sum((dxy[:, 0] / dt).reshape(-1, 1) * d_cos_phi_n, axis=0)
+    d_n = const * np.sum((dxy[:, 0] / dt).reshape(-1, 1) * d_sin_phi_n, axis=0)
+
+    coeffs = np.vstack((a_n, b_n, c_n, d_n)).T
     return coeffs
 
 
-def inverse_transform(coeffs, locus=(0, 0), n=300, harmonic=10):
+def inverse_transform(coeffs, locus=(0, 0), n_coords=300, harmonic=10):
     '''
     Perform an inverse fourier transform to convert the coefficients back into
     spatial coordinates.
@@ -220,14 +221,14 @@ def inverse_transform(coeffs, locus=(0, 0), n=300, harmonic=10):
     contour. Computer graphics and image processing, 18(3), 236-258.
 
     Args:
-        coeffs (numpy.ndarray): A numpy array of shape (n, 4) representing the
-            four coefficients for each harmonic computed.
+        coeffs (numpy.ndarray): A numpy array of shape (harmonic, 4)
+            representing the four coefficients for each harmonic computed.
         locus (tuple): The x,y coordinates of the centroid of the contour being
             generated. Use calculate_dc_coefficients() to generate the correct
             locus for a shape.
-        n (int): The number of coordinate pairs to compute. A larger value will
-            result in a more complex shape at the expense of increased
-            computational time. Defaults to 300.
+        n_coords (int): The number of coordinate pairs to compute. A larger
+            value will result in a more complex shape at the expense of
+            increased computational time. Defaults to 300.
         harmonics (int): The number of harmonics to be used to generate
             coordinates, defaults to 10. Must be <= coeffs.shape[0]. Supply a
             smaller value to produce coordinates for a more generalized shape.
@@ -237,20 +238,22 @@ def inverse_transform(coeffs, locus=(0, 0), n=300, harmonic=10):
         four coefficients for each harmonic computed.
     '''
 
-    t = np.linspace(0, 1, n)
-    xt = np.ones((n,)) * locus[0]
-    yt = np.ones((n,)) * locus[1]
+    t = np.linspace(0, 1, n_coords).reshape(1, -1)
+    n = np.arange(harmonic).reshape(-1, 1)
 
-    for n in range(harmonic):
+    xt = (np.matmul(coeffs[:harmonic, 2].reshape(1, -1),
+                    np.cos(2. * (n + 1) * np.pi * t)) +
+          np.matmul(coeffs[:harmonic, 3].reshape(1, -1),
+                    np.sin(2. * (n + 1) * np.pi * t)) +
+          locus[0])
 
-        xt += ((coeffs[n, 2] * np.cos(2. * (n + 1) * np.pi * t)) +
-               (coeffs[n, 3] * np.sin(2. * (n + 1) * np.pi * t)))
+    yt = (np.matmul(coeffs[:harmonic, 0].reshape(1, -1),
+                    np.cos(2. * (n + 1) * np.pi * t)) +
+          np.matmul(coeffs[:harmonic, 1].reshape(1, -1),
+                    np.sin(2. * (n + 1) * np.pi * t)) +
+          locus[1])
 
-        yt += ((coeffs[n, 0] * np.cos(2. * (n + 1) * np.pi * t)) +
-               (coeffs[n, 1] * np.sin(2. * (n + 1) * np.pi * t)))
-
-        if n == harmonic - 1:
-            return xt, yt
+    return xt.ravel(), yt.ravel()
 
 
 def InitPlot():
@@ -657,22 +660,52 @@ def ProcessGeometryNorm(shape):
     return X, Y, NormCentroid
 
 
-def generateShapefile():
+def generateShapefile(filename, prj=None):
     '''
     Create an empty shapefile to write output into using writeGeometry().
 
     Builds a multipart polygon shapefile with a single attribute, ID, which can
-    be used to reference the written polygons. Does not write any geometry or
-    create any files.
+    be used to reference the written polygons.
+
+    Args:
+        filename (string): A complete path and filename, with or without the
+            .shp extenion, to write the shapefile data to. Must be a path
+            which exists.
+        prj (string): A complete path and filename, with or without the
+            .prj extenion, to the projection file from the shapefile that the
+            data was loaded from initially, Used to copy the spatial projection
+            information to the new file.
+
+    Warning:
+        Code does not test if output paths exist, and if files exist they will
+        be overwritten.
 
     Returns:
         shapefile.Writer: An empty polygon shapefile instance ready to have
         data written to it.
 
     '''
-    shpinstance = sf.Writer(sf.POLYGON)
+    shpinstance = sf.Writer(filename, sf.POLYGON)
     shpinstance.autoBalance = 1
     shpinstance.field('Poly_ID', 'N', '10')
+
+    # create prj file
+    if prj:
+        # we have been passed a filename, check prj points to a *.prj file
+        if path.isfile(prj):
+            if path.splitext(prj)[-1].lower() == '.prj':
+                # build the new filename
+                newprj = '{0}.{1}'.format(path.splitext(filename)[:-1][0],
+                                          'prj')
+                copy2(prj, newprj)
+            else:
+                warning = ('The file supplied ({0}) is not a prj file. '
+                           'No .prj file will be written').format(prj)
+                warnings.warn(warning)
+        else:
+            warning = ('The .prj file supplied ({0}) does not exist. '
+                       'No .prj file will be written'.format(prj))
+            warnings.warn(warning)
 
     return shpinstance
 
@@ -706,57 +739,10 @@ def writeGeometry(coeffs, x, y, harmonic, shpinstance, ID):
     xt, yt = inverse_transform(coeffs, locus=locus, harmonic=harmonic)
 
     contour = [(x_, y_) for x_, y_ in zip(xt, yt)]
-    shpinstance.poly(parts=[contour])
+    shpinstance.poly([contour])
     shpinstance.record(ID, 'Poly_ID')
 
     return shpinstance
-
-
-def saveShapefile(filename, shpinstance, prj=None):
-    '''
-    Write the data processed by writeGeometry into a shapefile generated by
-    generateShapefile().
-
-    If the filename of a shapfile is passed in as template, the spatial
-    projection of the template shapefile will be applied to the new shapefile.
-    Note that this does not carry out any coordinate transforms, it is merely
-    to apply the same spatial reference to the output data as was present in
-    the input data.
-
-    Args:
-        filename (string): A complete path and filename, with or without the
-            .shp extenion, to write the final shapefile data to. Must be a path
-            which exists.
-        shape (shapefile.Writer): A shapefile object representing the
-            geometry and attributes written by writeGeometry().
-        prj (string): A complete path and filename, with or without the
-            .prj extenion, to the projection file from the shapefile that the
-            data was loaded from initially, Used to copy the spatial projection
-            information to the new file.
-
-    Warning:
-        Code does not test if output paths exist, and if files exist they will
-        be overwritten.
-    '''
-    # create prj file
-    if prj:
-        # we have been passed a filename, check prj points to a *.prj file
-        if path.isfile(prj):
-            if path.splitext(prj)[-1].lower() == '.prj':
-                # build the new filename
-                newprj = '{0}.{1}'.format(path.splitext(filename)[:-1][0],
-                                          'prj')
-                copy2(prj, newprj)
-            else:
-                warning = ('The file supplied ({0}) is not a prj file. '
-                           'No .prj file will be written').format(prj)
-                warnings.warn(warning)
-        else:
-            warning = ('The .prj file supplied ({0}) does not exist. '
-                       'No .prj file will be written'.format(prj))
-            warnings.warn(warning)
-
-    shpinstance.save(filename)
 
 
 def rotatePoint(point, centerPoint, angle):

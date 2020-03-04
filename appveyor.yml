@@ -1,5 +1,5 @@
 version: 1.0.{build}
 build_script:
-- ps: pip install -r .requirements.txt
+- ps: pip3 install -r .requirements.txt
 test_script:
 - ps: pytest

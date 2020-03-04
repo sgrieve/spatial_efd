@@ -187,22 +187,22 @@ def CalculateEFD(X, Y, harmonics=10):
 
     dxy = np.diff(contour, axis=0)
     dt = np.sqrt((dxy ** 2).sum(axis=1))
-    t = np.concatenate([([0, ]), np.cumsum(dt)]).reshape(-1,1)
+    t = np.concatenate([([0, ]), np.cumsum(dt)]).reshape(-1, 1)
     T = t[-1]
 
     phi = (2. * np.pi * t)/T
 
     coeffs = np.zeros((harmonics, 4))
 
-    n = np.arange(1,harmonics+1)
+    n = np.arange(1, harmonics + 1)
     const = T / (2 * n * n * np.pi * np.pi)
     phi_n = phi * n
-    d_cos_phi_n = np.cos(phi_n[1:,:]) - np.cos(phi_n[:-1,:])
-    d_sin_phi_n = np.sin(phi_n[1:,:]) - np.sin(phi_n[:-1,:])
-    a_n = const *  np.sum((dxy[:, 1] / dt).reshape(-1,1) * d_cos_phi_n,axis=0)
-    b_n = const *  np.sum((dxy[:, 1] / dt).reshape(-1,1) * d_sin_phi_n,axis=0)
-    c_n = const *  np.sum((dxy[:, 0] / dt).reshape(-1,1) * d_cos_phi_n,axis=0)
-    d_n = const *  np.sum((dxy[:, 0] / dt).reshape(-1,1) * d_sin_phi_n,axis=0)
+    d_cos_phi_n = np.cos(phi_n[1:, :]) - np.cos(phi_n[:-1, :])
+    d_sin_phi_n = np.sin(phi_n[1:, :]) - np.sin(phi_n[:-1, :])
+    a_n = const * np.sum((dxy[:, 1] / dt).reshape(-1, 1) * d_cos_phi_n, axis=0)
+    b_n = const * np.sum((dxy[:, 1] / dt).reshape(-1, 1) * d_sin_phi_n, axis=0)
+    c_n = const * np.sum((dxy[:, 0] / dt).reshape(-1, 1) * d_cos_phi_n, axis=0)
+    d_n = const * np.sum((dxy[:, 0] / dt).reshape(-1, 1) * d_sin_phi_n, axis=0)
 
     coeffs = np.vstack((a_n, b_n, c_n, d_n)).T
     return coeffs
@@ -238,11 +238,20 @@ def inverse_transform(coeffs, locus=(0, 0), n_coords=300, harmonic=10):
         four coefficients for each harmonic computed.
     '''
 
-    t = np.linspace(0, 1, n_coords).reshape(1,-1)
-    n = np.arange(harmonic).reshape(-1,1)
+    t = np.linspace(0, 1, n_coords).reshape(1, -1)
+    n = np.arange(harmonic).reshape(-1, 1)
 
-    xt = np.matmul(coeffs[:harmonic,2].reshape(1,-1),np.cos(2. * (n + 1) * np.pi * t)) + np.matmul(coeffs[:harmonic,3].reshape(1,-1),np.sin(2. * (n + 1) * np.pi * t)) + locus[0]
-    yt = np.matmul(coeffs[:harmonic,0].reshape(1,-1),np.cos(2. * (n + 1) * np.pi * t)) + np.matmul(coeffs[:harmonic,1].reshape(1,-1),np.sin(2. * (n + 1) * np.pi * t)) + locus[1]
+    xt = (np.matmul(coeffs[:harmonic, 2].reshape(1, -1),
+                    np.cos(2. * (n + 1) * np.pi * t)) +
+          np.matmul(coeffs[:harmonic, 3].reshape(1, -1),
+                    np.sin(2. * (n + 1) * np.pi * t)) +
+          locus[0])
+
+    yt = (np.matmul(coeffs[:harmonic, 0].reshape(1, -1),
+                    np.cos(2. * (n + 1) * np.pi * t)) +
+          np.matmul(coeffs[:harmonic, 1].reshape(1, -1),
+                    np.sin(2. * (n + 1) * np.pi * t)) +
+          locus[1])
 
     return xt.ravel(), yt.ravel()
 

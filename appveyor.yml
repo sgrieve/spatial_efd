@@ -1,14 +1,14 @@
 version: 1.0.{build}
-
+image: Visual Studio 2019
+init:
+- cmd: SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%
 environment:
-  PYTHONIOENCODING: "UTF-8"
-
   matrix:
-    - PYTHON: "C:/Python38-x64"
-
-build: false
-
+  - PYTHON: C:\\Python37-x64
+  - PYTHON: C:\\Python37
+  - PYTHON: C:\\Python38-x64
+  - PYTHON: C:\\Python38
 install:
-- ps: "pip install -r .requirements.txt"
+- cmd: '%PYTHON%\\python.exe -m pip install -r .requirements.txt'
 test_script:
-- ps: "pytest"
+- cmd: '%PYTHON%\\python.exe -m pytest'

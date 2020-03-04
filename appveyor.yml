@@ -1,3 +1,5 @@
+image: Visual Studio 2019
+
 environment:
   matrix:
   - TOXENV: py27
@@ -5,8 +7,10 @@ environment:
   - TOXENV: py36
   - TOXENV: py37
 
+build: off
+
 install:
-- pip install -r .requirements.txt
+- "pip install -r .requirements.txt"
 
 test_script:
-- pytest
+- "%PYTHON%\\python.exe -m pytest"

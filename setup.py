@@ -3,14 +3,29 @@ from setuptools import setup
 
 
 def readme():
+
+    # Need to replace the local image paths with the external links so the
+    # readme works on pypi
+    lut = {
+           '_static/figure_1.png': 'https://raw.githubusercontent.com/sgrieve/spatial_efd/master/_static/figure_1.png',
+           '_static/figure_2.png': 'https://raw.githubusercontent.com/sgrieve/spatial_efd/master/_static/figure_2.png',
+           '_static/figure_3.png': 'https://raw.githubusercontent.com/sgrieve/spatial_efd/master/_static/figure_3.png',
+           '_static/figure_4.png': 'https://raw.githubusercontent.com/sgrieve/spatial_efd/master/_static/figure_4.png'
+          }
+
     with open('README.rst') as f:
-        return f.read()
+        text = f.read()
+
+        for k, v in lut.items():
+            text = text.replace(k, v)
+
+        return text
 
 
 setup(name='spatial_efd',
-      version='1.2.0',
+      version='1.2.1',
       description='Spatial elliptical fourier analysis',
-      url='http://github.com/sgrieve/spatial-efd',
+      url='http://github.com/sgrieve/spatial_efd',
       long_description=readme(),
       keywords='GIS elliptical fourier analysis shapefile',
       classifiers=['Development Status :: 5 - Production/Stable',

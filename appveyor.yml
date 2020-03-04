@@ -5,10 +5,8 @@ environment:
   - TOXENV: py36
   - TOXENV: py37
 
-build: off
-
 install:
-- "%PYTHON%\\python.exe -m pip install -r .requirements.txt"
+- pip install -r .requirements.txt
 
 test_script:
-- "%PYTHON%\\python.exe -m pytest"
+- pytest

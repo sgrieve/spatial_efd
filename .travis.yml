@@ -6,8 +6,8 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
-  # PyPy versions
-  - "pypy3"
+  # PyPy versions - Failing on Travis as of 10/8/2020
+  # - "pypy3"
 
 services:
   - xvfb

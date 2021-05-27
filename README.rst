@@ -1,8 +1,8 @@
 Spatial Elliptical Fourier Descriptors
 =======================================
 
-.. image:: https://travis-ci.org/sgrieve/spatial_efd.svg?branch=master
-    :target: https://travis-ci.org/sgrieve/spatial_efd
+.. image:: https://travis-ci.com/sgrieve/spatial_efd.svg?branch=master
+    :target: https://travis-ci.com/sgrieve/spatial_efd
 
 .. image:: https://ci.appveyor.com/api/projects/status/vgq1n1ke4tnia2yn/branch/master?svg=true
     :target: https://ci.appveyor.com/project/sgrieve/spatial-efd

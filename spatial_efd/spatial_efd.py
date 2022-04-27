@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 import os.path as path
 from shutil import copy2
 
+def hello():
+    print('hello')
 
 def RotateContour(X, Y, rotation, centroid):
     '''
